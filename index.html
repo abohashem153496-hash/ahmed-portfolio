@@ -10,20 +10,24 @@
     <style>
         body { 
             font-family: 'Cairo', sans-serif; 
-            letter-spacing: -0.02em;
+        }
+        .line-relaxed {
+            line-height: 2.2;
         }
     </style>
 </head>
 <body id="body-bg" class="bg-slate-950 text-slate-100 min-h-screen transition-colors duration-500">
 
     <!-- شريط التنقل العلوي -->
-    <header class="fixed top-0 left-0 right-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800/80">
+    <header class="fixed top-0 left-0 right-0 z-50 bg-slate-950/90 backdrop-blur-md border-b border-slate-800/80">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <div id="logo-text" class="text-2xl font-black text-blue-400">Ahmed Hashem</div>
+            <div class="flex items-center gap-3">
+                <img id="nav-profile-img" src="" alt="صورة شخصية" class="w-10 h-10 rounded-full object-cover border-2 border-blue-500 hidden">
+                <div id="logo-text" class="text-2xl font-black text-blue-400">Ahmed Hashem</div>
+            </div>
             <nav class="hidden md:flex gap-8 text-sm font-bold text-slate-300">
                 <a href="#hero" class="hover:text-blue-400 transition">الرئيسية</a>
-                <a href="#about" class="hover:text-blue-400 transition">نبذة عني</a>
-                <a href="#services" class="hover:text-blue-400 transition">خدماتي</a>
+                <a href="#content-section" class="hover:text-blue-400 transition">المحتويات والأعمال</a>
             </nav>
             <a id="contact-btn" href="https://wa.me/201124793700" target="_blank" class="bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 rounded-xl transition shadow-lg flex items-center gap-2 font-bold">
                 <i class="fab fa-whatsapp text-xl"></i> تواصل معي
@@ -31,47 +35,91 @@
         </div>
     </header>
 
-    <!-- قسم الواجهة الرئيسية (Hero) -->
-    <section id="hero" class="pt-48 pb-24 px-6 text-center">
-        <div class="max-w-4xl mx-auto space-y-6">
-            <h1 id="hero-title" class="text-3xl md:text-5xl lg:text-6xl font-black leading-tight max-w-3xl mx-auto">نحول أفكارك إلى واقع رقمي استثنائي</h1>
-            <p id="hero-subtitle" class="text-slate-300 text-lg md:text-xl max-w-2xl mx-auto font-medium leading-relaxed opacity-90">نقدم خدمات متكاملة في التصميم البصري، بناء المتاجر، وحلول إكسيل المتقدمة.</p>
-            
-            <div id="image-container" class="hidden pt-6 rounded-3xl overflow-hidden max-w-2xl mx-auto">
-                <img id="main-image" src="" alt="صورة توضيحية" class="w-full h-auto rounded-2xl shadow-2xl border border-slate-800">
+    <!-- قسم الواجهة الرئيسية (صورة الغلاف والصورة الشخصية والعنوان بمسافات مريحة) -->
+    <section id="hero" class="pt-32 pb-16 px-6">
+        <div class="max-w-5xl mx-auto space-y-8">
+            <!-- صورة الغلاف المتجاوبة -->
+            <div id="cover-container" class="hidden w-full h-48 md:h-80 rounded-3xl overflow-hidden shadow-2xl border border-slate-800">
+                <img id="cover-img" src="" alt="صورة الغلاف" class="w-full h-full object-cover">
+            </div>
+
+            <!-- معلومات الشخص والعنوان مع مسافات آمنة لعدم تداخل السطور -->
+            <div class="text-center space-y-6 pt-4">
+                <div id="profile-container" class="hidden flex justify-center">
+                    <img id="profile-img" src="" alt="صورة شخصية" class="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover shadow-2xl border-4 border-blue-500/80 mx-auto">
+                </div>
+
+                <h1 id="hero-title" class="text-3xl md:text-5xl font-black leading-tight text-white px-4 py-2">
+                    نحول أفكارك إلى واقع رقمي استثنائي
+                </h1>
+                
+                <p id="hero-subtitle" class="text-slate-300 text-lg md:text-xl max-w-2xl mx-auto font-medium line-relaxed">
+                    نقدم خدمات متكاملة في التصميم البصري، بناء المتاجر، وحلول إكسيل المتقدمة.
+                </p>
             </div>
         </div>
     </section>
 
-    <!-- قسم نبذة عني (About) -->
-    <section id="about" class="py-24 px-6 bg-slate-900/40 border-y border-slate-800/60">
-        <div class="max-w-3xl mx-auto text-center space-y-6">
-            <h2 id="about-title" class="text-3xl font-black text-blue-400">نبذة عني</h2>
-            <p id="about-text" class="text-slate-200 leading-loose text-lg font-normal">أعمل كمهندس جرافيك ومطور حلول برمجية ومتاجر إلكترونية، بخبرة عملية واسعة في تقديم حلول تقنية وتصميمية متقدمة تلبي تطلعات العملاء بدقة واحترافية عالية.</p>
+    <!-- قسم محتويات وعروض المنصة المتنوعة -->
+    <section id="content-section" class="py-20 px-6 max-w-7xl mx-auto space-y-12">
+        <div class="text-center space-y-3">
+            <h2 class="text-3xl font-black">المحتويات والعروض الرقمية</h2>
+            <p class="text-slate-400">استعرض الأقسام والمشاريع والملفات المحدثة لحظياً</p>
         </div>
-    </section>
 
-    <!-- قسم خدماتي (Services) -->
-    <section id="services" class="py-28 px-6 max-w-7xl mx-auto">
-        <div class="text-center mb-16 space-y-3">
-            <h2 class="text-3xl md:text-4xl font-black">خدماتي الاحترافية</h2>
-            <p class="text-slate-400 text-base">حلول رقمية متكاملة مصممة خصيصاً لنجاح مشروعك وتفوقك التجاري</p>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="bg-slate-900/60 border border-slate-800/80 p-8 rounded-3xl hover:border-blue-500/50 transition-all duration-300 space-y-4 shadow-xl">
-                <div class="w-14 h-14 bg-blue-600/10 rounded-2xl flex items-center justify-center text-blue-400 text-2xl"><i class="fas fa-paint-brush"></i></div>
-                <h3 id="serv-1-title" class="text-xl font-bold">التصميم البصري والهوية</h3>
-                <p id="serv-1-desc" class="text-slate-400 text-sm leading-relaxed">تصميم الهويات التجارية، الشعارات، والمطبوعات الإعلانية بأعلى معايير الجودة والإبداع.</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- بطاقة الفيديو -->
+            <div id="card-video" class="hidden bg-slate-900/60 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl">
+                <div class="flex items-center gap-3 text-blue-400 font-bold text-lg">
+                    <i class="fas fa-video"><span>فيديو توضيحي</span></i>
+                </div>
+                <div class="aspect-video rounded-2xl overflow-hidden bg-slate-950">
+                    <iframe id="frame-video" src="" class="w-full h-full" frameborder="0" allowfullscreen></iframe>
+                </div>
             </div>
-            <div class="bg-slate-900/60 border border-slate-800/80 p-8 rounded-3xl hover:border-blue-500/50 transition-all duration-300 space-y-4 shadow-xl">
-                <div class="w-14 h-14 bg-blue-600/10 rounded-2xl flex items-center justify-center text-blue-400 text-2xl"><i class="fas fa-store"></i></div>
-                <h3 id="serv-2-title" class="text-xl font-bold">تطوير المتاجر الإلكترونية</h3>
-                <p id="serv-2-desc" class="text-slate-400 text-sm leading-relaxed">بناء وبرمجة المتاجر السريعة وتكاملها مع أنظمة الدفع والتحكم السحابي المباشر.</p>
+
+            <!-- بطاقة المنشورات -->
+            <div id="card-post" class="hidden bg-slate-900/60 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl flex flex-col justify-between">
+                <div class="space-y-3">
+                    <div class="flex items-center gap-3 text-blue-400 font-bold text-lg">
+                        <i class="fas fa-newspaper"><span>المنشورات والعروض</span></i>
+                    </div>
+                    <p class="text-slate-400 text-sm line-relaxed">تصفح أحدث المنشورات والعروض الترويجية والخدمات الخاصة.</p>
+                </div>
+                <a id="link-post" href="" target="_blank" class="block w-full text-center bg-blue-600 hover:bg-blue-500 text-white py-3 rounded-xl font-bold transition">عرض المنشورات</a>
             </div>
-            <div class="bg-slate-900/60 border border-slate-800/80 p-8 rounded-3xl hover:border-blue-500/50 transition-all duration-300 space-y-4 shadow-xl">
-                <div class="w-14 h-14 bg-blue-600/10 rounded-2xl flex items-center justify-center text-blue-400 text-2xl"><i class="fas fa-file-excel"></i></div>
-                <h3 id="serv-3-title" class="text-xl font-bold">حلول إكسيل المتقدمة</h3>
-                <p id="serv-3-desc" class="text-slate-400 text-sm leading-relaxed">تصميم قواعد بيانات مخصصة وشاشات تفاعلية باستخدام VBA لتنظيم إدارة الأعمال بدقة.</p>
+
+            <!-- بطاقة الاستبيانات -->
+            <div id="card-survey" class="hidden bg-slate-900/60 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl flex flex-col justify-between">
+                <div class="space-y-3">
+                    <div class="flex items-center gap-3 text-blue-400 font-bold text-lg">
+                        <i class="fas fa-poll"><span>الاستبيانات ونماذج الرأي</span></i>
+                    </div>
+                    <p class="text-slate-400 text-sm line-relaxed">شاركنا رأيك أو املأ نموذج تقييم الخدمة المخصص.</p>
+                </div>
+                <a id="link-survey" href="" target="_blank" class="block w-full text-center bg-blue-600 hover:bg-blue-500 text-white py-3 rounded-xl font-bold transition">الانتقال للاستبيان</a>
+            </div>
+
+            <!-- بطاقة المواقع -->
+            <div id="card-web" class="hidden bg-slate-900/60 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl flex flex-col justify-between">
+                <div class="space-y-3">
+                    <div class="flex items-center gap-3 text-blue-400 font-bold text-lg">
+                        <i class="fas fa-globe"><span>المواقع والمتاجر</span></i>
+                    </div>
+                    <p class="text-slate-400 text-sm line-relaxed">زيارة أحدث المتاجر الإلكترونية والمواقع المنفذة.</p>
+                </div>
+                <a id="link-web" href="" target="_blank" class="block w-full text-center bg-blue-600 hover:bg-blue-500 text-white py-3 rounded-xl font-bold transition">تصفح الموقع</a>
+            </div>
+
+            <!-- بطاقة شيتات إكسيل -->
+            <div id="card-excel" class="hidden bg-slate-900/60 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl flex flex-col justify-between">
+                <div class="space-y-3">
+                    <div class="flex items-center gap-3 text-blue-400 font-bold text-lg">
+                        <i class="fas fa-file-excel"><span>شيتات إكسيل وقواعد البيانات</span></i>
+                    </div>
+                    <p class="text-slate-400 text-sm line-relaxed">استعراض نماذج قواعد البيانات وحلول الإكسيل المتقدمة.</p>
+                </div>
+                <a id="link-excel" href="" target="_blank" class="block w-full text-center bg-blue-600 hover:bg-blue-500 text-white py-3 rounded-xl font-bold transition">فتح الشيت</a>
             </div>
         </div>
     </section>
@@ -94,7 +142,6 @@
             const data = snapshot.val();
             if (data) {
                 if(data.title) document.getElementById('site-title').innerText = data.title;
-                if(data.logo) document.getElementById('logo-text').innerText = data.logo;
                 if(data.heroTitle) document.getElementById('hero-title').innerText = data.heroTitle;
                 if(data.heroSubtitle) document.getElementById('hero-subtitle').innerText = data.heroSubtitle;
                 
@@ -102,37 +149,69 @@
                     document.getElementById('contact-btn').href = `https://wa.me/${data.whatsapp}`;
                 }
 
-                if(data.aboutTitle) document.getElementById('about-title').innerText = data.aboutTitle;
-                if(data.aboutText) document.getElementById('about-text').innerText = data.aboutText;
+                // صورة الغلاف
+                const coverContainer = document.getElementById('cover-container');
+                const coverImg = document.getElementById('cover-img');
+                if(data.coverImg) {
+                    coverImg.src = data.coverImg;
+                    coverContainer.classList.remove('hidden');
+                } else { coverContainer.classList.add('hidden'); }
 
-                if(data.service1) {
-                    const parts = data.service1.split('|');
-                    if(parts[0]) document.getElementById('serv-1-title').innerText = parts[0].trim();
-                    if(parts[1]) document.getElementById('serv-1-desc').innerText = parts[1].trim();
+                // الصورة الشخصية
+                const profileContainer = document.getElementById('profile-container');
+                const profileImg = document.getElementById('profile-img');
+                const navProfileImg = document.getElementById('nav-profile-img');
+                if(data.profileImg) {
+                    profileImg.src = data.profileImg;
+                    navProfileImg.src = data.profileImg;
+                    profileContainer.classList.remove('hidden');
+                    navProfileImg.classList.remove('hidden');
+                } else {
+                    profileContainer.classList.add('hidden');
+                    navProfileImg.classList.add('hidden');
                 }
-                if(data.service2) {
-                    const parts = data.service2.split('|');
-                    if(parts[0]) document.getElementById('serv-2-title').innerText = parts[0].trim();
-                    if(parts[1]) document.getElementById('serv-2-desc').innerText = parts[1].trim();
-                }
-                if(data.service3) {
-                    const parts = data.service3.split('|');
-                    if(parts[0]) document.getElementById('serv-3-title').innerText = parts[0].trim();
-                    if(parts[1]) document.getElementById('serv-3-desc').innerText = parts[1].trim();
-                }
+
+                // عرض بطاقة الفيديو
+                const cardVideo = document.getElementById('card-video');
+                const frameVideo = document.getElementById('frame-video');
+                if(data.videoUrl) {
+                    frameVideo.src = data.videoUrl;
+                    cardVideo.classList.remove('hidden');
+                } else { cardVideo.classList.add('hidden'); }
+
+                // عرض بطاقة المنشورات
+                const cardPost = document.getElementById('card-post');
+                const linkPost = document.getElementById('link-post');
+                if(data.postUrl) {
+                    linkPost.href = data.postUrl;
+                    cardPost.classList.remove('hidden');
+                } else { cardPost.classList.add('hidden'); }
+
+                // عرض بطاقة الاستبيانات
+                const cardSurvey = document.getElementById('card-survey');
+                const linkSurvey = document.getElementById('link-survey');
+                if(data.surveyUrl) {
+                    linkSurvey.href = data.surveyUrl;
+                    cardSurvey.classList.remove('hidden');
+                } else { cardSurvey.classList.add('hidden'); }
+
+                // عرض بطاقة المواقع
+                const cardWeb = document.getElementById('card-web');
+                const linkWeb = document.getElementById('link-web');
+                if(data.webUrl) {
+                    linkWeb.href = data.webUrl;
+                    cardWeb.classList.remove('hidden');
+                } else { cardWeb.classList.add('hidden'); }
+
+                // عرض بطاقة شيت إكسيل
+                const cardExcel = document.getElementById('card-excel');
+                const linkExcel = document.getElementById('link-excel');
+                if(data.excelUrl) {
+                    linkExcel.href = data.excelUrl;
+                    cardExcel.classList.remove('hidden');
+                } else { cardExcel.classList.add('hidden'); }
 
                 if(data.bgColor) document.getElementById('body-bg').style.backgroundColor = data.bgColor;
-                if(data.primaryColor) {
-                    document.getElementById('logo-text').style.color = data.primaryColor;
-                    document.getElementById('contact-btn').style.backgroundColor = data.primaryColor;
-                }
-
-                const imgContainer = document.getElementById('image-container');
-                const imgElement = document.getElementById('main-image');
-                if(data.imageUrl) {
-                    imgElement.src = data.imageUrl;
-                    imgContainer.classList.remove('hidden');
-                } else { imgContainer.classList.add('hidden'); }
             }
         });
     </script>
