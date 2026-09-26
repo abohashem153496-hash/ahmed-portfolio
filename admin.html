@@ -2,37 +2,80 @@
 <html lang="ar" dir="rtl" class="dark">
 <head>
     <meta charset="UTF-8">
-    <title>لوحة التحكم الإدارية</title>
+    <title>لوحة التحكم الشاملة - أحمد أبوهاشم</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>body { font-family: 'Cairo', sans-serif; }</style>
 </head>
 <body class="bg-slate-950 text-white min-h-screen p-6">
-    <div class="max-w-xl mx-auto bg-slate-900 border border-slate-800 p-8 rounded-3xl shadow-2xl">
-        <h1 class="text-2xl font-black mb-6 text-blue-400 text-center">لوحة تحكم الموقع</h1>
+
+    <!-- شاشة تسجيل الدخول (الباسورد) -->
+    <div id="login-screen" class="max-w-md mx-auto mt-20 bg-slate-900 border border-slate-800 p-8 rounded-3xl shadow-2xl text-center">
+        <h1 class="text-2xl font-black mb-6 text-blue-400">تسجيل دخول الأدمن</h1>
+        <p class="text-slate-400 text-sm mb-4">أدخل كلمة المرور السرية للوصول للوحة التحكم</p>
+        <input type="password" id="inp-pass" placeholder="كلمة المرور..." class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white text-center mb-4">
+        <button onclick="checkPassword()" class="w-full bg-blue-600 hover:bg-blue-500 font-bold py-3.5 rounded-xl transition shadow-lg">دخول</button>
+    </div>
+
+    <!-- لوحة التحكم الكاملة (تكون مخفية حتى يتم إدخال الباسورد الصحيح) -->
+    <div id="admin-panel" class="max-w-2xl mx-auto bg-slate-900 border border-slate-800 p-8 rounded-3xl shadow-2xl hidden">
+        <h1 class="text-3xl font-black mb-8 text-blue-400 text-center">لوحة التحكم الشاملة والمخصصة</h1>
         
-        <div class="space-y-4">
-            <div>
-                <label class="block text-sm mb-1 text-slate-300">عنوان الموقع في المتصفح</label>
-                <input type="text" id="inp-title" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
+        <div class="space-y-6">
+            <!-- النصوص الأساسية -->
+            <div class="bg-slate-800/50 p-4 rounded-2xl border border-slate-700 space-y-4">
+                <h2 class="font-bold text-blue-300">1. النصوص الأساسية والعنوان</h2>
+                <div>
+                    <label class="block text-sm mb-1 text-slate-300">عنوان الموقع في المتصفح</label>
+                    <input type="text" id="inp-title" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
+                </div>
+                <div>
+                    <label class="block text-sm mb-1 text-slate-300">اسم الشعار (Logo)</label>
+                    <input type="text" id="inp-logo" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
+                </div>
+                <div>
+                    <label class="block text-sm mb-1 text-slate-300">العنوان الرئيسي (Hero Title)</label>
+                    <textarea id="inp-heroTitle" rows="2" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white"></textarea>
+                </div>
+                <div>
+                    <label class="block text-sm mb-1 text-slate-300">الوصف التحظيري</label>
+                    <textarea id="inp-heroSubtitle" rows="3" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white"></textarea>
+                </div>
             </div>
-            <div>
-                <label class="block text-sm mb-1 text-slate-300">اسم الشعار (Logo)</label>
-                <input type="text" id="inp-logo" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
+
+            <!-- إعدادات الألوان والتصميم -->
+            <div class="bg-slate-800/50 p-4 rounded-2xl border border-slate-700 space-y-4">
+                <h2 class="font-bold text-blue-300">2. التحكم في الألوان</h2>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm mb-1 text-slate-300">لون خلفية الموقع</label>
+                        <input type="color" id="inp-bgColor" value="#0f172a" class="w-full h-12 bg-slate-800 border border-slate-700 rounded-xl p-1 cursor-pointer">
+                    </div>
+                    <div>
+                        <label class="block text-sm mb-1 text-slate-300">اللون الأساسي (أزرار ونصوص مميزة)</label>
+                        <input type="color" id="inp-primaryColor" value="#3b82f6" class="w-full h-12 bg-slate-800 border border-slate-700 rounded-xl p-1 cursor-pointer">
+                    </div>
+                </div>
             </div>
-            <div>
-                <label class="block text-sm mb-1 text-slate-300">العنوان الرئيسي (Hero Title)</label>
-                <textarea id="inp-heroTitle" rows="2" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white"></textarea>
+
+            <!-- الوسائط (صور وفيديوهات) -->
+            <div class="bg-slate-800/50 p-4 rounded-2xl border border-slate-700 space-y-4">
+                <h2 class="font-bold text-blue-300">3. الوسائط (صور وفيديوهات)</h2>
+                <div>
+                    <label class="block text-sm mb-1 text-slate-300">رابط صورة الهوية أو البانر (Image URL)</label>
+                    <input type="text" id="inp-imageUrl" placeholder="ضع رابط الصورة هنا..." class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
+                </div>
+                <div>
+                    <label class="block text-sm mb-1 text-slate-300">رابط الفيديو الترويجي (YouTube أو MP4 URL)</label>
+                    <input type="text" id="inp-videoUrl" placeholder="ضع رابط الفيديو هنا..." class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
+                </div>
             </div>
-            <div>
-                <label class="block text-sm mb-1 text-slate-300">الوصف التحظيري</label>
-                <textarea id="inp-heroSubtitle" rows="3" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white"></textarea>
-            </div>
-            <button onclick="saveChanges()" class="w-full bg-blue-600 hover:bg-blue-500 font-bold py-3.5 rounded-xl transition shadow-lg">حفظ وتحديث الموقع فوراً</button>
+
+            <button onclick="saveChanges()" class="w-full bg-blue-600 hover:bg-blue-500 font-black text-lg py-4 rounded-2xl transition shadow-2xl">حفظ وتحديث الموقع فوراً 🚀</button>
         </div>
     </div>
 
-    <!-- Firebase Admin Script -->
+    <!-- Firebase Script -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
@@ -44,7 +87,20 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // قراءة البيانات الحالية وعرضها في الخانات
+        // كلمة المرور السرية (يمكنك تغييرها هنا إلى ما تحب)
+        const ADMIN_PASSWORD = "ahmed123";
+
+        window.checkPassword = function() {
+            const pass = document.getElementById('inp-pass').value;
+            if(pass === ADMIN_PASSWORD) {
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('admin-panel').style.display = 'block';
+            } else {
+                alert('كلمة المرور غير صحيحة!');
+            }
+        };
+
+        // جلب البيانات الحالية للأدمن
         onValue(ref(db, 'settings'), (snapshot) => {
             const data = snapshot.val();
             if (data) {
@@ -52,17 +108,26 @@
                 document.getElementById('inp-logo').value = data.logo || '';
                 document.getElementById('inp-heroTitle').value = data.heroTitle || '';
                 document.getElementById('inp-heroSubtitle').value = data.heroSubtitle || '';
+                document.getElementById('inp-bgColor').value = data.bgColor || '#0f172a';
+                document.getElementById('inp-primaryColor').value = data.primaryColor || '#3b82f6';
+                document.getElementById('inp-imageUrl').value = data.imageUrl || '';
+                document.getElementById('inp-videoUrl').value = data.videoUrl || '';
             }
         });
 
+        // حفظ التغييرات في القاعدة السحابية
         window.saveChanges = function() {
             set(ref(db, 'settings'), {
                 title: document.getElementById('inp-title').value,
                 logo: document.getElementById('inp-logo').value,
                 heroTitle: document.getElementById('inp-heroTitle').value,
-                heroSubtitle: document.getElementById('inp-heroSubtitle').value
+                heroSubtitle: document.getElementById('inp-heroSubtitle').value,
+                bgColor: document.getElementById('inp-bgColor').value,
+                primaryColor: document.getElementById('inp-primaryColor').value,
+                imageUrl: document.getElementById('inp-imageUrl').value,
+                videoUrl: document.getElementById('inp-videoUrl').value
             }).then(() => {
-                alert('تم تحديث الموقع بنجاح يا أحمد!');
+                alert('تم تحديث الموقع بنجاح يا أحمد! شاهد التغييرات فوراً.');
             }).catch((error) => {
                 alert('حدث خطأ: ' + error.message);
             });
