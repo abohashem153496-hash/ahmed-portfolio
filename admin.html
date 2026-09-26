@@ -25,9 +25,9 @@
         </div>
         
         <div class="space-y-6">
-            <!-- 1. الإعدادات العامة -->
+            <!-- 1. الإعدادات العامة للمتجر، الغلاف، والألوان -->
             <div class="bg-slate-800/50 p-5 rounded-2xl border border-slate-700/60 space-y-4">
-                <h2 class="font-bold text-blue-300 text-lg">1. الإعدادات العامة للمتجر</h2>
+                <h2 class="font-bold text-blue-300 text-lg">1. الإعدادات العامة، الغلاف والألوان</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm mb-1 text-slate-300">اسم المتجر</label>
@@ -36,6 +36,21 @@
                     <div>
                         <label class="block text-sm mb-1 text-slate-300">رقم الواتساب للطلبات</label>
                         <input type="text" id="inp-whatsapp" value="201124793700" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+                    <div>
+                        <label class="block text-sm mb-1 text-slate-300">صورة الغلاف (Banner)</label>
+                        <input type="file" id="file-cover" accept="image/*" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2 text-xs text-slate-300 file:py-1 file:px-3 file:rounded-lg file:border-0 file:bg-blue-600 file:text-white cursor-pointer">
+                    </div>
+                    <div>
+                        <label class="block text-sm mb-1 text-slate-300">لون خلفية المتجر</label>
+                        <input type="color" id="inp-bgColor" value="#020617" class="w-full h-11 bg-slate-800 border border-slate-700 rounded-xl p-1 cursor-pointer">
+                    </div>
+                    <div>
+                        <label class="block text-sm mb-1 text-slate-300">اللون الأساسي (أزرار وعناوين)</label>
+                        <input type="color" id="inp-primaryColor" value="#3b82f6" class="w-full h-11 bg-slate-800 border border-slate-700 rounded-xl p-1 cursor-pointer">
                     </div>
                 </div>
             </div>
@@ -58,7 +73,7 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
-                        <label class="block text-sm mb-1 text-slate-300">صورة المنتج (اختر صورة خفيفة)</label>
+                        <label class="block text-sm mb-1 text-slate-300">صورة المنتج (صورة خفيفة وسريعة)</label>
                         <input type="file" id="new-img-file" accept="image/*" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2 text-xs text-slate-300 file:py-1 file:px-3 file:rounded-lg file:border-0 file:bg-blue-600 file:text-white cursor-pointer">
                     </div>
                     <div>
@@ -100,7 +115,7 @@
                 <div id="admin-products-list" class="space-y-3"></div>
             </div>
 
-            <button onclick="saveGlobalSettings()" class="w-full bg-blue-600 hover:bg-blue-500 font-black text-lg py-4 rounded-2xl transition shadow-2xl">حفظ إعدادات المتجر 🚀</button>
+            <button onclick="saveGlobalSettings()" class="w-full bg-blue-600 hover:bg-blue-500 font-black text-lg py-4 rounded-2xl transition shadow-2xl">حفظ إعدادات المتجر العامة والغلاف والألوان 🚀</button>
         </div>
     </div>
 
@@ -113,6 +128,7 @@
         const db = getDatabase(app);
 
         let productsData = {};
+        let currentCover = '';
 
         window.checkPassword = function() {
             if(document.getElementById('inp-pass').value === "ahmed123") {
@@ -126,6 +142,9 @@
             if (data) {
                 document.getElementById('inp-storeName').value = data.storeName || 'Sports House c Ahmed elghool';
                 document.getElementById('inp-whatsapp').value = data.whatsapp || '201124793700';
+                document.getElementById('inp-bgColor').value = data.bgColor || '#020617';
+                document.getElementById('inp-primaryColor').value = data.primaryColor || '#3b82f6';
+                currentCover = data.coverImg || '';
                 productsData = data.products || {};
                 
                 const listEl = document.getElementById('admin-products-list');
@@ -151,7 +170,6 @@
             }
         });
 
-        // تصغير حجم الصورة تلقائياً لفتح المتجر بسرعة فائقة
         function compressImage(file) {
             return new Promise((resolve) => {
                 const reader = new FileReader();
@@ -162,7 +180,7 @@
                         const ctx = canvas.getContext('2d');
                         let width = img.width;
                         let height = img.height;
-                        const maxDim = 500; // تصغير الأبعاد لتسريع التحميل
+                        const maxDim = 600;
                         if (width > height && width > maxDim) {
                             height *= maxDim / width;
                             width = maxDim;
@@ -173,7 +191,7 @@
                         canvas.width = width;
                         canvas.height = height;
                         ctx.drawImage(img, 0, 0, width, height);
-                        resolve(canvas.toDataURL('image/jpeg', 0.7)); // ضغط الجودة لسرعة خارقة
+                        resolve(canvas.toDataURL('image/jpeg', 0.75));
                     };
                     img.src = e.target.result;
                 };
@@ -247,10 +265,20 @@
             if(confirm('حذف هذا المنتج؟')) remove(ref(db, `store/products/${id}`));
         };
 
-        window.saveGlobalSettings = function() {
+        window.saveGlobalSettings = async function() {
+            const coverInput = document.getElementById('file-cover');
+            let coverImg = currentCover;
+
+            if (coverInput.files && coverInput.files[0]) {
+                coverImg = await compressImage(coverInput.files[0]);
+            }
+
             set(ref(db, 'store/storeName'), document.getElementById('inp-storeName').value);
-            set(ref(db, 'store/whatsapp'), document.getElementById('inp-whatsapp').value).then(() => {
-                alert('تم الحفظ بنجاح!');
+            set(ref(db, 'store/whatsapp'), document.getElementById('inp-whatsapp').value);
+            set(ref(db, 'store/bgColor'), document.getElementById('inp-bgColor').value);
+            set(ref(db, 'store/primaryColor'), document.getElementById('inp-primaryColor').value);
+            set(ref(db, 'store/coverImg'), coverImg).then(() => {
+                alert('تم حفظ إعدادات المتجر والغلاف والألوان بنجاح! 🚀');
             });
         }
     </script>
