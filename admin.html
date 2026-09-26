@@ -20,22 +20,24 @@
     <!-- لوحة التحكم الاحترافية -->
     <div id="admin-panel" class="max-w-3xl mx-auto bg-slate-900 border border-slate-800 p-8 rounded-3xl shadow-2xl hidden space-y-8">
         <div class="flex justify-between items-center border-b border-slate-800 pb-4">
-            <h1 class="text-2xl font-black text-blue-400">لوحة إدارة المحتوى الشاملة ⚙️</h1>
+            <h1 class="text-2xl font-black text-blue-400">لوحة إدارة الملفات والمحتوى ⚙️</h1>
             <span class="text-xs bg-blue-500/10 text-blue-400 border border-blue-500/20 px-3 py-1.5 rounded-lg">متصل بقاعدة البيانات</span>
         </div>
         
         <div class="space-y-6">
-            <!-- 1. الهيدر والصور الشخصية والغلاف -->
+            <!-- 1. الهيدر والصور -->
             <div class="bg-slate-800/50 p-5 rounded-2xl border border-slate-700/60 space-y-4">
-                <h2 class="font-bold text-blue-300 text-lg">1. الصور والهوية البصرية</h2>
+                <h2 class="font-bold text-blue-300 text-lg">1. الهوية وصور الغلاف والشخصية</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm mb-1 text-slate-300">رابط الصورة الشخصية (Profile Image URL)</label>
-                        <input type="text" id="inp-profileImg" placeholder="رابط صورتك الدائرية..." class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
+                        <label class="block text-sm mb-1 text-slate-300">رفع أو وضع رابط الصورة الشخصية</label>
+                        <input type="file" id="file-profile" accept="image/*" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2 text-sm text-slate-300 mb-2 file:ml-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-500 cursor-pointer">
+                        <input type="text" id="inp-profileImg" placeholder="أو ضع رابط الصورة مباشرة..." class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white text-xs">
                     </div>
                     <div>
-                        <label class="block text-sm mb-1 text-slate-300">رابط صورة الغلاف (Cover Banner URL)</label>
-                        <input type="text" id="inp-coverImg" placeholder="رابط غلاف الموقع..." class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
+                        <label class="block text-sm mb-1 text-slate-300">رفع أو وضع رابط صورة الغلاف</label>
+                        <input type="file" id="file-cover" accept="image/*" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2 text-sm text-slate-300 mb-2 file:ml-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-500 cursor-pointer">
+                        <input type="text" id="inp-coverImg" placeholder="أو ضع رابط الغلاف مباشرة..." class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white text-xs">
                     </div>
                 </div>
                 <div>
@@ -43,7 +45,7 @@
                     <textarea id="inp-heroTitle" rows="2" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white"></textarea>
                 </div>
                 <div>
-                    <label class="block text-sm mb-1 text-slate-300">نبذة تعريفية سريعة</label>
+                    <label class="block text-sm mb-1 text-slate-300">الوصف التحظيري</label>
                     <textarea id="inp-heroSubtitle" rows="2" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white"></textarea>
                 </div>
                 <div>
@@ -52,41 +54,53 @@
                 </div>
             </div>
 
-            <!-- 2. محتويات الوسائط والأقسام المتقدمة -->
+            <!-- 2. رفع وإدارة المحتويات (فيديوهات، ملفات، منشورات، شيتات) -->
             <div class="bg-slate-800/50 p-5 rounded-2xl border border-slate-700/60 space-y-4">
-                <h2 class="font-bold text-blue-300 text-lg">2. إدارة الأقسام والمحتويات المتنوعة</h2>
-                <div>
-                    <label class="block text-sm mb-1 text-slate-300">رابط فيديو (YouTube أو MP4)</label>
-                    <input type="text" id="inp-videoUrl" placeholder="رابط الفيديو..." class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
+                <h2 class="font-bold text-blue-300 text-lg">2. رفع الوسائط، الملفات، والروابط</h2>
+                
+                <!-- رفع فيديو -->
+                <div class="p-3 bg-slate-900/50 rounded-xl border border-slate-800 space-y-2">
+                    <label class="block text-sm font-bold text-slate-300"><i class="fas fa-video ml-2 text-blue-400"></i>فيديو توضيحي (رفع فيديو أو رابط يوتيوب)</label>
+                    <input type="file" id="file-video" accept="video/*" class="w-full text-xs text-slate-300 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:bg-slate-700 file:text-white cursor-pointer">
+                    <input type="text" id="inp-videoUrl" placeholder="أو ضع رابط الفيديو..." class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-white text-xs">
                 </div>
-                <div>
-                    <label class="block text-sm mb-1 text-slate-300">رابط المنشورات أو العروض (Posts & Offers URL)</label>
-                    <input type="text" id="inp-postUrl" placeholder="رابط المنشور..." class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
+
+                <!-- رفع ملف أو منشور -->
+                <div class="p-3 bg-slate-900/50 rounded-xl border border-slate-800 space-y-2">
+                    <label class="block text-sm font-bold text-slate-300"><i class="fas fa-newspaper ml-2 text-blue-400"></i>المنشورات والعروض</label>
+                    <input type="text" id="inp-postUrl" placeholder="رابط المنشور أو العرض..." class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-white text-xs">
                 </div>
-                <div>
-                    <label class="block text-sm mb-1 text-slate-300">رابط الاستبيان أو نموذج الرأي (Survey URL)</label>
-                    <input type="text" id="inp-surveyUrl" placeholder="رابط الاستبيان..." class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
+
+                <!-- الاستبيانات -->
+                <div class="p-3 bg-slate-900/50 rounded-xl border border-slate-800 space-y-2">
+                    <label class="block text-sm font-bold text-slate-300"><i class="fas fa-poll ml-2 text-blue-400"></i>الاستبيانات ونماذج الرأي</label>
+                    <input type="text" id="inp-surveyUrl" placeholder="رابط الاستبيان..." class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-white text-xs">
                 </div>
-                <div>
-                    <label class="block text-sm mb-1 text-slate-300">رابط موقع أو متجر إلكتروني (Website URL)</label>
-                    <input type="text" id="inp-webUrl" placeholder="رابط الموقع..." class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
+
+                <!-- المواقع -->
+                <div class="p-3 bg-slate-900/50 rounded-xl border border-slate-800 space-y-2">
+                    <label class="block text-sm font-bold text-slate-300"><i class="fas fa-globe ml-2 text-blue-400"></i>المواقع والمتاجر</label>
+                    <input type="text" id="inp-webUrl" placeholder="رابط الموقع أو المتجر..." class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-white text-xs">
                 </div>
-                <div>
-                    <label class="block text-sm mb-1 text-slate-300">رابط شيت إكسيل أو قاعدة بيانات (Excel Sheet URL)</label>
-                    <input type="text" id="inp-excelUrl" placeholder="رابط شيت إكسيل..." class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
+
+                <!-- رفع شيت إكسيل أو ملفات -->
+                <div class="p-3 bg-slate-900/50 rounded-xl border border-slate-800 space-y-2">
+                    <label class="block text-sm font-bold text-slate-300"><i class="fas fa-file-excel ml-2 text-blue-400"></i>شيتات إكسيل وقواعد البيانات (رفع ملف أو رابط)</label>
+                    <input type="file" id="file-excel" accept=".xlsx, .xls, .csv" class="w-full text-xs text-slate-300 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:bg-slate-700 file:text-white cursor-pointer">
+                    <input type="text" id="inp-excelUrl" placeholder="أو ضع رابط الشيت..." class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-white text-xs">
                 </div>
             </div>
 
             <!-- 3. الألوان والتحكم التصميمي -->
             <div class="bg-slate-800/50 p-5 rounded-2xl border border-slate-700/60 space-y-4">
-                <h2 class="font-bold text-blue-300 text-lg">3. الألوان والمظهر</h2>
+                <h2 class="font-bold text-blue-300 text-lg">3. المظهر والألوان</h2>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm mb-1 text-slate-300">لون الخلفية</label>
+                        <label class="block text-sm mb-1 text-slate-300">لون خلفية الموقع</label>
                         <input type="color" id="inp-bgColor" value="#0f172a" class="w-full h-12 bg-slate-800 border border-slate-700 rounded-xl p-1 cursor-pointer">
                     </div>
                     <div>
-                        <label class="block text-sm mb-1 text-slate-300">اللون الأساسي للأزرار والعناوين</label>
+                        <label class="block text-sm mb-1 text-slate-300">اللون الأساسي</label>
                         <input type="color" id="inp-primaryColor" value="#3b82f6" class="w-full h-12 bg-slate-800 border border-slate-700 rounded-xl p-1 cursor-pointer">
                     </div>
                 </div>
@@ -96,7 +110,7 @@
         </div>
     </div>
 
-    <!-- Firebase Script -->
+    <!-- Firebase Script & File Reader Helpers -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
@@ -112,40 +126,58 @@
             } else { alert('كلمة المرور غير صحيحة!'); }
         };
 
+        // مساعدة لتحويل الملفات المرفوعة إلى Data URL لتخزينها ومعالجتها فوريًا
+        function readFileAsDataURL(fileInputId, textInputId) {
+            const fileInput = document.getElementById(fileInputId);
+            if (fileInput.files && fileInput.files[0]) {
+                return new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => resolve(e.target.result);
+                    reader.readAsDataURL(fileInput.files[0]);
+                });
+            }
+            return Promise.resolve(document.getElementById(textInputId).value);
+        }
+
         onValue(ref(db, 'settings'), (snapshot) => {
             const data = snapshot.val();
             if (data) {
-                document.getElementById('inp-profileImg').value = data.profileImg || '';
-                document.getElementById('inp-coverImg').value = data.coverImg || '';
+                if(data.profileImg && !data.profileImg.startsWith('data:')) document.getElementById('inp-profileImg').value = data.profileImg;
+                if(data.coverImg && !data.coverImg.startsWith('data:')) document.getElementById('inp-coverImg').value = data.coverImg;
                 document.getElementById('inp-heroTitle').value = data.heroTitle || '';
                 document.getElementById('inp-heroSubtitle').value = data.heroSubtitle || '';
                 document.getElementById('inp-whatsapp').value = data.whatsapp || '201124793700';
-                document.getElementById('inp-videoUrl').value = data.videoUrl || '';
+                if(data.videoUrl && !data.videoUrl.startsWith('data:')) document.getElementById('inp-videoUrl').value = data.videoUrl;
                 document.getElementById('inp-postUrl').value = data.postUrl || '';
                 document.getElementById('inp-surveyUrl').value = data.surveyUrl || '';
                 document.getElementById('inp-webUrl').value = data.webUrl || '';
-                document.getElementById('inp-excelUrl').value = data.excelUrl || '';
+                if(data.excelUrl && !data.excelUrl.startsWith('data:')) document.getElementById('inp-excelUrl').value = data.excelUrl;
                 document.getElementById('inp-bgColor').value = data.bgColor || '#0f172a';
                 document.getElementById('inp-primaryColor').value = data.primaryColor || '#3b82f6';
             }
         });
 
-        window.saveChanges = function() {
+        window.saveChanges = async function() {
+            const profileImg = await readFileAsDataURL('file-profile', 'inp-profileImg');
+            const coverImg = await readFileAsDataURL('file-cover', 'inp-coverImg');
+            const videoUrl = await readFileAsDataURL('file-video', 'inp-videoUrl');
+            const excelUrl = await readFileAsDataURL('file-excel', 'inp-excelUrl');
+
             set(ref(db, 'settings'), {
-                profileImg: document.getElementById('inp-profileImg').value,
-                coverImg: document.getElementById('inp-coverImg').value,
+                profileImg: profileImg,
+                coverImg: coverImg,
                 heroTitle: document.getElementById('inp-heroTitle').value,
                 heroSubtitle: document.getElementById('inp-heroSubtitle').value,
                 whatsapp: document.getElementById('inp-whatsapp').value,
-                videoUrl: document.getElementById('inp-videoUrl').value,
+                videoUrl: videoUrl,
                 postUrl: document.getElementById('inp-postUrl').value,
                 surveyUrl: document.getElementById('inp-surveyUrl').value,
                 webUrl: document.getElementById('inp-webUrl').value,
-                excelUrl: document.getElementById('inp-excelUrl').value,
-                bgColor: document.getElementById('inp-bgColor').value,
+                excelUrl: excelUrl,
+                bgColor: document.getElementById('bgColor') ? document.getElementById('bgColor').value : document.getElementById('inp-bgColor').value,
                 primaryColor: document.getElementById('inp-primaryColor').value
             }).then(() => {
-                alert('تم تحديث الموقع ونشره بنجاح تام يا أحمد! 🌟');
+                alert('تم رفع الملفات وتحديث الموقع بنجاح تام يا أحمد! 🚀');
             }).catch((error) => { alert('خطأ: ' + error.message); });
         }
     </script>
