@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <style>body { font-family: 'Cairo', sans-serif; }</style>
 </head>
-<body id="body-bg" class="bg-slate-950 text-slate-100 min-h-screen">
+<body id="body-bg" class="bg-slate-950 text-slate-100 min-h-screen transition-colors duration-500">
 
     <!-- شريط المتجر العلوي -->
     <header class="fixed top-0 left-0 right-0 z-50 bg-slate-950/90 backdrop-blur-md border-b border-slate-800">
@@ -23,8 +23,15 @@
         </div>
     </header>
 
+    <!-- صورة الغلاف (Banner) -->
+    <div id="cover-section" class="pt-20 hidden">
+        <div class="w-full h-48 md:h-80 overflow-hidden bg-slate-900 border-b border-slate-800">
+            <img id="cover-img" src="" alt="غلاف المتجر" class="w-full h-full object-cover">
+        </div>
+    </div>
+
     <!-- بانر الترحيب -->
-    <section class="pt-32 pb-10 px-6 text-center border-b border-slate-900">
+    <section class="py-10 px-6 text-center border-b border-slate-900">
         <div class="max-w-3xl mx-auto space-y-2">
             <h1 class="text-3xl md:text-5xl font-black text-white">Sports House c Ahmed elghool</h1>
             <p class="text-slate-400 text-base">أرقى الأطقم، القطع، الاستريزات والملابس الرياضية بأفضل الأسعار.</p>
@@ -34,7 +41,7 @@
     <!-- أزرار الأقسام -->
     <div class="sticky top-20 z-40 bg-slate-950/95 backdrop-blur border-b border-slate-900 py-4 px-6">
         <div class="max-w-7xl mx-auto flex gap-3 overflow-x-auto pb-2 scrollbar-none">
-            <button onclick="filterCategory('all')" class="cat-btn bg-blue-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold whitespace-nowrap transition shadow-md">الكل</button>
+            <button onclick="filterCategory('all')" class="cat-btn theme-btn bg-blue-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold whitespace-nowrap transition shadow-md">الكل</button>
             <button onclick="filterCategory('offers')" class="cat-btn bg-slate-900 text-slate-300 hover:bg-slate-800 px-5 py-2.5 rounded-xl text-sm font-bold whitespace-nowrap transition border border-slate-800">🔥 العروض</button>
             <button onclick="filterCategory('sets')" class="cat-btn bg-slate-900 text-slate-300 hover:bg-slate-800 px-5 py-2.5 rounded-xl text-sm font-bold whitespace-nowrap transition border border-slate-800">⚽ الأطقم</button>
             <button onclick="filterCategory('pieces')" class="cat-btn bg-slate-900 text-slate-300 hover:bg-slate-800 px-5 py-2.5 rounded-xl text-sm font-bold whitespace-nowrap transition border border-slate-800">👕 القطع</button>
@@ -45,9 +52,7 @@
 
     <!-- شبكة المنتجات -->
     <main class="py-12 px-6 max-w-7xl mx-auto">
-        <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            <!-- تظهر المنتجات فوراً بدون انتظار طويل -->
-        </div>
+        <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
     </main>
 
     <!-- نافذة معاينة الصورة -->
@@ -73,7 +78,7 @@
                     <span>الإجمالي:</span>
                     <span id="cart-total" class="text-blue-400">0 ج.م</span>
                 </div>
-                <button onclick="checkoutWhatsApp()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-4 rounded-xl font-black text-lg transition shadow-xl flex items-center justify-center gap-2">
+                <button onclick="checkoutWhatsApp()" class="theme-bg w-full bg-emerald-600 hover:bg-emerald-500 text-white py-4 rounded-xl font-black text-lg transition shadow-xl flex items-center justify-center gap-2">
                     <i class="fab fa-whatsapp text-2xl"></i> إتمام الطلب عبر الواتساب
                 </button>
             </div>
@@ -97,6 +102,7 @@
         let currentFilter = 'all';
         let cart = [];
         let globalWhatsapp = "201124793700";
+        let primaryColorHex = "#3b82f6";
 
         onValue(ref(db, 'store'), (snapshot) => {
             const data = snapshot.val();
@@ -106,21 +112,43 @@
                     document.getElementById('site-title').innerText = data.storeName;
                 }
                 if(data.whatsapp) globalWhatsapp = data.whatsapp;
+
+                // تطبيق الألوان المخصصة
+                if(data.bgColor) {
+                    document.getElementById('body-bg').style.backgroundColor = data.bgColor;
+                }
+                if(data.primaryColor) {
+                    primaryColorHex = data.primaryColor;
+                    document.getElementById('store-logo').style.color = primaryColorHex;
+                    document.querySelectorAll('.theme-bg').forEach(el => el.style.backgroundColor = primaryColorHex);
+                    document.querySelectorAll('.cat-btn.bg-blue-600').forEach(el => el.style.backgroundColor = primaryColorHex);
+                }
+
+                // تطبيق صورة الغلاف
+                const coverSection = document.getElementById('cover-section');
+                const coverImg = document.getElementById('cover-img');
+                if(data.coverImg) {
+                    coverImg.src = data.coverImg;
+                    coverSection.classList.remove('hidden');
+                } else {
+                    coverSection.classList.add('hidden');
+                }
+
                 allProducts = data.products ? Object.values(data.products) : [];
                 renderProducts(currentFilter);
-            } else {
-                document.getElementById('products-grid').innerHTML = `<p class="text-slate-400 col-span-full text-center py-10 font-bold">أضف منتجاتك من لوحة التحكم لتظهر فوراً! 🚀</p>`;
             }
         });
 
         window.filterCategory = function(cat) {
             currentFilter = cat;
             document.querySelectorAll('.cat-btn').forEach(btn => {
-                btn.classList.remove('bg-blue-600', 'text-white');
+                btn.classList.remove('text-white');
+                btn.style.backgroundColor = '';
                 btn.classList.add('bg-slate-900', 'text-slate-300');
             });
             event.target.classList.remove('bg-slate-900', 'text-slate-300');
-            event.target.classList.add('bg-blue-600', 'text-white');
+            event.target.classList.add('text-white');
+            event.target.style.backgroundColor = primaryColorHex;
             renderProducts(cat);
         };
 
@@ -145,7 +173,7 @@
                                 ${media}
                                 <div class="p-5 space-y-2">
                                     <h3 class="font-bold text-lg text-white">${prod.title}</h3>
-                                    <p class="text-blue-400 font-black text-xl">${prod.price}</p>
+                                    <p class="font-black text-xl" style="color: ${primaryColorHex};">${prod.price}</p>
                                     <div class="flex justify-between text-xs text-slate-400">
                                         <span>المقاسات: <b class="text-slate-200">${prod.sizes || 'متاح'}</b></span>
                                         <span>العدد: <b class="text-emerald-400">${prod.stock || 'متاح'}</b></span>
@@ -153,7 +181,7 @@
                                 </div>
                             </div>
                             <div class="p-5 pt-0">
-                                <button onclick='addToCart(${JSON.stringify(prod)})' class="w-full bg-blue-600 hover:bg-blue-500 text-white py-3 rounded-xl font-bold transition shadow-md flex items-center justify-center gap-2">
+                                <button onclick='addToCart(${JSON.stringify(prod)})' class="w-full text-white py-3 rounded-xl font-bold transition shadow-md flex items-center justify-center gap-2" style="background-color: ${primaryColorHex};">
                                     <i class="fas fa-cart-plus"></i> إضافة إلى السلة
                                 </button>
                             </div>
@@ -193,7 +221,7 @@
                             <img src="${item.img || ''}" class="w-10 h-10 object-cover rounded-lg">
                             <div>
                                 <h4 class="font-bold text-xs">${item.title}</h4>
-                                <p class="text-xs text-blue-400">${item.price}</p>
+                                <p class="text-xs" style="color: ${primaryColorHex};">${item.price}</p>
                             </div>
                         </div>
                         <button onclick="removeFromCart(${idx})" class="text-red-400 text-xs font-bold px-2 py-1">حذف</button>
