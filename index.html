@@ -3,133 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="site-title">أحمد محمود أبوهاشم | معرض الأعمال الاحترافي</title>
+    <title id="site-title">متجر أحمد للملابس | أحدث صيحات الموضة</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
-    <style>
-        body { 
-            font-family: 'Cairo', sans-serif; 
-        }
-        .line-relaxed {
-            line-height: 2.2;
-        }
-    </style>
+    <style>body { font-family: 'Cairo', sans-serif; }</style>
 </head>
-<body id="body-bg" class="bg-slate-950 text-slate-100 min-h-screen transition-colors duration-500">
+<body class="bg-slate-950 text-slate-100 min-h-screen">
 
-    <!-- شريط التنقل العلوي -->
-    <header class="fixed top-0 left-0 right-0 z-50 bg-slate-950/90 backdrop-blur-md border-b border-slate-800/80">
+    <!-- شريط المتجر العلوي -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-slate-950/90 backdrop-blur-md border-b border-slate-800">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <img id="nav-profile-img" src="" alt="صورة شخصية" class="w-10 h-10 rounded-full object-cover border-2 border-blue-500 hidden">
-                <div id="logo-text" class="text-2xl font-black text-blue-400">Ahmed Hashem</div>
-            </div>
-            <nav class="hidden md:flex gap-8 text-sm font-bold text-slate-300">
-                <a href="#hero" class="hover:text-blue-400 transition">الرئيسية</a>
-                <a href="#content-section" class="hover:text-blue-400 transition">المحتويات والأعمال</a>
-            </nav>
-            <a id="contact-btn" href="https://wa.me/201124793700" target="_blank" class="bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 rounded-xl transition shadow-lg flex items-center gap-2 font-bold">
-                <i class="fab fa-whatsapp text-xl"></i> تواصل معي
+            <div id="store-logo" class="text-2xl font-black text-blue-400">متجر أحمد للملابس</div>
+            <a id="top-whatsapp" href="https://wa.me/201124793700" target="_blank" class="bg-emerald-600 hover:bg-emerald-500 text-white px-5 py-2.5 rounded-xl transition shadow-lg flex items-center gap-2 font-bold">
+                <i class="fab fa-whatsapp text-xl"></i> تواصل وتساب
             </a>
         </div>
     </header>
 
-    <!-- قسم الواجهة الرئيسية (صورة الغلاف والصورة الشخصية والعنوان بمسافات مريحة) -->
-    <section id="hero" class="pt-32 pb-16 px-6">
-        <div class="max-w-5xl mx-auto space-y-8">
-            <!-- صورة الغلاف المتجاوبة -->
-            <div id="cover-container" class="hidden w-full h-48 md:h-80 rounded-3xl overflow-hidden shadow-2xl border border-slate-800">
-                <img id="cover-img" src="" alt="صورة الغلاف" class="w-full h-full object-cover">
-            </div>
-
-            <!-- معلومات الشخص والعنوان مع مسافات آمنة لعدم تداخل السطور -->
-            <div class="text-center space-y-6 pt-4">
-                <div id="profile-container" class="hidden flex justify-center">
-                    <img id="profile-img" src="" alt="صورة شخصية" class="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover shadow-2xl border-4 border-blue-500/80 mx-auto">
-                </div>
-
-                <h1 id="hero-title" class="text-3xl md:text-5xl font-black leading-tight text-white px-4 py-2">
-                    نحول أفكارك إلى واقع رقمي استثنائي
-                </h1>
-                
-                <p id="hero-subtitle" class="text-slate-300 text-lg md:text-xl max-w-2xl mx-auto font-medium line-relaxed">
-                    نقدم خدمات متكاملة في التصميم البصري، بناء المتاجر، وحلول إكسيل المتقدمة.
-                </p>
-            </div>
+    <!-- بانر الترحيب للمتجر -->
+    <section class="pt-36 pb-12 px-6 text-center bg-gradient-to-b from-blue-950/30 to-slate-950 border-b border-slate-900">
+        <div class="max-w-3xl mx-auto space-y-4">
+            <h1 class="text-3xl md:text-5xl font-black text-white">أرقى تشكيلة ملابس عصرية</h1>
+            <p class="text-slate-400 text-base md:text-lg">اختر منتجك المفضل واطلبه مباشرة عبر الواتساب بضغطة زر واحدة.</p>
         </div>
     </section>
 
-    <!-- قسم محتويات وعروض المنصة المتنوعة -->
-    <section id="content-section" class="py-20 px-6 max-w-7xl mx-auto space-y-12">
-        <div class="text-center space-y-3">
-            <h2 class="text-3xl font-black">المحتويات والعروض الرقمية</h2>
-            <p class="text-slate-400">استعرض الأقسام والمشاريع والملفات المحدثة لحظياً</p>
+    <!-- قسم عرض منتجات الملابس (سحب مباشر من السحابة) -->
+    <main class="py-16 px-6 max-w-7xl mx-auto">
+        <h2 class="text-2xl font-black mb-8 border-r-4 border-blue-500 pr-4">منتجات المتجر المتاحة</h2>
+        
+        <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <!-- سيتم تحميل المنتجات هنا تفاعلياً -->
+            <p class="text-slate-500 col-span-full text-center py-10">جاري تحميل المنتجات من المتجر السحابي...</p>
         </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- بطاقة الفيديو -->
-            <div id="card-video" class="hidden bg-slate-900/60 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl">
-                <div class="flex items-center gap-3 text-blue-400 font-bold text-lg">
-                    <i class="fas fa-video"><span>فيديو توضيحي</span></i>
-                </div>
-                <div class="aspect-video rounded-2xl overflow-hidden bg-slate-950">
-                    <iframe id="frame-video" src="" class="w-full h-full" frameborder="0" allowfullscreen></iframe>
-                </div>
-            </div>
-
-            <!-- بطاقة المنشورات -->
-            <div id="card-post" class="hidden bg-slate-900/60 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl flex flex-col justify-between">
-                <div class="space-y-3">
-                    <div class="flex items-center gap-3 text-blue-400 font-bold text-lg">
-                        <i class="fas fa-newspaper"><span>المنشورات والعروض</span></i>
-                    </div>
-                    <p class="text-slate-400 text-sm line-relaxed">تصفح أحدث المنشورات والعروض الترويجية والخدمات الخاصة.</p>
-                </div>
-                <a id="link-post" href="" target="_blank" class="block w-full text-center bg-blue-600 hover:bg-blue-500 text-white py-3 rounded-xl font-bold transition">عرض المنشورات</a>
-            </div>
-
-            <!-- بطاقة الاستبيانات -->
-            <div id="card-survey" class="hidden bg-slate-900/60 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl flex flex-col justify-between">
-                <div class="space-y-3">
-                    <div class="flex items-center gap-3 text-blue-400 font-bold text-lg">
-                        <i class="fas fa-poll"><span>الاستبيانات ونماذج الرأي</span></i>
-                    </div>
-                    <p class="text-slate-400 text-sm line-relaxed">شاركنا رأيك أو املأ نموذج تقييم الخدمة المخصص.</p>
-                </div>
-                <a id="link-survey" href="" target="_blank" class="block w-full text-center bg-blue-600 hover:bg-blue-500 text-white py-3 rounded-xl font-bold transition">الانتقال للاستبيان</a>
-            </div>
-
-            <!-- بطاقة المواقع -->
-            <div id="card-web" class="hidden bg-slate-900/60 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl flex flex-col justify-between">
-                <div class="space-y-3">
-                    <div class="flex items-center gap-3 text-blue-400 font-bold text-lg">
-                        <i class="fas fa-globe"><span>المواقع والمتاجر</span></i>
-                    </div>
-                    <p class="text-slate-400 text-sm line-relaxed">زيارة أحدث المتاجر الإلكترونية والمواقع المنفذة.</p>
-                </div>
-                <a id="link-web" href="" target="_blank" class="block w-full text-center bg-blue-600 hover:bg-blue-500 text-white py-3 rounded-xl font-bold transition">تصفح الموقع</a>
-            </div>
-
-            <!-- بطاقة شيتات إكسيل -->
-            <div id="card-excel" class="hidden bg-slate-900/60 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl flex flex-col justify-between">
-                <div class="space-y-3">
-                    <div class="flex items-center gap-3 text-blue-400 font-bold text-lg">
-                        <i class="fas fa-file-excel"><span>شيتات إكسيل وقواعد البيانات</span></i>
-                    </div>
-                    <p class="text-slate-400 text-sm line-relaxed">استعراض نماذج قواعد البيانات وحلول الإكسيل المتقدمة.</p>
-                </div>
-                <a id="link-excel" href="" target="_blank" class="block w-full text-center bg-blue-600 hover:bg-blue-500 text-white py-3 rounded-xl font-bold transition">فتح الشيت</a>
-            </div>
-        </div>
-    </section>
+    </main>
 
     <!-- الفوتر -->
-    <footer class="py-10 text-center text-slate-500 border-t border-slate-800/60 text-sm">
-        <p>© 2026 جميع الحقوق محفوظة - أحمد محمود أبوهاشم</p>
+    <footer class="py-10 text-center text-slate-500 border-t border-slate-900 text-sm">
+        <p>© 2026 جميع الحقوق محفوظة - متجر أحمد محمود أبوهاشم</p>
     </footer>
 
-    <!-- Firebase SDK -->
+    <!-- Firebase SDK & Store Logic -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
@@ -138,80 +53,52 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        onValue(ref(db, 'settings'), (snapshot) => {
+        onValue(ref(db, 'store'), (snapshot) => {
             const data = snapshot.val();
+            let whatsappNum = "201124793700";
+            
             if (data) {
-                if(data.title) document.getElementById('site-title').innerText = data.title;
-                if(data.heroTitle) document.getElementById('hero-title').innerText = data.heroTitle;
-                if(data.heroSubtitle) document.getElementById('hero-subtitle').innerText = data.heroSubtitle;
-                
+                if(data.storeName) {
+                    document.getElementById('store-logo').innerText = data.storeName;
+                    document.getElementById('site-title').innerText = data.storeName;
+                }
                 if(data.whatsapp) {
-                    document.getElementById('contact-btn').href = `https://wa.me/${data.whatsapp}`;
+                    whatsappNum = data.whatsapp;
+                    document.getElementById('top-whatsapp').href = `https://wa.me/${whatsappNum}`;
                 }
 
-                // صورة الغلاف
-                const coverContainer = document.getElementById('cover-container');
-                const coverImg = document.getElementById('cover-img');
-                if(data.coverImg) {
-                    coverImg.src = data.coverImg;
-                    coverContainer.classList.remove('hidden');
-                } else { coverContainer.classList.add('hidden'); }
+                // عرض المنتجات
+                const gridEl = document.getElementById('products-grid');
+                gridEl.innerHTML = '';
 
-                // الصورة الشخصية
-                const profileContainer = document.getElementById('profile-container');
-                const profileImg = document.getElementById('profile-img');
-                const navProfileImg = document.getElementById('nav-profile-img');
-                if(data.profileImg) {
-                    profileImg.src = data.profileImg;
-                    navProfileImg.src = data.profileImg;
-                    profileContainer.classList.remove('hidden');
-                    navProfileImg.classList.remove('hidden');
+                if(data.products) {
+                    Object.values(data.products).forEach(prod => {
+                        const waMsg = encodeURIComponent(`مرحباً، أرغب في طلب هذا المنتج:\n- ${prod.title}\n- السعر: ${prod.price}\n- المقاس: ${prod.sizes || 'غير محدد'}`);
+                        const waLink = `https://wa.me/${whatsappNum}?text=${waMsg}`;
+
+                        gridEl.innerHTML += `
+                            <div class="bg-slate-900/80 border border-slate-800 rounded-2xl overflow-hidden shadow-xl flex flex-col justify-between hover:border-blue-500/50 transition">
+                                <div>
+                                    <div class="h-64 overflow-hidden bg-slate-950">
+                                        <img src="${prod.img || 'https://via.placeholder.com/400'}" alt="${prod.title}" class="w-full h-full object-cover hover:scale-105 transition duration-500">
+                                    </div>
+                                    <div class="p-5 space-y-2">
+                                        <h3 class="font-bold text-lg text-white">${prod.title}</h3>
+                                        <p class="text-blue-400 font-black text-xl">${prod.price}</p>
+                                        <p class="text-xs text-slate-400">المقاسات: <span class="text-slate-200 font-bold">${prod.sizes || 'متاح'}</span></p>
+                                    </div>
+                                </div>
+                                <div class="p-5 pt-0">
+                                    <a href="${waLink}" target="_blank" class="block w-full text-center bg-emerald-600 hover:bg-emerald-500 text-white py-3 rounded-xl font-bold transition shadow-md flex items-center justify-center gap-2">
+                                        <i class="fab fa-whatsapp text-lg"></i> اطلب الآن
+                                    </a>
+                                </div>
+                            </div>
+                        `;
+                    });
                 } else {
-                    profileContainer.classList.add('hidden');
-                    navProfileImg.classList.add('hidden');
+                    gridEl.innerHTML = `<p class="text-slate-400 col-span-full text-center py-10">لا توجد منتجات مضافة حالياً. افتح لوحة التحكم وأضف أول منتج!</p>`;
                 }
-
-                // عرض بطاقة الفيديو
-                const cardVideo = document.getElementById('card-video');
-                const frameVideo = document.getElementById('frame-video');
-                if(data.videoUrl) {
-                    frameVideo.src = data.videoUrl;
-                    cardVideo.classList.remove('hidden');
-                } else { cardVideo.classList.add('hidden'); }
-
-                // عرض بطاقة المنشورات
-                const cardPost = document.getElementById('card-post');
-                const linkPost = document.getElementById('link-post');
-                if(data.postUrl) {
-                    linkPost.href = data.postUrl;
-                    cardPost.classList.remove('hidden');
-                } else { cardPost.classList.add('hidden'); }
-
-                // عرض بطاقة الاستبيانات
-                const cardSurvey = document.getElementById('card-survey');
-                const linkSurvey = document.getElementById('link-survey');
-                if(data.surveyUrl) {
-                    linkSurvey.href = data.surveyUrl;
-                    cardSurvey.classList.remove('hidden');
-                } else { cardSurvey.classList.add('hidden'); }
-
-                // عرض بطاقة المواقع
-                const cardWeb = document.getElementById('card-web');
-                const linkWeb = document.getElementById('link-web');
-                if(data.webUrl) {
-                    linkWeb.href = data.webUrl;
-                    cardWeb.classList.remove('hidden');
-                } else { cardWeb.classList.add('hidden'); }
-
-                // عرض بطاقة شيت إكسيل
-                const cardExcel = document.getElementById('card-excel');
-                const linkExcel = document.getElementById('link-excel');
-                if(data.excelUrl) {
-                    linkExcel.href = data.excelUrl;
-                    cardExcel.classList.remove('hidden');
-                } else { cardExcel.classList.add('hidden'); }
-
-                if(data.bgColor) document.getElementById('body-bg').style.backgroundColor = data.bgColor;
             }
         });
     </script>
