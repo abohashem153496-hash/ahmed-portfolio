@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" class="dark">
 <head>
     <meta charset="UTF-8">
-    <title>لوحة تحكم متجر الملابس - أحمد أبوهاشم</title>
+    <title>لوحة تحكم Sports House - أحمد الغول</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>body { font-family: 'Cairo', sans-serif; }</style>
@@ -20,7 +20,7 @@
     <!-- لوحة التحكم في المنتجات -->
     <div id="admin-panel" class="max-w-3xl mx-auto bg-slate-900 border border-slate-800 p-8 rounded-3xl shadow-2xl hidden space-y-8">
         <div class="flex justify-between items-center border-b border-slate-800 pb-4">
-            <h1 class="text-2xl font-black text-blue-400">إدارة منتجات متجر الملابس 👕</h1>
+            <h1 class="text-2xl font-black text-blue-400">Sports House | إدارة المنتجات ⚙️</h1>
             <span class="text-xs bg-blue-500/10 text-blue-400 border border-blue-500/20 px-3 py-1.5 rounded-lg">متصل بالسحابة</span>
         </div>
         
@@ -31,46 +31,56 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm mb-1 text-slate-300">اسم المتجر</label>
-                        <input type="text" id="inp-storeName" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
+                        <input type="text" id="inp-storeName" value="Sports House c Ahmed elghool" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
                     </div>
                     <div>
-                        <label class="block text-sm mb-1 text-slate-300">رقم الواتساب للطلبات (مثال: 201124793700)</label>
-                        <input type="text" id="inp-whatsapp" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
+                        <label class="block text-sm mb-1 text-slate-300">رقم الواتساب للطلبات</label>
+                        <input type="text" id="inp-whatsapp" value="201124793700" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
                     </div>
                 </div>
             </div>
 
-            <!-- إضافة منتج جديد للملابس -->
+            <!-- إضافة منتج جديد للمتجر -->
             <div class="bg-slate-800/50 p-5 rounded-2xl border border-slate-700/60 space-y-4">
-                <h2 class="font-bold text-blue-300 text-lg">2. إضافة منتج ملابس جديد</h2>
+                <h2 class="font-bold text-blue-300 text-lg">2. إضافة منتج رياضي جديد</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm mb-1 text-slate-300">اسم المنتج (مثال: تيشرت رجالي كاجوال)</label>
-                        <input type="text" id="new-title" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
+                        <label class="block text-sm mb-1 text-slate-300">اسم المنتج</label>
+                        <input type="text" id="new-title" placeholder="مثال: طقم ريال مدريد الأساسي" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
                     </div>
                     <div>
-                        <label class="block text-sm mb-1 text-slate-300">السعر (مثال: 350 ج.م أو ر.س)</label>
-                        <input type="text" id="new-price" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
+                        <label class="block text-sm mb-1 text-slate-300">السعر</label>
+                        <input type="text" id="new-price" placeholder="مثال: 450 ج.م" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
                     </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm mb-1 text-slate-300">رابط صورة المنتج</label>
-                        <input type="text" id="new-img" placeholder="رابط صورة الملابس..." class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
+                        <input type="text" id="new-img" placeholder="رابط الصورة..." class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
                     </div>
                     <div>
-                        <label class="block text-sm mb-1 text-slate-300">المقاسات المتاحة (مثال: S, M, L, XL)</label>
-                        <input type="text" id="new-sizes" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
+                        <label class="block text-sm mb-1 text-slate-300">اختر القسم</label>
+                        <select id="new-category" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
+                            <option value="offers">🔥 العروض الخاصة</option>
+                            <option value="sets">⚽ الأطقم الرياضية</option>
+                            <option value="pieces">👕 القطع الفردية</option>
+                            <option value="stretches">⚡ الاستريزات</option>
+                            <option value="sports">🏃‍♂️ ملابس رياضية متنوعة</option>
+                        </select>
                     </div>
                 </div>
-                <button onclick="addProduct()" class="w-full bg-emerald-600 hover:bg-emerald-500 font-bold py-3 rounded-xl transition shadow-lg">إضافة المنتج للمتجر ➕</button>
+                <div>
+                    <label class="block text-sm mb-1 text-slate-300">المقاسات المتاحة (مثال: S, M, L, XL)</label>
+                    <input type="text" id="new-sizes" placeholder="S, M, L, XL" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
+                </div>
+                <button onclick="addProduct()" class="w-full bg-emerald-600 hover:bg-emerald-500 font-bold py-3.5 rounded-xl transition shadow-lg">إضافة المنتج إلى المتجر ➕</button>
             </div>
 
-            <!-- قائمة المنتجات الحالية وحذفها -->
+            <!-- قائمة المنتجات الحالية -->
             <div class="bg-slate-800/50 p-5 rounded-2xl border border-slate-700/60 space-y-4">
-                <h2 class="font-bold text-blue-300 text-lg">3. المنتجات الحالية في المتجر</h2>
+                <h2 class="font-bold text-blue-300 text-lg">3. منتجات المتجر الحالية</h2>
                 <div id="admin-products-list" class="space-y-3">
-                    <!-- سيتم تعبئتها تلقائياً -->
+                    <!-- تعبئة تلقائية -->
                 </div>
             </div>
 
@@ -94,14 +104,12 @@
             } else { alert('كلمة المرور غير صحيحة!'); }
         };
 
-        // قراءة بيانات المتجر والمنتجات
         onValue(ref(db, 'store'), (snapshot) => {
             const data = snapshot.val();
             if (data) {
-                document.getElementById('inp-storeName').value = data.storeName || 'متجر أحمد للملابس';
+                document.getElementById('inp-storeName').value = data.storeName || 'Sports House c Ahmed elghool';
                 document.getElementById('inp-whatsapp').value = data.whatsapp || '201124793700';
 
-                // عرض المنتجات في لوحة التحكم للحذف
                 const listEl = document.getElementById('admin-products-list');
                 listEl.innerHTML = '';
                 if(data.products) {
@@ -110,9 +118,9 @@
                         listEl.innerHTML += `
                             <div class="flex items-center justify-between bg-slate-800 p-3 rounded-xl border border-slate-700">
                                 <div class="flex items-center gap-3">
-                                    <img src="${prod.img}" class="w-12 h-12 object-cover rounded-lg">
+                                    <img src="${prod.img || 'https://via.placeholder.com/100'}" class="w-12 h-12 object-cover rounded-lg">
                                     <div>
-                                        <h4 class="font-bold text-sm">${prod.title}</h4>
+                                        <h4 class="font-bold text-sm">${prod.title} (${prod.category || 'عام'})</h4>
                                         <p class="text-xs text-slate-400">${prod.price} | مقاسات: ${prod.sizes}</p>
                                     </div>
                                 </div>
@@ -128,6 +136,7 @@
             const title = document.getElementById('new-title').value;
             const price = document.getElementById('new-price').value;
             const img = document.getElementById('new-img').value;
+            const category = document.getElementById('new-category').value;
             const sizes = document.getElementById('new-sizes').value;
 
             if(!title || !price) {
@@ -135,8 +144,7 @@
                 return;
             }
 
-            const productsRef = ref(db, 'store/products');
-            push(productsRef, { title, price, img, sizes }).then(() => {
+            push(ref(db, 'store/products'), { title, price, img, category, sizes }).then(() => {
                 alert('تم إضافة المنتج بنجاح إلى المتجر السحابي! 🎉');
                 document.getElementById('new-title').value = '';
                 document.getElementById('new-price').value = '';
@@ -146,10 +154,8 @@
         };
 
         window.deleteProduct = function(id) {
-            if(confirm('هل أنت متكد من حذف هذا المنتج؟')) {
-                remove(ref(db, `store/products/${id}`)).then(() => {
-                    alert('تم الحذف بنجاح.');
-                });
+            if(confirm('هل أنت متأكد من حذف هذا المنتج؟')) {
+                remove(ref(db, `store/products/${id}`));
             }
         };
 
