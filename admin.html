@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <title>لوحة التحكم الإدارية</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Cairo', sans-serif; }</style>
+</head>
+<body class="bg-slate-950 text-white min-h-screen p-6">
+    <div class="max-w-xl mx-auto bg-slate-900 border border-slate-800 p-8 rounded-3xl shadow-2xl">
+        <h1 class="text-2xl font-black mb-6 text-blue-400 text-center">لوحة تحكم الموقع</h1>
+        
+        <div class="space-y-4">
+            <div>
+                <label class="block text-sm mb-1 text-slate-300">عنوان الموقع في المتصفح</label>
+                <input type="text" id="inp-title" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
+            </div>
+            <div>
+                <label class="block text-sm mb-1 text-slate-300">اسم الشعار (Logo)</label>
+                <input type="text" id="inp-logo" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
+            </div>
+            <div>
+                <label class="block text-sm mb-1 text-slate-300">العنوان الرئيسي (Hero Title)</label>
+                <textarea id="inp-heroTitle" rows="2" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white"></textarea>
+            </div>
+            <div>
+                <label class="block text-sm mb-1 text-slate-300">الوصف التحظيري</label>
+                <textarea id="inp-heroSubtitle" rows="3" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white"></textarea>
+            </div>
+            <button onclick="saveChanges()" class="w-full bg-blue-600 hover:bg-blue-500 font-bold py-3.5 rounded-xl transition shadow-lg">حفظ وتحديث الموقع فوراً</button>
+        </div>
+    </div>
+
+    <!-- Firebase Admin Script -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        const firebaseConfig = {
+            databaseURL: "https://car-orders-default-rtdb.firebaseio.com/"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // قراءة البيانات الحالية وعرضها في الخانات
+        onValue(ref(db, 'settings'), (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                document.getElementById('inp-title').value = data.title || '';
+                document.getElementById('inp-logo').value = data.logo || '';
+                document.getElementById('inp-heroTitle').value = data.heroTitle || '';
+                document.getElementById('inp-heroSubtitle').value = data.heroSubtitle || '';
+            }
+        });
+
+        window.saveChanges = function() {
+            set(ref(db, 'settings'), {
+                title: document.getElementById('inp-title').value,
+                logo: document.getElementById('inp-logo').value,
+                heroTitle: document.getElementById('inp-heroTitle').value,
+                heroSubtitle: document.getElementById('inp-heroSubtitle').value
+            }).then(() => {
+                alert('تم تحديث الموقع بنجاح يا أحمد!');
+            }).catch((error) => {
+                alert('حدث خطأ: ' + error.message);
+            });
+        }
+    </script>
+</body>
+</html>
