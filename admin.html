@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" class="dark">
 <head>
     <meta charset="UTF-8">
-    <title>لوحة تحكم Sports House - أحمد الغول</title>
+    <title>لوحة التحكم الإدارية الشاملة - Sports House</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>body { font-family: 'Cairo', sans-serif; }</style>
@@ -11,23 +11,23 @@
 
     <!-- شاشة تسجيل الدخول -->
     <div id="login-screen" class="max-w-md mx-auto mt-24 bg-slate-900 border border-slate-800 p-8 rounded-3xl shadow-2xl text-center">
-        <h1 class="text-2xl font-black mb-4 text-blue-400">تسجيل دخول مدير المتجر</h1>
+        <h1 class="text-2xl font-black mb-4 text-blue-400">تسجيل دخول المدير العام</h1>
         <p class="text-slate-400 text-sm mb-6">أدخل كلمة المرور السرية (ahmed123)</p>
         <input type="password" id="inp-pass" placeholder="كلمة المرور..." class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white text-center mb-4 focus:outline-none focus:border-blue-500">
         <button onclick="checkPassword()" class="w-full bg-blue-600 hover:bg-blue-500 font-bold py-3.5 rounded-xl transition shadow-lg">دخول لوحة التحكم</button>
     </div>
 
-    <!-- لوحة التحكم في المنتجات -->
-    <div id="admin-panel" class="max-w-3xl mx-auto bg-slate-900 border border-slate-800 p-8 rounded-3xl shadow-2xl hidden space-y-8">
+    <!-- لوحة التحكم الاحترافية -->
+    <div id="admin-panel" class="max-w-4xl mx-auto bg-slate-900 border border-slate-800 p-8 rounded-3xl shadow-2xl hidden space-y-8">
         <div class="flex justify-between items-center border-b border-slate-800 pb-4">
-            <h1 class="text-2xl font-black text-blue-400">Sports House | إدارة المنتجات ⚙️</h1>
-            <span class="text-xs bg-blue-500/10 text-blue-400 border border-blue-500/20 px-3 py-1.5 rounded-lg">متصل بالسحابة</span>
+            <h1 class="text-2xl font-black text-blue-400">Sports House | لوحة التحكم والإدارة الشاملة ⚙️</h1>
+            <span class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1.5 rounded-lg">متصل بالسحابة (Firebase)</span>
         </div>
         
         <div class="space-y-6">
-            <!-- إعدادات عامة للمتجر -->
+            <!-- 1. إعدادات المتجر العامة والغلاف والألوان -->
             <div class="bg-slate-800/50 p-5 rounded-2xl border border-slate-700/60 space-y-4">
-                <h2 class="font-bold text-blue-300 text-lg">1. إعدادات المتجر العامة</h2>
+                <h2 class="font-bold text-blue-300 text-lg">1. المظهر العام، الغلاف، والألوان</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm mb-1 text-slate-300">اسم المتجر</label>
@@ -38,27 +38,56 @@
                         <input type="text" id="inp-whatsapp" value="201124793700" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
                     </div>
                 </div>
-            </div>
-
-            <!-- إضافة منتج جديد مع رفع الصورة مباشرة -->
-            <div class="bg-slate-800/50 p-5 rounded-2xl border border-slate-700/60 space-y-4">
-                <h2 class="font-bold text-blue-300 text-lg">2. إضافة منتج جديد مع رفع الصورة من جهازك</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm mb-1 text-slate-300">اسم المنتج</label>
-                        <input type="text" id="new-title" placeholder="مثال: طقم ريال مدريد" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
+                        <label class="block text-sm mb-1 text-slate-300">رفع صورة الغلاف (Banner)</label>
+                        <input type="file" id="file-cover" accept="image/*" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2 text-xs text-slate-300 file:py-1 file:px-3 file:rounded-lg file:border-0 file:bg-blue-600 file:text-white cursor-pointer">
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-xs mb-1 text-slate-300">لون الخلفية</label>
+                            <input type="color" id="inp-bgColor" value="#0f172a" class="w-full h-10 bg-slate-800 border border-slate-700 rounded-xl p-1 cursor-pointer">
+                        </div>
+                        <div>
+                            <label class="block text-xs mb-1 text-slate-300">اللون الأساسي</label>
+                            <input type="color" id="inp-primaryColor" value="#3b82f6" class="w-full h-10 bg-slate-800 border border-slate-700 rounded-xl p-1 cursor-pointer">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. نموذج إضافة / تعديل منتج أو إعلان -->
+            <div class="bg-slate-800/50 p-5 rounded-2xl border border-slate-700/60 space-y-4">
+                <h2 id="form-title-text" class="font-bold text-blue-300 text-lg">2. إضافة منتج / إعلان جديد (صور، فيديوهات، أعداد)</h2>
+                <input type="hidden" id="edit-product-id" value="">
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm mb-1 text-slate-300">اسم المنتج أو الإعلان</label>
+                        <input type="text" id="new-title" placeholder="مثال: طقم ريال مدريد الإصدار الجديد" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
                     </div>
                     <div>
                         <label class="block text-sm mb-1 text-slate-300">السعر</label>
                         <input type="text" id="new-price" placeholder="مثال: 450 ج.م" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
                     </div>
                 </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
-                        <label class="block text-sm mb-1 text-slate-300">اختر صورة المنتج من جهازك</label>
-                        <input type="file" id="new-img-file" accept="image/*" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-sm text-slate-300 file:ml-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-500 cursor-pointer">
+                        <label class="block text-sm mb-1 text-slate-300">اختر صورة المنتج</label>
+                        <input type="file" id="new-img-file" accept="image/*" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2 text-xs text-slate-300 file:py-1 file:px-3 file:rounded-lg file:border-0 file:bg-blue-600 file:text-white cursor-pointer">
                     </div>
+                    <div>
+                        <label class="block text-sm mb-1 text-slate-300">رابط فيديو (اختياري)</label>
+                        <input type="text" id="new-video" placeholder="رابط يوتيوب أو فيديو..." class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-xs text-white">
+                    </div>
+                    <div>
+                        <label class="block text-sm mb-1 text-slate-300">الكمية المتوفرة (العدد)</label>
+                        <input type="number" id="new-stock" placeholder="مثال: 15" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-xs text-white">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm mb-1 text-slate-300">اختر القسم</label>
                         <select id="new-category" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
@@ -69,36 +98,41 @@
                             <option value="sports">🏃‍♂️ ملابس رياضية متنوعة</option>
                         </select>
                     </div>
+                    <div>
+                        <label class="block text-sm mb-1 text-slate-300">المقاسات المتاحة</label>
+                        <input type="text" id="new-sizes" placeholder="S, M, L, XL, XXL" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
+                    </div>
                 </div>
 
-                <div>
-                    <label class="block text-sm mb-1 text-slate-300">المقاسات المتاحة</label>
-                    <input type="text" id="new-sizes" placeholder="S, M, L, XL" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
+                <div class="flex gap-4">
+                    <button onclick="saveProduct()" id="save-btn" class="flex-1 bg-emerald-600 hover:bg-emerald-500 font-bold py-3.5 rounded-xl transition shadow-lg">حفظ وإضافة للمتجر ➕</button>
+                    <button onclick="cancelEdit()" id="cancel-btn" class="hidden bg-slate-700 hover:bg-slate-600 font-bold px-6 py-3.5 rounded-xl transition">إلغاء التعديل</button>
                 </div>
-                
-                <button onclick="addProduct()" class="w-full bg-emerald-600 hover:bg-emerald-500 font-bold py-3.5 rounded-xl transition shadow-lg">رفع الصورة وإضافة المنتج للمتجر ➕</button>
             </div>
 
-            <!-- قائمة المنتجات الحالية -->
+            <!-- 3. قائمة المنتجات والتحكم بالتعديل والحذف -->
             <div class="bg-slate-800/50 p-5 rounded-2xl border border-slate-700/60 space-y-4">
-                <h2 class="font-bold text-blue-300 text-lg">3. منتجات المتجر الحالية</h2>
+                <h2 class="font-bold text-blue-300 text-lg">3. إدارة وتعديل المنتجات المنشورة</h2>
                 <div id="admin-products-list" class="space-y-3">
                     <!-- تعبئة تلقائية -->
                 </div>
             </div>
 
-            <button onclick="saveSettings()" class="w-full bg-blue-600 hover:bg-blue-500 font-black text-lg py-4 rounded-2xl transition shadow-2xl">حفظ إعدادات المتجر 🚀</button>
+            <button onclick="saveGlobalSettings()" class="w-full bg-blue-600 hover:bg-blue-500 font-black text-lg py-4 rounded-2xl transition shadow-2xl">حفظ إعدادات المتجر العامة 🚀</button>
         </div>
     </div>
 
-    <!-- Firebase Script & Image Uploader -->
+    <!-- Firebase Script & Logic -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, set, push, remove, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, set, push, update, remove, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         const firebaseConfig = { databaseURL: "https://car-orders-default-rtdb.firebaseio.com/" };
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
+
+        let productsData = {};
+        let currentCoverImg = '';
 
         window.checkPassword = function() {
             if(document.getElementById('inp-pass').value === "ahmed123") {
@@ -112,32 +146,41 @@
             if (data) {
                 document.getElementById('inp-storeName').value = data.storeName || 'Sports House c Ahmed elghool';
                 document.getElementById('inp-whatsapp').value = data.whatsapp || '201124793700';
+                document.getElementById('inp-bgColor').value = data.bgColor || '#0f172a';
+                document.getElementById('inp-primaryColor').value = data.primaryColor || '#3b82f6';
+                currentCoverImg = data.coverImg || '';
 
+                productsData = data.products || {};
                 const listEl = document.getElementById('admin-products-list');
                 listEl.innerHTML = '';
-                if(data.products) {
-                    Object.keys(data.products).forEach(id => {
-                        const prod = data.products[id];
-                        listEl.innerHTML += `
-                            <div class="flex items-center justify-between bg-slate-800 p-3 rounded-xl border border-slate-700">
-                                <div class="flex items-center gap-3">
-                                    <img src="${prod.img || 'https://via.placeholder.com/100'}" class="w-12 h-12 object-cover rounded-lg">
-                                    <div>
-                                        <h4 class="font-bold text-sm">${prod.title} (${prod.category || 'عام'})</h4>
-                                        <p class="text-xs text-slate-400">${prod.price} | مقاسات: ${prod.sizes}</p>
-                                    </div>
+
+                Object.keys(productsData).forEach(id => {
+                    const prod = productsData[id];
+                    listEl.innerHTML += `
+                        <div class="flex items-center justify-between bg-slate-800 p-3 rounded-xl border border-slate-700">
+                            <div class="flex items-center gap-3">
+                                <img src="${prod.img || 'https://via.placeholder.com/100'}" class="w-12 h-12 object-cover rounded-lg">
+                                <div>
+                                    <h4 class="font-bold text-sm">${prod.title} (${prod.category || 'عام'})</h4>
+                                    <p class="text-xs text-slate-400">${prod.price} | العدد: ${prod.stock || 'متاح'} | مقاسات: ${prod.sizes || 'الكل'}</p>
                                 </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="startEdit('${id}')" class="bg-blue-600 hover:bg-blue-500 text-xs px-3 py-2 rounded-lg font-bold transition">تعديل</button>
                                 <button onclick="deleteProduct('${id}')" class="bg-red-600 hover:bg-red-500 text-xs px-3 py-2 rounded-lg font-bold transition">حذف</button>
                             </div>
-                        `;
-                    });
-                }
+                        </div>
+                    `;
+                });
             }
         });
 
-        window.addProduct = function() {
+        window.saveProduct = async function() {
+            const editId = document.getElementById('edit-product-id').value;
             const title = document.getElementById('new-title').value;
             const price = document.getElementById('new-price').value;
+            const video = document.getElementById('new-video').value;
+            const stock = document.getElementById('new-stock').value;
             const category = document.getElementById('new-category').value;
             const sizes = document.getElementById('new-sizes').value;
             const fileInput = document.getElementById('new-img-file');
@@ -147,38 +190,88 @@
                 return;
             }
 
+            let imgUrl = editId ? productsData[editId].img : '';
+
             if (fileInput.files && fileInput.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const imgDataUrl = e.target.result;
-                    saveProductToFirebase(title, price, imgDataUrl, category, sizes);
-                };
-                reader.readAsDataURL(fileInput.files[0]);
-            } else {
-                saveProductToFirebase(title, price, '', category, sizes);
+                imgUrl = await new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => resolve(e.target.result);
+                    reader.readAsDataURL(fileInput.files[0]);
+                });
             }
+
+            const productData = { title, price, img: imgUrl, video, stock, category, sizes };
+
+            if(editId) {
+                await update(ref(db, `store/products/${editId}`), productData);
+                alert('تم تحديث وتعديل المنتج بنجاح! 🌟');
+                cancelEdit();
+            } else {
+                await push(ref(db, 'store/products'), productData);
+                alert('تم إضافة المنتج الجديد بنجاح إلى المتجر! 🎉');
+            }
+
+            document.getElementById('new-title').value = '';
+            document.getElementById('new-price').value = '';
+            document.getElementById('new-video').value = '';
+            document.getElementById('new-stock').value = '';
+            document.getElementById('new-sizes').value = '';
+            document.getElementById('new-img-file').value = '';
         };
 
-        function saveProductToFirebase(title, price, img, category, sizes) {
-            push(ref(db, 'store/products'), { title, price, img, category, sizes }).then(() => {
-                alert('تم رفع الصورة وإضافة المنتج بنجاح إلى المتجر السحابي! 🎉');
-                document.getElementById('new-title').value = '';
-                document.getElementById('new-price').value = '';
-                document.getElementById('new-sizes').value = '';
-                document.getElementById('new-img-file').value = '';
-            });
-        }
+        window.startEdit = function(id) {
+            const prod = productsData[id];
+            document.getElementById('edit-product-id').value = id;
+            document.getElementById('new-title').value = prod.title || '';
+            document.getElementById('new-price').value = prod.price || '';
+            document.getElementById('new-video').value = prod.video || '';
+            document.getElementById('new-stock').value = prod.stock || '';
+            document.getElementById('new-category').value = prod.category || 'offers';
+            document.getElementById('new-sizes').value = prod.sizes || '';
+
+            document.getElementById('form-title-text').innerText = "تعديل المنتج / الإعلان المحدد ✏️";
+            document.getElementById('save-btn').innerText = "تحديث حفظ التعديلات 💾";
+            document.getElementById('cancel-btn').classList.remove('hidden');
+            window.scrollTo({ top: 400, behavior: 'smooth' });
+        };
+
+        window.cancelEdit = function() {
+            document.getElementById('edit-product-id').value = '';
+            document.getElementById('new-title').value = '';
+            document.getElementById('new-price').value = '';
+            document.getElementById('new-video').value = '';
+            document.getElementById('new-stock').value = '';
+            document.getElementById('new-sizes').value = '';
+            document.getElementById('new-img-file').value = '';
+            document.getElementById('form-title-text').innerText = "2. إضافة منتج / إعلان جديد (صور، فيديوهات، أعداد)";
+            document.getElementById('save-btn').innerText = "حفظ وإضافة للمتجر ➕";
+            document.getElementById('cancel-btn').classList.add('hidden');
+        };
 
         window.deleteProduct = function(id) {
-            if(confirm('هل أنت متأكد من حذف هذا المنتج؟')) {
+            if(confirm('هل أنت متأكد من حذف هذا المنتج نهائياً؟')) {
                 remove(ref(db, `store/products/${id}`));
             }
         };
 
-        window.saveSettings = function() {
+        window.saveGlobalSettings = async function() {
+            const coverInput = document.getElementById('file-cover');
+            let coverImg = currentCoverImg;
+
+            if (coverInput.files && coverInput.files[0]) {
+                coverImg = await new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => resolve(e.target.result);
+                    reader.readAsDataURL(coverInput.files[0]);
+                });
+            }
+
             set(ref(db, 'store/storeName'), document.getElementById('inp-storeName').value);
-            set(ref(db, 'store/whatsapp'), document.getElementById('inp-whatsapp').value).then(() => {
-                alert('تم حفظ إعدادات المتجر بنجاح!');
+            set(ref(db, 'store/whatsapp'), document.getElementById('inp-whatsapp').value);
+            set(ref(db, 'store/bgColor'), document.getElementById('inp-bgColor').value);
+            set(ref(db, 'store/primaryColor'), document.getElementById('inp-primaryColor').value);
+            set(ref(db, 'store/coverImg'), coverImg).then(() => {
+                alert('تم حفظ إعدادات المتجر العامة والغلاف بنجاح تام! 🚀');
             });
         }
     </script>
