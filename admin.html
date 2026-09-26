@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" class="dark">
 <head>
     <meta charset="UTF-8">
-    <title>لوحة التحكم الاحترافية - أحمد أبوهاشم</title>
+    <title>لوحة التحكم الشاملة - أحمد أبوهاشم</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>body { font-family: 'Cairo', sans-serif; }</style>
@@ -20,22 +20,22 @@
     <!-- لوحة التحكم الاحترافية -->
     <div id="admin-panel" class="max-w-3xl mx-auto bg-slate-900 border border-slate-800 p-8 rounded-3xl shadow-2xl hidden space-y-8">
         <div class="flex justify-between items-center border-b border-slate-800 pb-4">
-            <h1 class="text-2xl font-black text-blue-400">لوحة إدارة الموقع الشاملة ⚙️</h1>
+            <h1 class="text-2xl font-black text-blue-400">لوحة إدارة المحتوى الشاملة ⚙️</h1>
             <span class="text-xs bg-blue-500/10 text-blue-400 border border-blue-500/20 px-3 py-1.5 rounded-lg">متصل بقاعدة البيانات</span>
         </div>
         
         <div class="space-y-6">
-            <!-- 1. الهيدر والعنوان الرئيسي -->
+            <!-- 1. الهيدر والصور الشخصية والغلاف -->
             <div class="bg-slate-800/50 p-5 rounded-2xl border border-slate-700/60 space-y-4">
-                <h2 class="font-bold text-blue-300 text-lg">1. الواجهة الرئيسية (Hero Section)</h2>
+                <h2 class="font-bold text-blue-300 text-lg">1. الصور والهوية البصرية</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm mb-1 text-slate-300">عنوان المتصفح (Title)</label>
-                        <input type="text" id="inp-title" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
+                        <label class="block text-sm mb-1 text-slate-300">رابط الصورة الشخصية (Profile Image URL)</label>
+                        <input type="text" id="inp-profileImg" placeholder="رابط صورتك الدائرية..." class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
                     </div>
                     <div>
-                        <label class="block text-sm mb-1 text-slate-300">اسم الشعار (Logo)</label>
-                        <input type="text" id="inp-logo" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
+                        <label class="block text-sm mb-1 text-slate-300">رابط صورة الغلاف (Cover Banner URL)</label>
+                        <input type="text" id="inp-coverImg" placeholder="رابط غلاف الموقع..." class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
                     </div>
                 </div>
                 <div>
@@ -52,52 +52,43 @@
                 </div>
             </div>
 
-            <!-- 2. قسم نبذة عني -->
+            <!-- 2. محتويات الوسائط والأقسام المتقدمة -->
             <div class="bg-slate-800/50 p-5 rounded-2xl border border-slate-700/60 space-y-4">
-                <h2 class="font-bold text-blue-300 text-lg">2. قسم نبذة عني (About Me)</h2>
+                <h2 class="font-bold text-blue-300 text-lg">2. إدارة الأقسام والمحتويات المتنوعة</h2>
                 <div>
-                    <label class="block text-sm mb-1 text-slate-300">عنوان القسم</label>
-                    <input type="text" id="inp-aboutTitle" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
+                    <label class="block text-sm mb-1 text-slate-300">رابط فيديو (YouTube أو MP4)</label>
+                    <input type="text" id="inp-videoUrl" placeholder="رابط الفيديو..." class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
                 </div>
                 <div>
-                    <label class="block text-sm mb-1 text-slate-300">التفاصيل والخبرات المهنية</label>
-                    <textarea id="inp-aboutText" rows="4" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white"></textarea>
+                    <label class="block text-sm mb-1 text-slate-300">رابط المنشورات أو العروض (Posts & Offers URL)</label>
+                    <input type="text" id="inp-postUrl" placeholder="رابط المنشور..." class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
+                </div>
+                <div>
+                    <label class="block text-sm mb-1 text-slate-300">رابط الاستبيان أو نموذج الرأي (Survey URL)</label>
+                    <input type="text" id="inp-surveyUrl" placeholder="رابط الاستبيان..." class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
+                </div>
+                <div>
+                    <label class="block text-sm mb-1 text-slate-300">رابط موقع أو متجر إلكتروني (Website URL)</label>
+                    <input type="text" id="inp-webUrl" placeholder="رابط الموقع..." class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
+                </div>
+                <div>
+                    <label class="block text-sm mb-1 text-slate-300">رابط شيت إكسيل أو قاعدة بيانات (Excel Sheet URL)</label>
+                    <input type="text" id="inp-excelUrl" placeholder="رابط شيت إكسيل..." class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
                 </div>
             </div>
 
-            <!-- 3. قسم خدماتي -->
+            <!-- 3. الألوان والتحكم التصميمي -->
             <div class="bg-slate-800/50 p-5 rounded-2xl border border-slate-700/60 space-y-4">
-                <h2 class="font-bold text-blue-300 text-lg">3. خدماتي الاحترافية (Services)</h2>
-                <div>
-                    <label class="block text-sm mb-1 text-slate-300">خدمة 1 (العنوان والتفاصيل مفصولين بـ |)</label>
-                    <input type="text" id="inp-service1" placeholder="تصميم الهويات البصرية | إبداع بصري متكامل..." class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
-                </div>
-                <div>
-                    <label class="block text-sm mb-1 text-slate-300">خدمة 2</label>
-                    <input type="text" id="inp-service2" placeholder="برمجة وتطوير المتاجر | حلول رقمية..." class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
-                </div>
-                <div>
-                    <label class="block text-sm mb-1 text-slate-300">خدمة 3</label>
-                    <input type="text" id="inp-service3" placeholder="حلول إكسيل المتقدمة | قواعد بيانات VBA..." class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
-                </div>
-            </div>
-
-            <!-- 4. الألوان والوسائط -->
-            <div class="bg-slate-800/50 p-5 rounded-2xl border border-slate-700/60 space-y-4">
-                <h2 class="font-bold text-blue-300 text-lg">4. التصميم والوسائط</h2>
+                <h2 class="font-bold text-blue-300 text-lg">3. الألوان والمظهر</h2>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm mb-1 text-slate-300">لون الخلفية</label>
                         <input type="color" id="inp-bgColor" value="#0f172a" class="w-full h-12 bg-slate-800 border border-slate-700 rounded-xl p-1 cursor-pointer">
                     </div>
                     <div>
-                        <label class="block text-sm mb-1 text-slate-300">اللون الأساسي للأزرار</label>
+                        <label class="block text-sm mb-1 text-slate-300">اللون الأساسي للأزرار والعناوين</label>
                         <input type="color" id="inp-primaryColor" value="#3b82f6" class="w-full h-12 bg-slate-800 border border-slate-700 rounded-xl p-1 cursor-pointer">
                     </div>
-                </div>
-                <div>
-                    <label class="block text-sm mb-1 text-slate-300">رابط صورة أو بانر إضافي</label>
-                    <input type="text" id="inp-imageUrl" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
                 </div>
             </div>
 
@@ -124,37 +115,35 @@
         onValue(ref(db, 'settings'), (snapshot) => {
             const data = snapshot.val();
             if (data) {
-                document.getElementById('inp-title').value = data.title || '';
-                document.getElementById('inp-logo').value = data.logo || '';
+                document.getElementById('inp-profileImg').value = data.profileImg || '';
+                document.getElementById('inp-coverImg').value = data.coverImg || '';
                 document.getElementById('inp-heroTitle').value = data.heroTitle || '';
                 document.getElementById('inp-heroSubtitle').value = data.heroSubtitle || '';
                 document.getElementById('inp-whatsapp').value = data.whatsapp || '201124793700';
-                document.getElementById('inp-aboutTitle').value = data.aboutTitle || '';
-                document.getElementById('inp-aboutText').value = data.aboutText || '';
-                document.getElementById('inp-service1').value = data.service1 || '';
-                document.getElementById('inp-service2').value = data.service2 || '';
-                document.getElementById('inp-service3').value = data.service3 || '';
+                document.getElementById('inp-videoUrl').value = data.videoUrl || '';
+                document.getElementById('inp-postUrl').value = data.postUrl || '';
+                document.getElementById('inp-surveyUrl').value = data.surveyUrl || '';
+                document.getElementById('inp-webUrl').value = data.webUrl || '';
+                document.getElementById('inp-excelUrl').value = data.excelUrl || '';
                 document.getElementById('inp-bgColor').value = data.bgColor || '#0f172a';
                 document.getElementById('inp-primaryColor').value = data.primaryColor || '#3b82f6';
-                document.getElementById('inp-imageUrl').value = data.imageUrl || '';
             }
         });
 
         window.saveChanges = function() {
             set(ref(db, 'settings'), {
-                title: document.getElementById('inp-title').value,
-                logo: document.getElementById('inp-logo').value,
+                profileImg: document.getElementById('inp-profileImg').value,
+                coverImg: document.getElementById('inp-coverImg').value,
                 heroTitle: document.getElementById('inp-heroTitle').value,
                 heroSubtitle: document.getElementById('inp-heroSubtitle').value,
                 whatsapp: document.getElementById('inp-whatsapp').value,
-                aboutTitle: document.getElementById('inp-aboutTitle').value,
-                aboutText: document.getElementById('inp-aboutText').value,
-                service1: document.getElementById('inp-service1').value,
-                service2: document.getElementById('inp-service2').value,
-                service3: document.getElementById('inp-service3').value,
+                videoUrl: document.getElementById('inp-videoUrl').value,
+                postUrl: document.getElementById('inp-postUrl').value,
+                surveyUrl: document.getElementById('inp-surveyUrl').value,
+                webUrl: document.getElementById('inp-webUrl').value,
+                excelUrl: document.getElementById('inp-excelUrl').value,
                 bgColor: document.getElementById('inp-bgColor').value,
-                primaryColor: document.getElementById('inp-primaryColor').value,
-                imageUrl: document.getElementById('inp-imageUrl').value
+                primaryColor: document.getElementById('inp-primaryColor').value
             }).then(() => {
                 alert('تم تحديث الموقع ونشره بنجاح تام يا أحمد! 🌟');
             }).catch((error) => { alert('خطأ: ' + error.message); });
