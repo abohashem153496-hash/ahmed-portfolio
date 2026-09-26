@@ -7,12 +7,17 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
-    <style>body { font-family: 'Cairo', sans-serif; }</style>
+    <style>
+        body { 
+            font-family: 'Cairo', sans-serif; 
+            letter-spacing: -0.02em;
+        }
+    </style>
 </head>
-<body id="body-bg" class="bg-slate-900 text-slate-100 min-h-screen transition-colors duration-500">
+<body id="body-bg" class="bg-slate-950 text-slate-100 min-h-screen transition-colors duration-500">
 
     <!-- شريط التنقل العلوي -->
-    <header class="fixed top-0 left-0 right-0 z-50 bg-slate-900/80 backdrop-blur border-b border-slate-800">
+    <header class="fixed top-0 left-0 right-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800/80">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
             <div id="logo-text" class="text-2xl font-black text-blue-400">Ahmed Hashem</div>
             <nav class="hidden md:flex gap-8 text-sm font-bold text-slate-300">
@@ -20,17 +25,17 @@
                 <a href="#about" class="hover:text-blue-400 transition">نبذة عني</a>
                 <a href="#services" class="hover:text-blue-400 transition">خدماتي</a>
             </nav>
-            <a id="contact-btn" href="https://wa.me/201124793700" target="_blank" class="bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 rounded-xl transition shadow-lg flex items-center gap-2">
+            <a id="contact-btn" href="https://wa.me/201124793700" target="_blank" class="bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 rounded-xl transition shadow-lg flex items-center gap-2 font-bold">
                 <i class="fab fa-whatsapp text-xl"></i> تواصل معي
             </a>
         </div>
     </header>
 
     <!-- قسم الواجهة الرئيسية (Hero) -->
-    <section id="hero" class="pt-44 pb-24 px-6 text-center">
+    <section id="hero" class="pt-48 pb-24 px-6 text-center">
         <div class="max-w-4xl mx-auto space-y-6">
-            <h1 id="hero-title" class="text-4xl md:text-6xl font-black leading-tight">نحول أفكارك إلى واقع رقمي استثنائي</h1>
-            <p id="hero-subtitle" class="text-slate-400 text-lg max-w-2xl mx-auto">نقدم خدمات متكاملة في التصميم البصري، بناء المتاجر، وحلول إكسيل المتقدمة.</p>
+            <h1 id="hero-title" class="text-3xl md:text-5xl lg:text-6xl font-black leading-tight max-w-3xl mx-auto">نحول أفكارك إلى واقع رقمي استثنائي</h1>
+            <p id="hero-subtitle" class="text-slate-300 text-lg md:text-xl max-w-2xl mx-auto font-medium leading-relaxed opacity-90">نقدم خدمات متكاملة في التصميم البصري، بناء المتاجر، وحلول إكسيل المتقدمة.</p>
             
             <div id="image-container" class="hidden pt-6 rounded-3xl overflow-hidden max-w-2xl mx-auto">
                 <img id="main-image" src="" alt="صورة توضيحية" class="w-full h-auto rounded-2xl shadow-2xl border border-slate-800">
@@ -39,31 +44,31 @@
     </section>
 
     <!-- قسم نبذة عني (About) -->
-    <section id="about" class="py-20 px-6 bg-slate-950/50 border-y border-slate-800/60">
-        <div class="max-w-4xl mx-auto text-center space-y-6">
+    <section id="about" class="py-24 px-6 bg-slate-900/40 border-y border-slate-800/60">
+        <div class="max-w-3xl mx-auto text-center space-y-6">
             <h2 id="about-title" class="text-3xl font-black text-blue-400">نبذة عني</h2>
-            <p id="about-text" class="text-slate-300 leading-relaxed text-lg">أعمل كمهندس جرافيك ومطور حلول برمجية ومتاجر إلكترونية، بخبرة عملية واسعة في تقديم حلول تقنية وتصميمية متقدمة تلبي تطلعات العملاء بدقة واحترافية عالية.</p>
+            <p id="about-text" class="text-slate-200 leading-loose text-lg font-normal">أعمل كمهندس جرافيك ومطور حلول برمجية ومتاجر إلكترونية، بخبرة عملية واسعة في تقديم حلول تقنية وتصميمية متقدمة تلبي تطلعات العملاء بدقة واحترافية عالية.</p>
         </div>
     </section>
 
     <!-- قسم خدماتي (Services) -->
-    <section id="services" class="py-24 px-6 max-w-7xl mx-auto">
+    <section id="services" class="py-28 px-6 max-w-7xl mx-auto">
         <div class="text-center mb-16 space-y-3">
-            <h2 class="text-3xl font-black">خدماتي الاحترافية</h2>
-            <p class="text-slate-400">حلول رقمية متكاملة مصممة خصيصاً لنجاح مشروعك</p>
+            <h2 class="text-3xl md:text-4xl font-black">خدماتي الاحترافية</h2>
+            <p class="text-slate-400 text-base">حلول رقمية متكاملة مصممة خصيصاً لنجاح مشروعك وتفوقك التجاري</p>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="bg-slate-800/40 border border-slate-800 p-8 rounded-3xl hover:border-blue-500/50 transition space-y-4">
+            <div class="bg-slate-900/60 border border-slate-800/80 p-8 rounded-3xl hover:border-blue-500/50 transition-all duration-300 space-y-4 shadow-xl">
                 <div class="w-14 h-14 bg-blue-600/10 rounded-2xl flex items-center justify-center text-blue-400 text-2xl"><i class="fas fa-paint-brush"></i></div>
                 <h3 id="serv-1-title" class="text-xl font-bold">التصميم البصري والهوية</h3>
                 <p id="serv-1-desc" class="text-slate-400 text-sm leading-relaxed">تصميم الهويات التجارية، الشعارات، والمطبوعات الإعلانية بأعلى معايير الجودة والإبداع.</p>
             </div>
-            <div class="bg-slate-800/40 border border-slate-800 p-8 rounded-3xl hover:border-blue-500/50 transition space-y-4">
+            <div class="bg-slate-900/60 border border-slate-800/80 p-8 rounded-3xl hover:border-blue-500/50 transition-all duration-300 space-y-4 shadow-xl">
                 <div class="w-14 h-14 bg-blue-600/10 rounded-2xl flex items-center justify-center text-blue-400 text-2xl"><i class="fas fa-store"></i></div>
                 <h3 id="serv-2-title" class="text-xl font-bold">تطوير المتاجر الإلكترونية</h3>
                 <p id="serv-2-desc" class="text-slate-400 text-sm leading-relaxed">بناء وبرمجة المتاجر السريعة وتكاملها مع أنظمة الدفع والتحكم السحابي المباشر.</p>
             </div>
-            <div class="bg-slate-800/40 border border-slate-800 p-8 rounded-3xl hover:border-blue-500/50 transition space-y-4">
+            <div class="bg-slate-900/60 border border-slate-800/80 p-8 rounded-3xl hover:border-blue-500/50 transition-all duration-300 space-y-4 shadow-xl">
                 <div class="w-14 h-14 bg-blue-600/10 rounded-2xl flex items-center justify-center text-blue-400 text-2xl"><i class="fas fa-file-excel"></i></div>
                 <h3 id="serv-3-title" class="text-xl font-bold">حلول إكسيل المتقدمة</h3>
                 <p id="serv-3-desc" class="text-slate-400 text-sm leading-relaxed">تصميم قواعد بيانات مخصصة وشاشات تفاعلية باستخدام VBA لتنظيم إدارة الأعمال بدقة.</p>
@@ -72,7 +77,7 @@
     </section>
 
     <!-- الفوتر -->
-    <footer class="py-10 text-center text-slate-500 border-t border-slate-800/80 text-sm">
+    <footer class="py-10 text-center text-slate-500 border-t border-slate-800/60 text-sm">
         <p>© 2026 جميع الحقوق محفوظة - أحمد محمود أبوهاشم</p>
     </footer>
 
@@ -100,7 +105,6 @@
                 if(data.aboutTitle) document.getElementById('about-title').innerText = data.aboutTitle;
                 if(data.aboutText) document.getElementById('about-text').innerText = data.aboutText;
 
-                // تحليل خدمات الأدمن وعرضها
                 if(data.service1) {
                     const parts = data.service1.split('|');
                     if(parts[0]) document.getElementById('serv-1-title').innerText = parts[0].trim();
