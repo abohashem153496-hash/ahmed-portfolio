@@ -40,23 +40,24 @@
                 </div>
             </div>
 
-            <!-- إضافة منتج جديد للمتجر -->
+            <!-- إضافة منتج جديد مع رفع الصورة مباشرة -->
             <div class="bg-slate-800/50 p-5 rounded-2xl border border-slate-700/60 space-y-4">
-                <h2 class="font-bold text-blue-300 text-lg">2. إضافة منتج رياضي جديد</h2>
+                <h2 class="font-bold text-blue-300 text-lg">2. إضافة منتج جديد مع رفع الصورة من جهازك</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm mb-1 text-slate-300">اسم المنتج</label>
-                        <input type="text" id="new-title" placeholder="مثال: طقم ريال مدريد الأساسي" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
+                        <input type="text" id="new-title" placeholder="مثال: طقم ريال مدريد" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
                     </div>
                     <div>
                         <label class="block text-sm mb-1 text-slate-300">السعر</label>
                         <input type="text" id="new-price" placeholder="مثال: 450 ج.م" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
                     </div>
                 </div>
+                
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm mb-1 text-slate-300">رابط صورة المنتج</label>
-                        <input type="text" id="new-img" placeholder="رابط الصورة..." class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
+                        <label class="block text-sm mb-1 text-slate-300">اختر صورة المنتج من جهازك</label>
+                        <input type="file" id="new-img-file" accept="image/*" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-sm text-slate-300 file:ml-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-500 cursor-pointer">
                     </div>
                     <div>
                         <label class="block text-sm mb-1 text-slate-300">اختر القسم</label>
@@ -69,11 +70,13 @@
                         </select>
                     </div>
                 </div>
+
                 <div>
-                    <label class="block text-sm mb-1 text-slate-300">المقاسات المتاحة (مثال: S, M, L, XL)</label>
+                    <label class="block text-sm mb-1 text-slate-300">المقاسات المتاحة</label>
                     <input type="text" id="new-sizes" placeholder="S, M, L, XL" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
                 </div>
-                <button onclick="addProduct()" class="w-full bg-emerald-600 hover:bg-emerald-500 font-bold py-3.5 rounded-xl transition shadow-lg">إضافة المنتج إلى المتجر ➕</button>
+                
+                <button onclick="addProduct()" class="w-full bg-emerald-600 hover:bg-emerald-500 font-bold py-3.5 rounded-xl transition shadow-lg">رفع الصورة وإضافة المنتج للمتجر ➕</button>
             </div>
 
             <!-- قائمة المنتجات الحالية -->
@@ -88,7 +91,7 @@
         </div>
     </div>
 
-    <!-- Firebase Script -->
+    <!-- Firebase Script & Image Uploader -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, set, push, remove, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
@@ -135,23 +138,36 @@
         window.addProduct = function() {
             const title = document.getElementById('new-title').value;
             const price = document.getElementById('new-price').value;
-            const img = document.getElementById('new-img').value;
             const category = document.getElementById('new-category').value;
             const sizes = document.getElementById('new-sizes').value;
+            const fileInput = document.getElementById('new-img-file');
 
             if(!title || !price) {
                 alert('الرجاء إدخال اسم المنتج والسعر على الأقل!');
                 return;
             }
 
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imgDataUrl = e.target.result;
+                    saveProductToFirebase(title, price, imgDataUrl, category, sizes);
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                saveProductToFirebase(title, price, '', category, sizes);
+            }
+        };
+
+        function saveProductToFirebase(title, price, img, category, sizes) {
             push(ref(db, 'store/products'), { title, price, img, category, sizes }).then(() => {
-                alert('تم إضافة المنتج بنجاح إلى المتجر السحابي! 🎉');
+                alert('تم رفع الصورة وإضافة المنتج بنجاح إلى المتجر السحابي! 🎉');
                 document.getElementById('new-title').value = '';
                 document.getElementById('new-price').value = '';
-                document.getElementById('new-img').value = '';
                 document.getElementById('new-sizes').value = '';
+                document.getElementById('new-img-file').value = '';
             });
-        };
+        }
 
         window.deleteProduct = function(id) {
             if(confirm('هل أنت متأكد من حذف هذا المنتج؟')) {
