@@ -254,6 +254,11 @@
             msg += `✨ *شكراً لاختياركم متجرنا!*`;
 
             window.open(`https://wa.me/${globalWhatsapp}?text=${encodeURIComponent(msg)}`, '_blank');
+
+            // تفريغ السلة تلقائياً وإغلاق النافذة بعد إرسال الطلب
+            cart = [];
+            updateCartUI();
+            toggleCart();
         };
     </script>
 </body>
