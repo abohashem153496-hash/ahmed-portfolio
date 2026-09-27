@@ -55,10 +55,9 @@
                 </div>
             </div>
 
-            <!-- 2. إضافة / تعديل منتج أو إعلان -->
+            <!-- 2. إضافة منتج جديد -->
             <div class="bg-slate-800/50 p-5 rounded-2xl border border-slate-700/60 space-y-4">
-                <h2 id="form-title-text" class="font-bold text-blue-300 text-lg">2. إضافة منتج / عمل طباعة جديد</h2>
-                <input type="hidden" id="edit-product-id" value="">
+                <h2 class="font-bold text-blue-300 text-lg">2. إضافة منتج / عمل طباعة جديد</h2>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
@@ -104,19 +103,16 @@
                     </div>
                 </div>
 
-                <div class="flex gap-4">
-                    <button onclick="saveProduct()" id="save-btn" class="flex-1 bg-emerald-600 hover:bg-emerald-500 font-bold py-3.5 rounded-xl transition shadow-lg">حفظ وإضافة للمتجر ➕</button>
-                    <button onclick="cancelEdit()" id="cancel-btn" class="hidden bg-slate-700 hover:bg-slate-600 font-bold px-6 py-3.5 rounded-xl transition">إلغاء التعديل</button>
-                </div>
+                <button onclick="addProduct()" class="w-full bg-emerald-600 hover:bg-emerald-500 font-bold py-3.5 rounded-xl transition shadow-lg">حفظ وإضافة إعلان جديد للمتجر ➕</button>
             </div>
 
-            <!-- 3. قائمة المنتجات والاعلانات المنشورة تحت بعضها مع التمرير -->
+            <!-- 3. قائمة المنتجات والاعلانات المنشورة وتعديلها في مكانها -->
             <div class="bg-slate-800/50 p-5 rounded-2xl border border-slate-700/60 space-y-4">
                 <div class="flex justify-between items-center">
-                    <h2 class="font-bold text-blue-300 text-lg">3. المنتجات والإعلانات المنشورة</h2>
+                    <h2 class="font-bold text-blue-300 text-lg">3. المنتجات والإعلانات المنشورة (تعديل مباشر في مكانها)</h2>
                     <span id="products-count" class="text-xs bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full font-bold">0 إعلان</span>
                 </div>
-                <div id="admin-products-list" class="space-y-3 max-h-[450px] overflow-y-auto pr-2"></div>
+                <div id="admin-products-list" class="space-y-4 max-h-[500px] overflow-y-auto pr-2"></div>
             </div>
 
             <button onclick="saveGlobalSettings()" class="w-full bg-blue-600 hover:bg-blue-500 font-black text-lg py-4 rounded-2xl transition shadow-2xl">حفظ إعدادات المتجر العامة والغلاف والألوان 🚀</button>
@@ -158,19 +154,77 @@
 
                 keys.forEach(id => {
                     const prod = productsData[id];
-                    const firstImg = (prod.images && prod.images.length > 0) ? prod.images[0] : (prod.img || 'https://via.placeholder.com/100');
+                    const imagesArr = prod.images && prod.images.length > 0 ? prod.images : [prod.img || 'https://via.placeholder.com/100'];
+                    const firstImg = imagesArr[0];
+
+                    let imagesThumbHtml = '';
+                    imagesArr.forEach((imgSrc, imgIdx) => {
+                        imagesThumbHtml += `
+                            <div class="relative group inline-block">
+                                <img src="${imgSrc}" class="w-12 h-12 object-cover rounded-lg border border-slate-600">
+                                <button onclick="removeImageFromExisting('${id}', ${imgIdx})" class="absolute -top-1.5 -left-1.5 bg-red-600 hover:bg-red-500 text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold shadow transition" title="حذف هذه الصورة">✕</button>
+                            </div>
+                        `;
+                    });
+
                     listEl.innerHTML += `
-                        <div class="flex items-center justify-between bg-slate-800/90 p-3.5 rounded-xl border border-slate-700 hover:border-blue-500/50 transition">
-                            <div class="flex items-center gap-3.5">
-                                <img src="${firstImg}" class="w-14 h-14 object-cover rounded-xl border border-slate-700">
-                                <div>
-                                    <h4 class="font-bold text-sm text-white">${prod.title}</h4>
-                                    <p class="text-xs text-slate-400 mt-0.5"><span class="text-blue-400 font-semibold">${prod.price}</span> | القسم: ${prod.category || 'عام'} | العدد: ${prod.stock || 'متاح'}</p>
+                        <div class="bg-slate-800/90 p-4 rounded-2xl border border-slate-700 space-y-3">
+                            <!-- عرض رأس الإعلان -->
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <img src="${firstImg}" class="w-12 h-12 object-cover rounded-xl border border-slate-700">
+                                    <div>
+                                        <h4 class="font-bold text-sm text-white">${prod.title}</h4>
+                                        <p class="text-xs text-slate-400"><span class="text-blue-400 font-semibold">${prod.price}</span> | القسم: ${prod.category || 'عام'} | العدد: ${prod.stock || 'متاح'}</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button onclick="toggleEditBox('${id}')" id="edit-btn-${id}" class="bg-blue-600 hover:bg-blue-500 text-xs px-3.5 py-2 rounded-xl font-bold transition shadow">تعديل الإعلان ⚙️</button>
+                                    <button onclick="deleteProduct('${id}')" class="bg-red-600 hover:bg-red-500 text-xs px-3.5 py-2 rounded-xl font-bold transition shadow">حذف</button>
                                 </div>
                             </div>
-                            <div class="flex gap-2">
-                                <button onclick="startEdit('${id}')" class="bg-blue-600 hover:bg-blue-500 text-xs px-3.5 py-2 rounded-lg font-bold transition shadow">تعديل</button>
-                                <button onclick="deleteProduct('${id}')" class="bg-red-600 hover:bg-red-500 text-xs px-3.5 py-2 rounded-lg font-bold transition shadow">حذف</button>
+
+                            <!-- صندوق التعديل المخفي الذي يفتح في مكانه -->
+                            <div id="edit-box-${id}" class="hidden bg-slate-900/90 p-4 rounded-xl border border-indigo-500/40 space-y-3 mt-3">
+                                <h5 class="text-xs font-bold text-indigo-400">تعديل تفاصيل الإعلان:</h5>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <input type="text" id="edit-title-${id}" value="${prod.title || ''}" placeholder="اسم الإعلان..." class="bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-xs text-white">
+                                    <input type="text" id="edit-price-${id}" value="${prod.price || ''}" placeholder="السعر..." class="bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-xs text-white">
+                                </div>
+
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                    <input type="text" id="edit-video-${id}" value="${prod.video || ''}" placeholder="رابط فيديو..." class="bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-xs text-white">
+                                    <input type="number" id="edit-stock-${id}" value="${prod.stock || ''}" placeholder="العدد..." class="bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-xs text-white">
+                                    <input type="text" id="edit-sizes-${id}" value="${prod.sizes || ''}" placeholder="المقاسات..." class="bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-xs text-white">
+                                </div>
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <select id="edit-category-${id}" class="bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-xs text-white">
+                                        <option value="printing" ${prod.category==='printing'?'selected':''}>🖨️ قسم الطباعة والتصاميم</option>
+                                        <option value="offers" ${prod.category==='offers'?'selected':''}>🔥 العروض الخاصة</option>
+                                        <option value="sets" ${prod.category==='sets'?'selected':''}>⚽ الأطقم الرياضية</option>
+                                        <option value="pieces" ${prod.category==='pieces'?'selected':''}>👕 القطع الفردية</option>
+                                        <option value="stretches" ${prod.category==='stretches'?'selected':''}>⚡ الاستريزات</option>
+                                        <option value="sports" ${prod.category==='sports'?'selected':''}>🏃‍♂️ ملابس رياضية متنوعة</option>
+                                    </select>
+                                    <div>
+                                        <label class="block text-[10px] text-slate-400 mb-1">إضافة صور جديدة للإعلان:</label>
+                                        <input type="file" id="edit-new-files-${id}" accept="image/*" multiple class="bg-slate-800 border border-slate-700 rounded-xl p-1.5 text-[10px] text-slate-300 file:py-1 file:px-2 file:rounded file:border-0 file:bg-blue-600 file:text-white cursor-pointer w-full">
+                                    </div>
+                                </div>
+
+                                <!-- عرض الصور الحالية مع إمكانية حذف أي صورة -->
+                                <div>
+                                    <label class="block text-[10px] text-slate-400 mb-1.5">الصور الحالية (اضغط ✕ لحذف صورة معينة):</label>
+                                    <div class="flex flex-wrap gap-2 p-2 bg-slate-950/60 rounded-xl border border-slate-800">
+                                        ${imagesThumbHtml}
+                                    </div>
+                                </div>
+
+                                <div class="flex gap-2 pt-2">
+                                    <button onclick="saveInlineEdit('${id}')" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-xs font-bold py-2.5 rounded-xl transition shadow">حفظ تعديلات الإعلان 💾</button>
+                                    <button onclick="toggleEditBox('${id}')" class="bg-slate-700 hover:bg-slate-600 text-xs font-bold px-4 py-2.5 rounded-xl transition">إلغاء</button>
+                                </div>
                             </div>
                         </div>
                     `;
@@ -207,8 +261,7 @@
             });
         }
 
-        window.saveProduct = async function() {
-            const editId = document.getElementById('edit-product-id').value;
+        window.addProduct = async function() {
             const title = document.getElementById('new-title').value;
             const price = document.getElementById('new-price').value;
             const video = document.getElementById('new-video').value;
@@ -219,72 +272,70 @@
 
             if(!title || !price) { alert('أدخل اسم الإعلان والسعر!'); return; }
 
-            let imagesList = editId && productsData[editId].images ? productsData[editId].images : [];
-            if(editId && productsData[editId].img && imagesList.length === 0) {
-                imagesList.push(productsData[editId].img);
-            }
-
+            let imagesList = [];
             if (fileInput.files && fileInput.files.length > 0) {
                 for (let i = 0; i < fileInput.files.length; i++) {
                     const compressed = await compressImage(fileInput.files[i]);
                     imagesList.push(compressed);
                 }
-            }
-
-            if(imagesList.length === 0) {
+            } else {
                 imagesList.push('https://via.placeholder.com/400');
             }
 
             const productData = { title, price, images: imagesList, img: imagesList[0], video, stock, category, sizes };
+            await push(ref(db, 'store/products'), productData);
+            alert('تمت إضافة الإعلان بنجاح! ➕');
 
-            if(editId) {
-                await update(ref(db, `store/products/${editId}`), productData);
-                alert('تم تحديث وتعديل الإعلان بنجاح! 💾');
-                cancelEdit();
-            } else {
-                await push(ref(db, 'store/products'), productData);
-                alert('تمت إضافة الإعلان بنجاح! ➕');
+            document.getElementById('new-title').value = '';
+            document.getElementById('new-price').value = '';
+            document.getElementById('new-video').value = '';
+            document.getElementById('new-stock').value = '';
+            document.getElementById('new-sizes').value = '';
+            document.getElementById('new-img-files').value = '';
+        };
+
+        window.toggleEditBox = function(id) {
+            const box = document.getElementById(`edit-box-${id}`);
+            box.classList.toggle('hidden');
+        };
+
+        window.removeImageFromExisting = async function(id, imgIdx) {
+            if(confirm('هل تريد حذف هذه الصورة من الإعلان؟')) {
+                let images = productsData[id].images || [productsData[id].img];
+                if(images.length <= 1) {
+                    alert('لا يمكن حذف الصورة الوحيدة المتبقية للإعلان!');
+                    return;
+                }
+                images.splice(imgIdx, 1);
+                const updatedData = { images: images, img: images[0] };
+                await update(ref(db, `store/products/${id}`), updatedData);
+            }
+        };
+
+        window.saveInlineEdit = async function(id) {
+            const title = document.getElementById(`edit-title-${id}`).value;
+            const price = document.getElementById(`edit-price-${id}`).value;
+            const video = document.getElementById(`edit-video-${id}`).value;
+            const stock = document.getElementById(`edit-stock-${id}`).value;
+            const sizes = document.getElementById(`edit-sizes-${id}`).value;
+            const category = document.getElementById(`edit-category-${id}`).value;
+            const newFilesInput = document.getElementById(`edit-new-files-${id}`);
+
+            if(!title || !price) { alert('أدخل اسم الإعلان والسعر!'); return; }
+
+            let imagesList = productsData[id].images || [productsData[id].img];
+
+            if (newFilesInput.files && newFilesInput.files.length > 0) {
+                for (let i = 0; i < newFilesInput.files.length; i++) {
+                    const compressed = await compressImage(newFilesInput.files[i]);
+                    imagesList.push(compressed);
+                }
             }
 
-            document.getElementById('new-title').value = '';
-            document.getElementById('new-price').value = '';
-            document.getElementById('new-video').value = '';
-            document.getElementById('new-stock').value = '';
-            document.getElementById('new-sizes').value = '';
-            document.getElementById('new-img-files').value = '';
-        };
-
-        window.startEdit = function(id) {
-            const prod = productsData[id];
-            document.getElementById('edit-product-id').value = id;
-            document.getElementById('new-title').value = prod.title || '';
-            document.getElementById('new-price').value = prod.price || '';
-            document.getElementById('new-video').value = prod.video || '';
-            document.getElementById('new-stock').value = prod.stock || '';
-            document.getElementById('new-category').value = prod.category || 'offers';
-            document.getElementById('new-sizes').value = prod.sizes || '';
-
-            document.getElementById('form-title-text').innerText = `تعديل الإعلان: ${prod.title} ✏️`;
-            document.getElementById('save-btn').innerText = "حفظ التعديلات الحالية 💾";
-            document.getElementById('save-btn').classList.remove('bg-emerald-600', 'hover:bg-emerald-500');
-            document.getElementById('save-btn').classList.add('bg-blue-600', 'hover:bg-blue-500');
-            document.getElementById('cancel-btn').classList.remove('hidden');
-        };
-
-        window.cancelEdit = function() {
-            document.getElementById('edit-product-id').value = '';
-            document.getElementById('new-title').value = '';
-            document.getElementById('new-price').value = '';
-            document.getElementById('new-video').value = '';
-            document.getElementById('new-stock').value = '';
-            document.getElementById('new-sizes').value = '';
-            document.getElementById('new-img-files').value = '';
-
-            document.getElementById('form-title-text').innerText = "2. إضافة منتج / عمل طباعة جديد";
-            document.getElementById('save-btn').innerText = "حفظ وإضافة للمتجر ➕";
-            document.getElementById('save-btn').classList.remove('bg-blue-600', 'hover:bg-blue-500');
-            document.getElementById('save-btn').classList.add('bg-emerald-600', 'hover:bg-emerald-500');
-            document.getElementById('cancel-btn').classList.add('hidden');
+            const productData = { title, price, images: imagesList, img: imagesList[0], video, stock, category, sizes };
+            await update(ref(db, `store/products/${id}`), productData);
+            alert('تم حفظ تعديلات الإعلان بنجاح! 💾');
+            toggleEditBox(id);
         };
 
         window.deleteProduct = function(id) {
