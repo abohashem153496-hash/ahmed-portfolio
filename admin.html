@@ -10,10 +10,10 @@
 </head>
 <body class="bg-slate-950 text-white min-h-screen p-4 md:p-6">
 
-    <!-- شاشة تسجيل الدخول -->
+    <!-- شاشة تسجيل الدخول (تم إخفاء كلمة المرور تماماً) -->
     <div id="login-screen" class="max-w-md mx-auto mt-20 bg-slate-900 border border-slate-800 p-6 md:p-8 rounded-3xl shadow-2xl text-center">
         <h1 class="text-xl md:text-2xl font-black mb-3 text-blue-400">تسجيل دخول المدير العام</h1>
-        <p class="text-slate-400 text-xs md:text-sm mb-5">أدخل كلمة المرور السرية (ahmed123)</p>
+        <p class="text-slate-400 text-xs md:text-sm mb-5">أدخل كلمة المرور السرية</p>
         <input type="password" id="inp-pass" placeholder="كلمة المرور..." class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white text-center mb-4 focus:outline-none focus:border-blue-500 text-sm">
         <button onclick="checkPassword()" class="w-full bg-blue-600 hover:bg-blue-500 font-bold py-3 rounded-xl transition shadow-lg text-sm">دخول لوحة التحكم</button>
     </div>
@@ -71,23 +71,23 @@
                 </div>
             </div>
 
-            <!-- 2. إضافة منتج جديد -->
+            <!-- 2. إضافة منتج جديد (كل الحقول اختيارية) -->
             <div class="bg-slate-800/50 p-4 md:p-5 rounded-2xl border border-slate-700/60 space-y-4">
-                <h2 class="font-bold text-blue-300 text-base md:text-lg">2. إضافة منتج أو إعلان جديد</h2>
+                <h2 class="font-bold text-blue-300 text-base md:text-lg">2. إضافة منتج أو إعلان جديد (جميع الحقول اختيارية)</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-xs mb-1 text-slate-300">اسم المنتج / الإعلان</label>
+                        <label class="block text-xs mb-1 text-slate-300">اسم المنتج / الإعلان (اختياري)</label>
                         <input type="text" id="new-title" placeholder="اسم المنتج..." class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-xs text-white">
                     </div>
                     <div>
-                        <label class="block text-xs mb-1 text-slate-300">السعر</label>
+                        <label class="block text-xs mb-1 text-slate-300">السعر (اختياري)</label>
                         <input type="text" id="new-price" placeholder="السعر..." class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-xs text-white">
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                     <div>
-                        <label class="block text-xs mb-1 text-slate-300">صور الإعلان (متاح عدة صور)</label>
+                        <label class="block text-xs mb-1 text-slate-300">صور الإعلان (اختياري)</label>
                         <input type="file" id="new-img-files" accept="image/*" multiple class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2 text-xs text-slate-300 file:py-1 file:px-2 file:rounded file:border-0 file:bg-blue-600 file:text-white cursor-pointer">
                     </div>
                     <div>
@@ -95,7 +95,7 @@
                         <input type="text" id="new-video" placeholder="رابط يوتيوب..." class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-xs text-white">
                     </div>
                     <div>
-                        <label class="block text-xs mb-1 text-slate-300">الكمية (العدد)</label>
+                        <label class="block text-xs mb-1 text-slate-300">الكمية (اختياري)</label>
                         <input type="number" id="new-stock" placeholder="العدد..." class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-xs text-white">
                     </div>
                 </div>
@@ -117,7 +117,7 @@
                     <div>
                         <label class="block text-xs mb-1 text-slate-300">المقاسات المتاحة (اكتبها أو اخترها)</label>
                         <div class="flex gap-2">
-                            <input type="text" id="new-sizes" placeholder="S, M, L, XL أو متاح جميع المقاسات" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-xs text-white">
+                            <input type="text" id="new-sizes" placeholder="S, M, L, XL أو متاح" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-xs text-white">
                             <select onchange="document.getElementById('new-sizes').value = this.value" class="bg-slate-800 border border-slate-700 rounded-xl p-2 text-xs text-slate-300">
                                 <option value="">اختر مقاس...</option>
                                 <option value="متاح جميع المقاسات">متاح جميع المقاسات</option>
@@ -202,8 +202,8 @@
                                 <div class="flex items-center gap-2.5 overflow-hidden">
                                     <img src="${firstImg}" class="w-12 h-12 object-cover rounded-xl border border-slate-700 shrink-0">
                                     <div class="truncate">
-                                        <h4 class="font-bold text-xs text-white truncate">${prod.title}</h4>
-                                        <p class="text-[11px] text-slate-400 mt-0.5"><span class="text-blue-400 font-semibold">${prod.price}</span> | القسم: ${prod.category || 'عام'}</p>
+                                        <h4 class="font-bold text-xs text-white truncate">${prod.title || 'بدون اسم'}</h4>
+                                        <p class="text-[11px] text-slate-400 mt-0.5"><span class="text-blue-400 font-semibold">${prod.price || 'بدون سعر'}</span> | القسم: ${prod.category || 'عام'}</p>
                                     </div>
                                 </div>
                                 <div class="flex gap-1.5 shrink-0">
@@ -214,7 +214,7 @@
 
                             <!-- صندوق التعديل المخفي -->
                             <div id="edit-box-${id}" class="hidden bg-slate-900/95 p-3 rounded-xl border border-indigo-500/40 space-y-2.5 mt-2">
-                                <h5 class="text-[11px] font-bold text-indigo-400">تعديل كافة تفاصيل الإعلان:</h5>
+                                <h5 class="text-[11px] font-bold text-indigo-400">تعديل كافة تفاصيل الإعلان (اختياري):</h5>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
                                     <input type="text" id="edit-title-${id}" value="${prod.title || ''}" placeholder="اسم الإعلان..." class="bg-slate-800 border border-slate-700 rounded-xl p-2 text-xs text-white">
                                     <input type="text" id="edit-price-${id}" value="${prod.price || ''}" placeholder="السعر..." class="bg-slate-800 border border-slate-700 rounded-xl p-2 text-xs text-white">
@@ -290,15 +290,13 @@
         }
 
         window.addProduct = async function() {
-            const title = document.getElementById('new-title').value;
-            const price = document.getElementById('new-price').value;
-            const video = document.getElementById('new-video').value;
-            const stock = document.getElementById('new-stock').value;
+            const title = document.getElementById('new-title').value || 'إعلان رياضي';
+            const price = document.getElementById('new-price').value || '';
+            const video = document.getElementById('new-video').value || '';
+            const stock = document.getElementById('new-stock').value || '';
             const category = document.getElementById('new-category').value;
-            const sizes = document.getElementById('new-sizes').value;
+            const sizes = document.getElementById('new-sizes').value || '';
             const fileInput = document.getElementById('new-img-files');
-
-            if(!title || !price) { alert('أدخل اسم الإعلان والسعر!'); return; }
 
             let imagesList = [];
             if (fileInput.files && fileInput.files.length > 0) {
@@ -312,6 +310,8 @@
             document.getElementById('new-title').value = '';
             document.getElementById('new-price').value = '';
             document.getElementById('new-sizes').value = '';
+            document.getElementById('new-stock').value = '';
+            document.getElementById('new-video').value = '';
             loadAdminData();
         };
 
@@ -333,15 +333,13 @@
         };
 
         window.saveInlineEdit = async function(id) {
-            const title = document.getElementById(`edit-title-${id}`).value;
-            const price = document.getElementById(`edit-price-${id}`).value;
-            const video = document.getElementById(`edit-video-${id}`).value;
-            const stock = document.getElementById(`edit-stock-${id}`).value;
-            const sizes = document.getElementById(`edit-sizes-${id}`).value;
+            const title = document.getElementById(`edit-title-${id}`).value || 'إعلان رياضي';
+            const price = document.getElementById(`edit-price-${id}`).value || '';
+            const video = document.getElementById(`edit-video-${id}`).value || '';
+            const stock = document.getElementById(`edit-stock-${id}`).value || '';
+            const sizes = document.getElementById(`edit-sizes-${id}`).value || '';
             const category = document.getElementById(`edit-category-${id}`).value;
             const newFilesInput = document.getElementById(`edit-new-files-${id}`);
-
-            if(!title || !price) { alert('أدخل اسم الإعلان والسعر!'); return; }
 
             let imagesList = productsData[id].images || [productsData[id].img];
             if (newFilesInput.files && newFilesInput.files.length > 0) {
