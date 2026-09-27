@@ -212,7 +212,8 @@
             itemsEl.innerHTML = '';
             let total = 0;
             cart.forEach((item, idx) => {
-                total += parseFloat(item.price) || 0;
+                const numericPrice = parseFloat(item.price.replace(/[^\d.]/g, '')) || 0;
+                total += numericPrice;
                 itemsEl.innerHTML += `
                     <div class="flex items-center justify-between bg-slate-800 p-3 rounded-xl border border-slate-700">
                         <div class="flex items-center gap-3">
@@ -226,7 +227,7 @@
                     </div>
                 `;
             });
-            document.getElementById('cart-total').innerText = total + " ج.م / ر.س";
+            document.getElementById('cart-total').innerText = total + " ج.م";
         }
 
         window.removeFromCart = function(idx) { cart.splice(idx, 1); updateCartUI(); };
@@ -234,14 +235,22 @@
         window.checkoutWhatsApp = function() {
             if(cart.length === 0) { alert('السلة فارغة!'); return; }
             
+            let totalAmount = 0;
             let msg = `🛒 *طلب جديد من ${storeTitle}*\n`;
             msg += `━━━━━━━━━━━━━━━━━━━\n`;
+            
             cart.forEach((item, i) => {
+                const numericPrice = parseFloat(item.price.replace(/[^\d.]/g, '')) || 0;
+                totalAmount += numericPrice;
+
                 msg += `*${i+1}. ${item.title}*\n`;
                 msg += `   • السعر: ${item.price}\n`;
                 msg += `   • المقاس: ${item.sizes || 'غير محدد'}\n`;
                 msg += `-----------------------------------\n`;
             });
+
+            msg += `💰 *الإجمالي الكلي: ${totalAmount} ج.م*\n`;
+            msg += `━━━━━━━━━━━━━━━━━━━\n`;
             msg += `✨ *شكراً لاختياركم متجرنا!*`;
 
             window.open(`https://wa.me/${globalWhatsapp}?text=${encodeURIComponent(msg)}`, '_blank');
