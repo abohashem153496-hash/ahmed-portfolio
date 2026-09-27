@@ -104,10 +104,10 @@
         <p>© 2026 Sports House - جميع الحقوق محفوظة</p>
     </footer>
 
-    <!-- Firebase SDK -->
+    <!-- Firebase SDK (تحديث لحي فوري تلقائي) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         const firebaseConfig = { databaseURL: "https://car-orders-default-rtdb.firebaseio.com/" };
         const app = initializeApp(firebaseConfig);
@@ -116,34 +116,27 @@
         let allProducts = [];
         let currentFilter = 'all';
         let cart = [];
-        let globalWhatsapp = "201050080515"; // الرقم الأساسي الجديد والثابت
+        let globalWhatsapp = "201050080515";
         let primaryColorHex = "#3b82f6";
         let storeTitle = "Sports House";
 
         let activeModalImages = [];
         let activeModalIndex = 0;
 
-        // التحميل الفوري من الذاكرة المحلية
+        // التحميل الفوري من الذاكرة المحلية أولاً لفتح الصفحة في أقل من ثانية
         const cachedData = localStorage.getItem('store_cache_data');
         if (cachedData) {
-            try {
-                const data = JSON.parse(cachedData);
-                processStoreData(data);
-            } catch(e) {}
+            try { processStoreData(JSON.parse(cachedData)); } catch(e) {}
         }
 
-        // جلب وتحديث البيانات من السحابة في الخلفية
-        async function fetchInstantData() {
-            try {
-                const snapshot = await get(ref(db, 'store'));
-                const data = snapshot.val();
-                if (data) {
-                    localStorage.setItem('store_cache_data', JSON.stringify(data));
-                    processStoreData(data);
-                }
-            } catch(e) {}
-        }
-        fetchInstantData();
+        // الاستماع للتحديثات اللحظية من السحابة بحيث يظهر أي منتج يتم اضافته من الأدمن فوراً على الصفحة الرئيسية
+        onValue(ref(db, 'store'), (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                localStorage.setItem('store_cache_data', JSON.stringify(data));
+                processStoreData(data);
+            }
+        });
 
         function processStoreData(data) {
             if(data.storeName) {
@@ -151,18 +144,8 @@
                 document.getElementById('store-logo').innerText = storeTitle;
                 document.title = storeTitle;
             }
-            // الرقم الأساسي ثابت دائماً بغض النظر عن أي رقم قديم بالسحابة
 
-            if(data.bannerTitle) {
-                document.getElementById('banner-title').innerText = data.bannerTitle;
-            }
-            if(data.fontStyle) {
-                const bannerEl = document.getElementById('banner-title');
-                if(data.fontStyle === 'montserrat') bannerEl.style.fontFamily = "'Montserrat', sans-serif";
-                else if(data.fontStyle === 'cairo') bannerEl.style.fontFamily = "'Cairo', sans-serif";
-                else if(data.fontStyle === 'amiri') bannerEl.style.fontFamily = "'Amiri', serif";
-            }
-
+            if(data.bannerTitle) document.getElementById('banner-title').innerText = data.bannerTitle;
             if(data.bgColor) document.body.style.backgroundColor = data.bgColor;
             if(data.primaryColor) {
                 primaryColorHex = data.primaryColor;
@@ -222,7 +205,7 @@
                     }
 
                     let media = `<div class="h-44 md:h-52 bg-slate-950 relative cursor-pointer flex items-center justify-center overflow-hidden p-1.5">
-                        <img src="${mainImg}" alt="${prod.title}" class="product-main-img max-h-full max-w-full object-contain hover:scale-105 transition duration-300" loading="lazy" onclick="openImageModal(${imagesJson}, 0)">
+                        <img src="${mainImg}" alt="${prod.title || ''}" class="product-main-img max-h-full max-w-full object-contain hover:scale-105 transition duration-300" loading="lazy" onclick="openImageModal(${imagesJson}, 0)">
                     </div>`;
 
                     if(prod.video) {
@@ -235,8 +218,8 @@
                                 ${media}
                                 ${thumbsHtml}
                                 <div class="p-3 space-y-1.5">
-                                    <h3 class="font-bold text-xs md:text-sm text-white truncate">${prod.title}</h3>
-                                    <p class="font-black text-sm md:text-base" style="color: ${primaryColorHex};">${prod.price}</p>
+                                    <h3 class="font-bold text-xs md:text-sm text-white truncate">${prod.title || 'منتج رياضي'}</h3>
+                                    <p class="font-black text-sm md:text-base" style="color: ${primaryColorHex};">${prod.price || ''}</p>
                                     <div class="flex justify-between text-[10px] md:text-xs text-slate-400">
                                         <span>التفاصيل: <b class="text-slate-200">${prod.sizes || 'متاح'}</b></span>
                                         <span>العدد: <b class="text-emerald-400">${prod.stock || 'متاح'}</b></span>
@@ -314,15 +297,15 @@
             itemsEl.innerHTML = '';
             let total = 0;
             cart.forEach((item, idx) => {
-                const numericPrice = parseFloat(item.price.replace(/[^\d.]/g, '')) || 0;
+                const numericPrice = parseFloat((item.price || '').replace(/[^\d.]/g, '')) || 0;
                 total += numericPrice;
                 itemsEl.innerHTML += `
                     <div class="flex items-center justify-between bg-slate-800 p-2.5 rounded-xl border border-slate-700">
                         <div class="flex items-center gap-2.5">
                             <img src="${item.img || ''}" class="w-9 h-9 object-cover rounded-lg">
                             <div>
-                                <h4 class="font-bold text-xs text-white">${item.title}</h4>
-                                <p class="text-[11px]" style="color: ${primaryColorHex};">${item.price}</p>
+                                <h4 class="font-bold text-xs text-white">${item.title || 'منتج'}</h4>
+                                <p class="text-[11px]" style="color: ${primaryColorHex};">${item.price || ''}</p>
                             </div>
                         </div>
                         <button onclick="removeFromCart(${idx})" class="text-red-400 text-xs font-bold px-2 py-1">حذف</button>
@@ -339,9 +322,9 @@
             let totalAmount = 0;
             let msg = `🛒 *طلب جديد من ${storeTitle}*\n━━━━━━━━━━━━━━━━━━━\n`;
             cart.forEach((item, i) => {
-                const numericPrice = parseFloat(item.price.replace(/[^\d.]/g, '')) || 0;
+                const numericPrice = parseFloat((item.price || '').replace(/[^\d.]/g, '')) || 0;
                 totalAmount += numericPrice;
-                msg += `*${i+1}. ${item.title}*\n   • السعر: ${item.price}\n   • التفاصيل: ${item.sizes || 'غير محدد'}\n-----------------------------------\n`;
+                msg += `*${i+1}. ${item.title || 'منتج'}*\n   • السعر: ${item.price || 'غير محدد'}\n   • التفاصيل: ${item.sizes || 'غير محدد'}\n-----------------------------------\n`;
             });
             msg += `💰 *الإجمالي الكلي: ${totalAmount} ج.م*\n━━━━━━━━━━━━━━━━━━━\n✨ *شكراً لاختياركم متجرنا!*`;
             window.open(`https://wa.me/${globalWhatsapp}?text=${encodeURIComponent(msg)}`, '_blank');
