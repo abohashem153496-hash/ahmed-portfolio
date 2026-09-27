@@ -104,7 +104,7 @@
         <p>© 2026 Sports House - جميع الحقوق محفوظة</p>
     </footer>
 
-    <!-- Firebase SDK (تحديث لحي فوري تلقائي) -->
+    <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
@@ -123,13 +123,11 @@
         let activeModalImages = [];
         let activeModalIndex = 0;
 
-        // التحميل الفوري من الذاكرة المحلية أولاً لفتح الصفحة في أقل من ثانية
         const cachedData = localStorage.getItem('store_cache_data');
         if (cachedData) {
             try { processStoreData(JSON.parse(cachedData)); } catch(e) {}
         }
 
-        // الاستماع للتحديثات اللحظية من السحابة بحيث يظهر أي منتج يتم اضافته من الأدمن فوراً على الصفحة الرئيسية
         onValue(ref(db, 'store'), (snapshot) => {
             const data = snapshot.val();
             if (data) {
@@ -184,9 +182,16 @@
             
             let filtered = [];
             if (cat === 'all') {
-                filtered = allProducts.filter(p => p.category !== 'printing');
+                // يعرض كل المنتجات عدا قسم الطباعة في الصفحة الرئيسية لتبقى منظمة
+                filtered = allProducts.filter(p => (p.category || 'general') !== 'printing');
             } else {
-                filtered = allProducts.filter(p => p.category === cat);
+                // تصفية مرنة تقبل القسم المختار أو المنتجات التي لم تحدد قسماً
+                filtered = allProducts.filter(p => (p.category || 'general') === cat);
+            }
+
+            // إذا كان القسم فارغاً أو اخترنا الكل، اعرض كل المنتجات المتاحة للتأكد من ظهورها دائماً
+            if(filtered.length === 0 && cat === 'all') {
+                filtered = allProducts;
             }
 
             if(filtered.length > 0) {
@@ -235,7 +240,7 @@
                     `;
                 });
             } else {
-                gridEl.innerHTML = `<p class="text-slate-400 col-span-full text-center py-10 font-bold text-sm">جاري عرض المنتجات...</p>`;
+                gridEl.innerHTML = `<p class="text-slate-400 col-span-full text-center py-10 font-bold text-sm">لا توجد منتجات في هذا القسم حالياً.</p>`;
             }
         }
 
