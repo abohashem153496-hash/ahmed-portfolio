@@ -60,7 +60,7 @@
     <!-- شبكة المنتجات -->
     <main class="py-8 px-4 max-w-7xl mx-auto">
         <div id="products-grid" class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
-            <div class="col-span-full text-center py-10 text-slate-500 font-bold text-sm">جاري تحميل المنتجات بسرعة الصاروخ...</div>
+            <div class="col-span-full text-center py-10 text-slate-400 font-bold text-sm">جاري عرض المنتجات...</div>
         </div>
     </main>
 
@@ -104,7 +104,7 @@
     <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         const firebaseConfig = { databaseURL: "https://car-orders-default-rtdb.firebaseio.com/" };
         const app = initializeApp(firebaseConfig);
@@ -120,52 +120,46 @@
         let activeModalImages = [];
         let activeModalIndex = 0;
 
-        async function loadStoreData() {
-            try {
-                const snapshot = await get(ref(db, 'store'));
-                const data = snapshot.val();
-                if (data) {
-                    if(data.storeName) {
-                        storeTitle = data.storeName;
-                        document.getElementById('store-logo').innerText = storeTitle;
-                        document.getElementById('site-title').innerText = storeTitle;
-                    }
-                    if(data.whatsapp) globalWhatsapp = data.whatsapp;
-
-                    if(data.bannerTitle) {
-                        document.getElementById('banner-title').innerText = data.bannerTitle;
-                    }
-                    if(data.fontStyle) {
-                        const bannerEl = document.getElementById('banner-title');
-                        if(data.fontStyle === 'montserrat') bannerEl.style.fontFamily = "'Montserrat', sans-serif";
-                        else if(data.fontStyle === 'cairo') bannerEl.style.fontFamily = "'Cairo', sans-serif";
-                        else if(data.fontStyle === 'amiri') bannerEl.style.fontFamily = "'Amiri', serif";
-                    }
-
-                    if(data.bgColor) document.getElementById('body-bg').style.backgroundColor = data.bgColor;
-                    if(data.primaryColor) {
-                        primaryColorHex = data.primaryColor;
-                        document.getElementById('store-logo').style.color = primaryColorHex;
-                        document.querySelectorAll('.theme-bg').forEach(el => el.style.backgroundColor = primaryColorHex);
-                        document.querySelectorAll('.cat-btn.bg-blue-600').forEach(el => el.style.backgroundColor = primaryColorHex);
-                    }
-
-                    const coverSection = document.getElementById('cover-section');
-                    const coverImg = document.getElementById('cover-img');
-                    if(data.coverImg) {
-                        coverImg.src = data.coverImg;
-                        coverSection.classList.remove('hidden');
-                    } else { coverSection.classList.add('hidden'); }
-
-                    allProducts = data.products ? Object.values(data.products) : [];
-                    renderProducts(currentFilter);
+        // الاتصال اللحظي الفوري بدون أي تأخير في العرض
+        onValue(ref(db, 'store'), (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                if(data.storeName) {
+                    storeTitle = data.storeName;
+                    document.getElementById('store-logo').innerText = storeTitle;
+                    document.getElementById('site-title').innerText = storeTitle;
                 }
-            } catch (e) {
-                console.error(e);
-            }
-        }
+                if(data.whatsapp) globalWhatsapp = data.whatsapp;
 
-        loadStoreData();
+                if(data.bannerTitle) {
+                    document.getElementById('banner-title').innerText = data.bannerTitle;
+                }
+                if(data.fontStyle) {
+                    const bannerEl = document.getElementById('banner-title');
+                    if(data.fontStyle === 'montserrat') bannerEl.style.fontFamily = "'Montserrat', sans-serif";
+                    else if(data.fontStyle === 'cairo') bannerEl.style.fontFamily = "'Cairo', sans-serif";
+                    else if(data.fontStyle === 'amiri') bannerEl.style.fontFamily = "'Amiri', serif";
+                }
+
+                if(data.bgColor) document.getElementById('body-bg').style.backgroundColor = data.bgColor;
+                if(data.primaryColor) {
+                    primaryColorHex = data.primaryColor;
+                    document.getElementById('store-logo').style.color = primaryColorHex;
+                    document.querySelectorAll('.theme-bg').forEach(el => el.style.backgroundColor = primaryColorHex);
+                    document.querySelectorAll('.cat-btn.bg-blue-600').forEach(el => el.style.backgroundColor = primaryColorHex);
+                }
+
+                const coverSection = document.getElementById('cover-section');
+                const coverImg = document.getElementById('cover-img');
+                if(data.coverImg) {
+                    coverImg.src = data.coverImg;
+                    coverSection.classList.remove('hidden');
+                } else { coverSection.classList.add('hidden'); }
+
+                allProducts = data.products ? Object.values(data.products) : [];
+                renderProducts(currentFilter);
+            }
+        });
 
         window.filterCategory = function(cat) {
             currentFilter = cat;
