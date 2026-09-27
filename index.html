@@ -66,9 +66,7 @@
 
     <!-- شبكة المنتجات -->
     <main class="py-8 px-4 max-w-7xl mx-auto">
-        <div id="products-grid" class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
-            <div class="col-span-full text-center py-10 text-slate-400 font-bold text-sm">جاري جلب أحدث المنتجات من السحابة...</div>
-        </div>
+        <div id="products-grid" class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6"></div>
     </main>
 
     <!-- زر الواتساب العايم للاستفسارات -->
@@ -113,7 +111,7 @@
         <p>© 2026 Sports House - جميع الحقوق محفوظة</p>
     </footer>
 
-    <!-- Firebase SDK (اتصال سحابي مباشر وحي 100%) -->
+    <!-- Firebase SDK (اتصال سحابي عالمي حي ومباشر) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
@@ -132,7 +130,7 @@
         let activeModalImages = [];
         let activeModalIndex = 0;
 
-        // استماع مباشر ولحظي من السحابة بدون أي حفظ محلي قديم
+        // الاتصال المباشر بالسحابة لتحديث المتجر عالمياً في الحال
         onValue(ref(db, 'store'), (snapshot) => {
             const data = snapshot.val();
             if (data) {
@@ -157,7 +155,6 @@
                     coverSection.classList.remove('hidden');
                 } else { coverSection.classList.add('hidden'); }
 
-                // جلب المنتجات المحدثة وعكسها لظهر الإعلان الجديد فوراً في أعلى القائمة
                 allProducts = data.products ? Object.values(data.products).reverse() : [];
                 renderProducts(currentFilter);
             }
