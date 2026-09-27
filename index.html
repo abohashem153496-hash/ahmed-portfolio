@@ -157,8 +157,20 @@
 
             if(filtered.length > 0) {
                 filtered.forEach(prod => {
-                    let media = `<div class="h-56 overflow-hidden bg-slate-950 relative cursor-pointer" onclick="openImageModal('${prod.img || ''}')">
-                        <img src="${prod.img || 'https://via.placeholder.com/400'}" alt="${prod.title}" class="w-full h-full object-cover hover:scale-105 transition duration-300" loading="lazy">
+                    const imagesArr = prod.images && prod.images.length > 0 ? prod.images : [prod.img || 'https://via.placeholder.com/400'];
+                    const mainImg = imagesArr[0];
+
+                    let thumbsHtml = '';
+                    if (imagesArr.length > 1) {
+                        thumbsHtml = `<div class="flex gap-1.5 p-2 overflow-x-auto bg-slate-950/80 border-t border-slate-800">`;
+                        imagesArr.forEach(imgSrc => {
+                            thumbsHtml += `<img src="${imgSrc}" class="w-10 h-10 object-cover rounded-md cursor-pointer border border-slate-700 hover:border-blue-500 transition" onclick="changeCardImage(this, '${imgSrc}')">`;
+                        });
+                        thumbsHtml += `</div>`;
+                    }
+
+                    let media = `<div class="h-56 overflow-hidden bg-slate-950 relative cursor-pointer">
+                        <img src="${mainImg}" alt="${prod.title}" class="product-main-img w-full h-full object-cover hover:scale-105 transition duration-300" loading="lazy" onclick="openImageModal('${mainImg}')">
                     </div>`;
 
                     if(prod.video) {
@@ -169,6 +181,7 @@
                         <div class="bg-slate-900/80 border border-slate-800 rounded-2xl overflow-hidden shadow-xl flex flex-col justify-between">
                             <div>
                                 ${media}
+                                ${thumbsHtml}
                                 <div class="p-4 space-y-2">
                                     <h3 class="font-bold text-base text-white">${prod.title}</h3>
                                     <p class="font-black text-lg" style="color: ${primaryColorHex};">${prod.price}</p>
@@ -191,6 +204,15 @@
             }
         }
 
+        window.changeCardImage = function(thumbEl, imgSrc) {
+            const card = thumbEl.closest('.bg-slate-900\\/80');
+            const mainImg = card.querySelector('.product-main-img');
+            if(mainImg) {
+                mainImg.src = imgSrc;
+                mainImg.setAttribute('onclick', `openImageModal('${imgSrc}')`);
+            }
+        };
+
         window.openImageModal = function(imgSrc) {
             if(!imgSrc) return;
             document.getElementById('modal-img-element').src = imgSrc;
@@ -199,7 +221,9 @@
         window.closeImageModal = function() { document.getElementById('image-modal').classList.add('hidden'); };
 
         window.addToCart = function(prod) {
-            cart.push(prod);
+            // نأخذ الصورة الأولى الأساسية للسلة
+            const cartProd = {...prod, img: (prod.images && prod.images.length > 0) ? prod.images[0] : prod.img};
+            cart.push(cartProd);
             updateCartUI();
             toggleCart();
         };
@@ -255,7 +279,6 @@
 
             window.open(`https://wa.me/${globalWhatsapp}?text=${encodeURIComponent(msg)}`, '_blank');
 
-            // تفريغ السلة تلقائياً وإغلاق النافذة بعد إرسال الطلب
             cart = [];
             updateCartUI();
             toggleCart();
