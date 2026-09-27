@@ -56,7 +56,7 @@
                 </div>
             </div>
 
-            <!-- 2. إضافة منتج جديد (كل الحقول اختيارية وتعمل بلمسة واحدة) -->
+            <!-- 2. إضافة منتج جديد (كل الحقول اختيارية) -->
             <div class="bg-slate-800/50 p-4 md:p-5 rounded-2xl border border-slate-700/60 space-y-4">
                 <h2 class="font-bold text-blue-300 text-base md:text-lg">2. إضافة منتج أو إعلان جديد (اختياري)</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -116,13 +116,13 @@
                 <button onclick="addProduct()" class="w-full bg-emerald-600 hover:bg-emerald-500 font-bold py-3 rounded-xl transition shadow-lg text-xs md:text-sm">حفظ وإضافة الإعلان فوراً للمتجر ➕</button>
             </div>
 
-            <!-- 3. قائمة المنتجات والاعلانات المنشورة -->
+            <!-- 3. قائمة المنتجات والاعلانات المنشورة (مع التعديل الشامل الكامل) -->
             <div class="bg-slate-800/50 p-4 md:p-5 rounded-2xl border border-slate-700/60 space-y-4">
                 <div class="flex justify-between items-center">
                     <h2 class="font-bold text-blue-300 text-base md:text-lg">3. المنتجات والاعلانات المنشورة</h2>
                     <span id="products-count" class="text-xs bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full font-bold">0 إعلان</span>
                 </div>
-                <div id="admin-products-list" class="space-y-3 max-h-[450px] overflow-y-auto pr-1"></div>
+                <div id="admin-products-list" class="space-y-3 max-h-[500px] overflow-y-auto pr-1"></div>
             </div>
 
             <button onclick="saveGlobalSettings()" class="w-full bg-blue-600 hover:bg-blue-500 font-black text-sm md:text-base py-3.5 rounded-2xl transition shadow-2xl">حفظ إعدادات المتجر العامة 🚀</button>
@@ -169,6 +169,16 @@
                     const imagesArr = prod.images && prod.images.length > 0 ? prod.images : [prod.img || 'https://via.placeholder.com/100'];
                     const firstImg = imagesArr[0];
 
+                    let imagesThumbHtml = '';
+                    imagesArr.forEach((imgSrc, imgIdx) => {
+                        imagesThumbHtml += `
+                            <div class="relative group inline-block">
+                                <img src="${imgSrc}" class="w-10 h-10 object-cover rounded-lg border border-slate-600">
+                                <button onclick="removeImageFromExisting('${id}', ${imgIdx})" class="absolute -top-1.5 -left-1.5 bg-red-600 hover:bg-red-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold shadow transition">✕</button>
+                            </div>
+                        `;
+                    });
+
                     listEl.innerHTML += `
                         <div class="bg-slate-800/90 p-3 rounded-2xl border border-slate-700 space-y-2">
                             <div class="flex items-center justify-between gap-2">
@@ -185,11 +195,46 @@
                                 </div>
                             </div>
 
+                            <!-- صندوق التعديل الشامل والكامل -->
                             <div id="edit-box-${id}" class="hidden bg-slate-900/95 p-3 rounded-xl border border-indigo-500/40 space-y-2.5 mt-2">
-                                <input type="text" id="edit-title-${id}" value="${prod.title || ''}" placeholder="اسم الإعلان..." class="bg-slate-800 border border-slate-700 rounded-xl p-2 text-xs text-white w-full">
-                                <input type="text" id="edit-price-${id}" value="${prod.price || ''}" placeholder="السعر..." class="bg-slate-800 border border-slate-700 rounded-xl p-2 text-xs text-white w-full">
+                                <h5 class="text-[11px] font-bold text-indigo-400">تعديل كافة تفاصيل الإعلان (صورة، سعر، مقاسات):</h5>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                    <input type="text" id="edit-title-${id}" value="${prod.title || ''}" placeholder="اسم الإعلان..." class="bg-slate-800 border border-slate-700 rounded-xl p-2 text-xs text-white">
+                                    <input type="text" id="edit-price-${id}" value="${prod.price || ''}" placeholder="السعر..." class="bg-slate-800 border border-slate-700 rounded-xl p-2 text-xs text-white">
+                                </div>
+
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+                                    <input type="text" id="edit-video-${id}" value="${prod.video || ''}" placeholder="رابط فيديو..." class="bg-slate-800 border border-slate-700 rounded-xl p-2 text-xs text-white">
+                                    <input type="number" id="edit-stock-${id}" value="${prod.stock || ''}" placeholder="العدد..." class="bg-slate-800 border border-slate-700 rounded-xl p-2 text-xs text-white">
+                                    <input type="text" id="edit-sizes-${id}" value="${prod.sizes || ''}" placeholder="المقاسات..." class="bg-slate-800 border border-slate-700 rounded-xl p-2 text-xs text-white">
+                                </div>
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                    <select id="edit-category-${id}" class="bg-slate-800 border border-slate-700 rounded-xl p-2 text-xs text-white">
+                                        <option value="printing" ${prod.category==='printing'?'selected':''}>🖨️ قسم الطباعة والتصاميم</option>
+                                        <option value="offers" ${prod.category==='offers'?'selected':''}>🔥 العروض الخاصة</option>
+                                        <option value="sets" ${prod.category==='sets'?'selected':''}>⚽ الأطقم الرياضية</option>
+                                        <option value="pieces" ${prod.category==='pieces'?'selected':''}>👕 القطع الفردية</option>
+                                        <option value="stretches" ${prod.category==='stretches'?'selected':''}>⚡ الاستريزات</option>
+                                        <option value="stadiums" ${prod.category==='stadiums'?'selected':''}>🏟️ أدوات الملاعب</option>
+                                        <option value="balls" ${prod.category==='balls'?'selected':''}>⚽ كرات القدم</option>
+                                        <option value="sports" ${prod.category==='sports'?'selected':''}>🏃‍♂️ ملابس رياضية متنوعة</option>
+                                    </select>
+                                    <div>
+                                        <input type="file" id="edit-new-files-${id}" accept="image/*" multiple class="bg-slate-800 border border-slate-700 rounded-xl p-1 text-[10px] text-slate-300 file:py-1 file:px-2 file:rounded file:border-0 file:bg-blue-600 file:text-white cursor-pointer w-full">
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-[10px] text-slate-400 mb-1">الصور الحالية (اضغط ✕ للحذف):</label>
+                                    <div class="flex flex-wrap gap-1.5 p-1.5 bg-slate-950/60 rounded-xl border border-slate-800">
+                                        ${imagesThumbHtml}
+                                    </div>
+                                </div>
+
                                 <div class="flex gap-2 pt-1">
-                                    <button onclick="saveInlineEdit('${id}')" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-xs font-bold py-2 rounded-xl transition shadow">حفظ التعديلات 💾</button>
+                                    <button onclick="saveInlineEdit('${id}')" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-xs font-bold py-2 rounded-xl transition shadow">حفظ التعديلات الشاملة 💾</button>
                                     <button onclick="toggleEditBox('${id}')" class="bg-slate-700 hover:bg-slate-600 text-xs font-bold px-3 py-2 rounded-xl transition">إلغاء</button>
                                 </div>
                             </div>
@@ -258,12 +303,38 @@
             document.getElementById(`edit-box-${id}`).classList.toggle('hidden');
         };
 
+        window.removeImageFromExisting = async function(id, imgIdx) {
+            if(confirm('حذف هذه الصورة؟')) {
+                let images = productsData[id].images || [productsData[id].img];
+                if(images.length <= 1) {
+                    alert('لا يمكن حذف الصورة الوحيدة المتبقية!');
+                    return;
+                }
+                images.splice(imgIdx, 1);
+                await update(ref(db, `store/products/${id}`), { images: images, img: images[0] });
+                loadAdminData();
+            }
+        };
+
         window.saveInlineEdit = async function(id) {
             const title = document.getElementById(`edit-title-${id}`).value || 'إعلان رياضي';
             const price = document.getElementById(`edit-price-${id}`).value || '';
-            const updatedData = { title, price };
+            const video = document.getElementById(`edit-video-${id}`).value || '';
+            const stock = document.getElementById(`edit-stock-${id}`).value || '';
+            const sizes = document.getElementById(`edit-sizes-${id}`).value || '';
+            const category = document.getElementById(`edit-category-${id}`).value;
+            const newFilesInput = document.getElementById(`edit-new-files-${id}`);
+
+            let imagesList = productsData[id].images || [productsData[id].img];
+            if (newFilesInput.files && newFilesInput.files.length > 0) {
+                for (let i = 0; i < newFilesInput.files.length; i++) {
+                    imagesList.push(await compressImage(newFilesInput.files[i]));
+                }
+            }
+
+            const updatedData = { title, price, video, stock, sizes, category, images: imagesList, img: imagesList[0] };
             await update(ref(db, `store/products/${id}`), updatedData);
-            alert('تم التحديث بنجاح! 💾');
+            alert('تم تحديث الإعلان بكل تفاصيله بنجاح! 💾');
             loadAdminData();
         };
 
