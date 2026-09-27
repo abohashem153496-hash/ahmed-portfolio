@@ -42,7 +42,7 @@
         </div>
     </section>
 
-    <!-- زر خاص ومميز ومستقل لقسم الطباعة والتصاميم فوق الأقسام -->
+    <!-- زر قسم الطباعة المميز المستقل -->
     <div class="py-4 px-4 max-w-7xl mx-auto">
         <button onclick="filterCategory('printing', this)" class="printing-special-btn w-full bg-gradient-to-r from-purple-700 via-indigo-600 to-blue-600 hover:from-purple-600 hover:to-blue-500 text-white py-3.5 px-6 rounded-2xl font-black text-sm md:text-base shadow-xl transition duration-300 flex items-center justify-center gap-3 border border-purple-400/30">
             <i class="fas fa-print text-xl text-yellow-300 animate-pulse"></i>
@@ -50,17 +50,17 @@
         </button>
     </div>
 
-    <!-- أزرار الأقسام الثابتة العادية -->
+    <!-- أزرار الأقسام المطابقة تماماً للأدمن -->
     <div class="sticky top-16 z-40 bg-slate-950/95 backdrop-blur border-b border-slate-900 py-2.5 px-4">
         <div class="max-w-7xl mx-auto flex gap-2 overflow-x-auto pb-1 scrollbar-none">
             <button onclick="filterCategory('all', this)" class="cat-btn theme-btn bg-blue-600 text-white px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition shadow-md">الكل</button>
-            <button onclick="filterCategory('offers', this)" class="cat-btn bg-slate-900 text-slate-300 hover:bg-slate-800 px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition border border-slate-800">🔥 العروض</button>
-            <button onclick="filterCategory('sets', this)" class="cat-btn bg-slate-900 text-slate-300 hover:bg-slate-800 px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition border border-slate-800">⚽ الأطقم</button>
-            <button onclick="filterCategory('pieces', this)" class="cat-btn bg-slate-900 text-slate-300 hover:bg-slate-800 px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition border border-slate-800">👕 القطع</button>
+            <button onclick="filterCategory('offers', this)" class="cat-btn bg-slate-900 text-slate-300 hover:bg-slate-800 px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition border border-slate-800">🔥 العروض الخاصة</button>
+            <button onclick="filterCategory('sets', this)" class="cat-btn bg-slate-900 text-slate-300 hover:bg-slate-800 px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition border border-slate-800">⚽ الأطقم الرياضية</button>
+            <button onclick="filterCategory('pieces', this)" class="cat-btn bg-slate-900 text-slate-300 hover:bg-slate-800 px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition border border-slate-800">👕 القطع الفردية</button>
             <button onclick="filterCategory('stretches', this)" class="cat-btn bg-slate-900 text-slate-300 hover:bg-slate-800 px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition border border-slate-800">⚡ الاستريزات</button>
             <button onclick="filterCategory('stadiums', this)" class="cat-btn bg-slate-900 text-slate-300 hover:bg-slate-800 px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition border border-slate-800">🏟️ أدوات الملاعب</button>
             <button onclick="filterCategory('balls', this)" class="cat-btn bg-slate-900 text-slate-300 hover:bg-slate-800 px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition border border-slate-800">⚽ كرات القدم</button>
-            <button onclick="filterCategory('sports', this)" class="cat-btn bg-slate-900 text-slate-300 hover:bg-slate-800 px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition border border-slate-800">🏃‍♂️ ملابس رياضية</button>
+            <button onclick="filterCategory('sports', this)" class="cat-btn bg-slate-900 text-slate-300 hover:bg-slate-800 px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition border border-slate-800">🏃‍♂️ ملابس رياضية متنوعة</button>
         </div>
     </div>
 
@@ -111,7 +111,7 @@
         <p>© 2026 Sports House - جميع الحقوق محفوظة</p>
     </footer>
 
-    <!-- Firebase SDK والفتح اللحظي (مثل متجر شروق) -->
+    <!-- Firebase SDK (مزامنة فورية عالمية) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
@@ -130,13 +130,11 @@
         let activeModalImages = [];
         let activeModalIndex = 0;
 
-        // 1. الفتح الفوري في أقل من ربع ثانية باستخدام الذاكرة المحلية المخزنة مسبقاً
         const cachedData = localStorage.getItem('store_cache_data');
         if (cachedData) {
             try { processStoreData(JSON.parse(cachedData)); } catch(e) {}
         }
 
-        // 2. المزامنة اللحظية في الخلفية لضمان ظهور أي تعديل أو إعلان جديد فوراً
         onValue(ref(db, 'store'), (snapshot) => {
             const data = snapshot.val();
             if (data) {
