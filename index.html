@@ -111,7 +111,7 @@
         <p>© 2026 Sports House - جميع الحقوق محفوظة</p>
     </footer>
 
-    <!-- Firebase SDK (الفتح اللحظي + المزامنة السحابية العالمية) -->
+    <!-- Firebase SDK (اتصال سحابي عالمي حي ومباشر) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
@@ -130,47 +130,35 @@
         let activeModalImages = [];
         let activeModalIndex = 0;
 
-        // 1. فتح فوري في أقل من ربع ثانية بالاعتماد على التخزين المؤقت
-        const cachedData = localStorage.getItem('store_cache_data');
-        if (cachedData) {
-            try { processStoreData(JSON.parse(cachedData)); } catch(e) {}
-        }
-
-        // 2. مزامنة حية سحابية عالمية تحدث في الخلفية وتظهر أي إعلان مضاف في نفس الثانية
+        // الاتصال المباشر بالسحابة لتحديث المتجر عالمياً في الحال
         onValue(ref(db, 'store'), (snapshot) => {
             const data = snapshot.val();
             if (data) {
-                localStorage.setItem('store_cache_data', JSON.stringify(data));
-                processStoreData(data);
+                if(data.storeName) {
+                    storeTitle = data.storeName;
+                    document.getElementById('store-logo').innerText = storeTitle;
+                    document.title = storeTitle;
+                }
+                if(data.bannerTitle) document.getElementById('banner-title').innerText = data.bannerTitle;
+                if(data.bgColor) document.body.style.backgroundColor = data.bgColor;
+                if(data.primaryColor) {
+                    primaryColorHex = data.primaryColor;
+                    document.getElementById('store-logo').style.color = primaryColorHex;
+                    document.querySelectorAll('.theme-bg').forEach(el => el.style.backgroundColor = primaryColorHex);
+                    document.querySelectorAll('.cat-btn.bg-blue-600').forEach(el => el.style.backgroundColor = primaryColorHex);
+                }
+
+                const coverSection = document.getElementById('cover-section');
+                const coverImg = document.getElementById('cover-img');
+                if(data.coverImg) {
+                    coverImg.src = data.coverImg;
+                    coverSection.classList.remove('hidden');
+                } else { coverSection.classList.add('hidden'); }
+
+                allProducts = data.products ? Object.values(data.products).reverse() : [];
+                renderProducts(currentFilter);
             }
         });
-
-        function processStoreData(data) {
-            if(data.storeName) {
-                storeTitle = data.storeName;
-                document.getElementById('store-logo').innerText = storeTitle;
-                document.title = storeTitle;
-            }
-
-            if(data.bannerTitle) document.getElementById('banner-title').innerText = data.bannerTitle;
-            if(data.bgColor) document.body.style.backgroundColor = data.bgColor;
-            if(data.primaryColor) {
-                primaryColorHex = data.primaryColor;
-                document.getElementById('store-logo').style.color = primaryColorHex;
-                document.querySelectorAll('.theme-bg').forEach(el => el.style.backgroundColor = primaryColorHex);
-                document.querySelectorAll('.cat-btn.bg-blue-600').forEach(el => el.style.backgroundColor = primaryColorHex);
-            }
-
-            const coverSection = document.getElementById('cover-section');
-            const coverImg = document.getElementById('cover-img');
-            if(data.coverImg) {
-                coverImg.src = data.coverImg;
-                coverSection.classList.remove('hidden');
-            } else { coverSection.classList.add('hidden'); }
-
-            allProducts = data.products ? Object.values(data.products).reverse() : [];
-            renderProducts(currentFilter);
-        }
 
         window.filterCategory = function(cat, btnEl) {
             currentFilter = cat;
