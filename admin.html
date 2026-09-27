@@ -25,7 +25,7 @@
         </div>
         
         <div class="space-y-6">
-            <!-- 1. الإعدادات العامة للمتجر، الغلاف، والألوان -->
+            <!-- 1. الإعدادات العامة للمتجر -->
             <div class="bg-slate-800/50 p-5 rounded-2xl border border-slate-700/60 space-y-4">
                 <h2 class="font-bold text-blue-300 text-lg">1. الإعدادات العامة، الغلاف والألوان</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -49,15 +49,15 @@
                         <input type="color" id="inp-bgColor" value="#020617" class="w-full h-11 bg-slate-800 border border-slate-700 rounded-xl p-1 cursor-pointer">
                     </div>
                     <div>
-                        <label class="block text-sm mb-1 text-slate-300">اللون الأساسي (أزرار وعناوين)</label>
+                        <label class="block text-sm mb-1 text-slate-300">اللون الأساسي</label>
                         <input type="color" id="inp-primaryColor" value="#3b82f6" class="w-full h-11 bg-slate-800 border border-slate-700 rounded-xl p-1 cursor-pointer">
                     </div>
                 </div>
             </div>
 
-            <!-- 2. إضافة منتج جديد -->
+            <!-- 2. إضافة منتج جديد مع دعم رفع حتى 10 صور وأكثر -->
             <div class="bg-slate-800/50 p-5 rounded-2xl border border-slate-700/60 space-y-4">
-                <h2 id="form-title-text" class="font-bold text-blue-300 text-lg">2. إضافة منتج جديد</h2>
+                <h2 id="form-title-text" class="font-bold text-blue-300 text-lg">2. إضافة منتج جديد (مع إمكانية رفع عدة صور حتى 10 صور)</h2>
                 <input type="hidden" id="edit-product-id" value="">
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -73,8 +73,8 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
-                        <label class="block text-sm mb-1 text-slate-300">صورة المنتج (صورة خفيفة وسريعة)</label>
-                        <input type="file" id="new-img-file" accept="image/*" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2 text-xs text-slate-300 file:py-1 file:px-3 file:rounded-lg file:border-0 file:bg-blue-600 file:text-white cursor-pointer">
+                        <label class="block text-sm mb-1 text-slate-300">صور المنتج (اختر حتى 10 صور دفعة واحدة)</label>
+                        <input type="file" id="new-img-files" accept="image/*" multiple class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2 text-xs text-slate-300 file:py-1 file:px-3 file:rounded-lg file:border-0 file:bg-blue-600 file:text-white cursor-pointer">
                     </div>
                     <div>
                         <label class="block text-sm mb-1 text-slate-300">رابط فيديو (اختياري)</label>
@@ -151,13 +151,14 @@
                 listEl.innerHTML = '';
                 Object.keys(productsData).forEach(id => {
                     const prod = productsData[id];
+                    const firstImg = (prod.images && prod.images.length > 0) ? prod.images[0] : (prod.img || 'https://via.placeholder.com/100');
                     listEl.innerHTML += `
                         <div class="flex items-center justify-between bg-slate-800 p-3 rounded-xl border border-slate-700">
                             <div class="flex items-center gap-3">
-                                <img src="${prod.img || 'https://via.placeholder.com/100'}" class="w-12 h-12 object-cover rounded-lg">
+                                <img src="${firstImg}" class="w-12 h-12 object-cover rounded-lg">
                                 <div>
                                     <h4 class="font-bold text-sm">${prod.title} (${prod.category || 'عام'})</h4>
-                                    <p class="text-xs text-slate-400">${prod.price} | العدد: ${prod.stock || 'متاح'}</p>
+                                    <p class="text-xs text-slate-400">${prod.price} | صور: ${prod.images ? prod.images.length : 1}</p>
                                 </div>
                             </div>
                             <div class="flex gap-2">
@@ -207,16 +208,27 @@
             const stock = document.getElementById('new-stock').value;
             const category = document.getElementById('new-category').value;
             const sizes = document.getElementById('new-sizes').value;
-            const fileInput = document.getElementById('new-img-file');
+            const fileInput = document.getElementById('new-img-files');
 
             if(!title || !price) { alert('أدخل اسم المنتج والسعر!'); return; }
 
-            let imgUrl = editId ? productsData[editId].img : '';
-            if (fileInput.files && fileInput.files[0]) {
-                imgUrl = await compressImage(fileInput.files[0]);
+            let imagesList = editId && productsData[editId].images ? productsData[editId].images : [];
+            if(editId && productsData[editId].img && imagesList.length === 0) {
+                imagesList.push(productsData[editId].img);
             }
 
-            const productData = { title, price, img: imgUrl, video, stock, category, sizes };
+            if (fileInput.files && fileInput.files.length > 0) {
+                for (let i = 0; i < fileInput.files.length; i++) {
+                    const compressed = await compressImage(fileInput.files[i]);
+                    imagesList.push(compressed);
+                }
+            }
+
+            if(imagesList.length === 0) {
+                imagesList.push('https://via.placeholder.com/400');
+            }
+
+            const productData = { title, price, images: imagesList, img: imagesList[0], video, stock, category, sizes };
 
             if(editId) {
                 await update(ref(db, `store/products/${editId}`), productData);
@@ -232,7 +244,7 @@
             document.getElementById('new-video').value = '';
             document.getElementById('new-stock').value = '';
             document.getElementById('new-sizes').value = '';
-            document.getElementById('new-img-file').value = '';
+            document.getElementById('new-img-files').value = '';
         };
 
         window.startEdit = function(id) {
@@ -256,7 +268,7 @@
             document.getElementById('new-video').value = '';
             document.getElementById('new-stock').value = '';
             document.getElementById('new-sizes').value = '';
-            document.getElementById('form-title-text').innerText = "2. إضافة منتج جديد";
+            document.getElementById('form-title-text').innerText = "2. إضافة منتج جديد (مع إمكانية رفع عدة صور حتى 10 صور)";
             document.getElementById('save-btn').innerText = "حفظ وإضافة للمتجر ➕";
             document.getElementById('cancel-btn').classList.add('hidden');
         };
@@ -278,7 +290,7 @@
             set(ref(db, 'store/bgColor'), document.getElementById('inp-bgColor').value);
             set(ref(db, 'store/primaryColor'), document.getElementById('inp-primaryColor').value);
             set(ref(db, 'store/coverImg'), coverImg).then(() => {
-                alert('تم حفظ إعدادات المتجر والغلاف والألوان بنجاح! 🚀');
+                alert('تم حفظ إعدادات المتجر العامة والغلاف والألوان بنجاح! 🚀');
             });
         }
     </script>
