@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="site-title">Sports House c Capt Ahmed elghool</title>
+    <title id="site-title">Sports House c Ahmed elghool</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Montserrat:wght@700;900&family=Amiri:wght@700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Cairo', sans-serif; }
-        .store-brand { font-family: 'Montserrat', sans-serif; letter-spacing: 1px; }
+        .custom-store-font { font-family: 'Montserrat', sans-serif; }
     </style>
 </head>
 <body id="body-bg" class="bg-slate-950 text-slate-100 min-h-screen">
@@ -17,7 +17,7 @@
     <!-- شريط المتجر العلوي -->
     <header class="fixed top-0 left-0 right-0 z-50 bg-slate-950/90 backdrop-blur-md border-b border-slate-800">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <div id="store-logo" class="store-brand text-lg md:text-2xl font-black text-blue-400">Sports House c Capt Ahmed elghool</div>
+            <div id="store-logo" class="text-xl md:text-2xl font-black text-blue-400">Sports House</div>
             <button onclick="toggleCart()" class="relative bg-slate-900 border border-slate-700 hover:border-blue-500 text-white px-4 py-2.5 rounded-xl transition flex items-center gap-2 font-bold">
                 <i class="fas fa-shopping-cart text-lg text-blue-400"></i>
                 <span>السلة</span>
@@ -33,10 +33,10 @@
         </div>
     </div>
 
-    <!-- بانر الترحيب -->
+    <!-- بانر الترحيب والعنوان المتحكم فيه من الإدارة -->
     <section class="py-10 px-6 text-center border-b border-slate-900">
         <div class="max-w-3xl mx-auto space-y-3">
-            <h1 class="store-brand text-2xl md:text-4xl font-black text-white">Sports House c Capt Ahmed elghool</h1>
+            <h1 id="banner-title" class="text-2xl md:text-4xl font-black text-white custom-store-font">Sports House c Ahmed elghool</h1>
             <p class="text-slate-400 text-base">أرقى الأطقم، القطع، الاستريزات والملابس الرياضية بأفضل الأسعار.</p>
         </div>
     </section>
@@ -59,7 +59,7 @@
         <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
     </main>
 
-    <!-- نافذة معاينة الصورة المتطورة مع أزرار التنقل يمين ويسار -->
+    <!-- نافذة معاينة الصورة -->
     <div id="image-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden flex items-center justify-center p-4">
         <div class="relative max-w-4xl w-full max-h-[90vh] flex items-center justify-center">
             <button onclick="closeImageModal()" class="absolute top-2 left-2 text-white text-2xl font-bold bg-slate-800/80 w-10 h-10 rounded-full flex items-center justify-center z-20 hover:bg-red-600 transition">✕</button>
@@ -93,7 +93,7 @@
     </div>
 
     <footer class="py-8 text-center text-slate-500 border-t border-slate-900 text-sm">
-        <p>© 2026 Sports House c Capt Ahmed elghool - جميع الحقوق محفوظة</p>
+        <p id="footer-text">© 2026 Sports House - جميع الحقوق محفوظة</p>
     </footer>
 
     <!-- Firebase SDK -->
@@ -110,7 +110,7 @@
         let cart = [];
         let globalWhatsapp = "201124793700";
         let primaryColorHex = "#3b82f6";
-        let storeTitle = "Sports House c Capt Ahmed elghool";
+        let storeTitle = "Sports House";
 
         let activeModalImages = [];
         let activeModalIndex = 0;
@@ -125,6 +125,18 @@
                 }
                 if(data.whatsapp) globalWhatsapp = data.whatsapp;
 
+                // تحديث عنوان البانر والخط
+                if(data.bannerTitle) {
+                    const bannerEl = document.getElementById('banner-title');
+                    bannerEl.innerText = data.bannerTitle;
+                }
+                if(data.fontStyle) {
+                    const bannerEl = document.getElementById('banner-title');
+                    if(data.fontStyle === 'montserrat') bannerEl.style.fontFamily = "'Montserrat', sans-serif";
+                    else if(data.fontStyle === 'cairo') bannerEl.style.fontFamily = "'Cairo', sans-serif";
+                    else if(data.fontStyle === 'amiri') bannerEl.style.fontFamily = "'Amiri', serif";
+                }
+
                 if(data.bgColor) document.getElementById('body-bg').style.backgroundColor = data.bgColor;
                 if(data.primaryColor) {
                     primaryColorHex = data.primaryColor;
@@ -138,9 +150,7 @@
                 if(data.coverImg) {
                     coverImg.src = data.coverImg;
                     coverSection.classList.remove('hidden');
-                } else {
-                    coverSection.classList.add('hidden');
-                }
+                } else { coverSection.classList.add('hidden'); }
 
                 allProducts = data.products ? Object.values(data.products) : [];
                 renderProducts(currentFilter);
@@ -262,9 +272,7 @@
             }
         };
 
-        window.closeImageModal = function() { 
-            document.getElementById('image-modal').classList.add('hidden'); 
-        };
+        window.closeImageModal = function() { document.getElementById('image-modal').classList.add('hidden'); };
 
         window.addToCart = function(prod) {
             const cartProd = {...prod, img: (prod.images && prod.images.length > 0) ? prod.images[0] : prod.img};
@@ -303,27 +311,15 @@
 
         window.checkoutWhatsApp = function() {
             if(cart.length === 0) { alert('السلة فارغة!'); return; }
-            
             let totalAmount = 0;
-            let msg = `🛒 *طلب جديد من ${storeTitle}*\n`;
-            msg += `━━━━━━━━━━━━━━━━━━━\n`;
-            
+            let msg = `🛒 *طلب جديد من ${storeTitle}*\n━━━━━━━━━━━━━━━━━━━\n`;
             cart.forEach((item, i) => {
                 const numericPrice = parseFloat(item.price.replace(/[^\d.]/g, '')) || 0;
                 totalAmount += numericPrice;
-
-                msg += `*${i+1}. ${item.title}*\n`;
-                msg += `   • السعر: ${item.price}\n`;
-                msg += `   • التفاصيل: ${item.sizes || 'غير محدد'}\n`;
-                msg += `-----------------------------------\n`;
+                msg += `*${i+1}. ${item.title}*\n   • السعر: ${item.price}\n   • التفاصيل: ${item.sizes || 'غير محدد'}\n-----------------------------------\n`;
             });
-
-            msg += `💰 *الإجمالي الكلي: ${totalAmount} ج.م*\n`;
-            msg += `━━━━━━━━━━━━━━━━━━━\n`;
-            msg += `✨ *شكراً لاختياركم متجرنا!*`;
-
+            msg += `💰 *الإجمالي الكلي: ${totalAmount} ج.م*\n━━━━━━━━━━━━━━━━━━━\n✨ *شكراً لاختياركم متجرنا!*`;
             window.open(`https://wa.me/${globalWhatsapp}?text=${encodeURIComponent(msg)}`, '_blank');
-
             cart = [];
             updateCartUI();
             toggleCart();
