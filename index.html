@@ -66,7 +66,9 @@
 
     <!-- شبكة المنتجات -->
     <main class="py-8 px-4 max-w-7xl mx-auto">
-        <div id="products-grid" class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6"></div>
+        <div id="products-grid" class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
+            <div class="col-span-full text-center py-10 text-slate-400 font-bold text-sm">جاري جلب أحدث المنتجات من السحابة...</div>
+        </div>
     </main>
 
     <!-- زر الواتساب العايم للاستفسارات -->
@@ -111,7 +113,7 @@
         <p>© 2026 Sports House - جميع الحقوق محفوظة</p>
     </footer>
 
-    <!-- Firebase SDK والفتح اللحظي الفائق -->
+    <!-- Firebase SDK (اتصال سحابي مباشر وحي 100%) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
@@ -130,47 +132,36 @@
         let activeModalImages = [];
         let activeModalIndex = 0;
 
-        // الفتح الفوري اللحظي (مثل متجر شروق)
-        const cachedData = localStorage.getItem('store_cache_data');
-        if (cachedData) {
-            try { processStoreData(JSON.parse(cachedData)); } catch(e) {}
-        }
-
-        // المزامنة الحية في الخلفية
+        // استماع مباشر ولحظي من السحابة بدون أي حفظ محلي قديم
         onValue(ref(db, 'store'), (snapshot) => {
             const data = snapshot.val();
             if (data) {
-                localStorage.setItem('store_cache_data', JSON.stringify(data));
-                processStoreData(data);
+                if(data.storeName) {
+                    storeTitle = data.storeName;
+                    document.getElementById('store-logo').innerText = storeTitle;
+                    document.title = storeTitle;
+                }
+                if(data.bannerTitle) document.getElementById('banner-title').innerText = data.bannerTitle;
+                if(data.bgColor) document.body.style.backgroundColor = data.bgColor;
+                if(data.primaryColor) {
+                    primaryColorHex = data.primaryColor;
+                    document.getElementById('store-logo').style.color = primaryColorHex;
+                    document.querySelectorAll('.theme-bg').forEach(el => el.style.backgroundColor = primaryColorHex);
+                    document.querySelectorAll('.cat-btn.bg-blue-600').forEach(el => el.style.backgroundColor = primaryColorHex);
+                }
+
+                const coverSection = document.getElementById('cover-section');
+                const coverImg = document.getElementById('cover-img');
+                if(data.coverImg) {
+                    coverImg.src = data.coverImg;
+                    coverSection.classList.remove('hidden');
+                } else { coverSection.classList.add('hidden'); }
+
+                // جلب المنتجات المحدثة وعكسها لظهر الإعلان الجديد فوراً في أعلى القائمة
+                allProducts = data.products ? Object.values(data.products).reverse() : [];
+                renderProducts(currentFilter);
             }
         });
-
-        function processStoreData(data) {
-            if(data.storeName) {
-                storeTitle = data.storeName;
-                document.getElementById('store-logo').innerText = storeTitle;
-                document.title = storeTitle;
-            }
-
-            if(data.bannerTitle) document.getElementById('banner-title').innerText = data.bannerTitle;
-            if(data.bgColor) document.body.style.backgroundColor = data.bgColor;
-            if(data.primaryColor) {
-                primaryColorHex = data.primaryColor;
-                document.getElementById('store-logo').style.color = primaryColorHex;
-                document.querySelectorAll('.theme-bg').forEach(el => el.style.backgroundColor = primaryColorHex);
-                document.querySelectorAll('.cat-btn.bg-blue-600').forEach(el => el.style.backgroundColor = primaryColorHex);
-            }
-
-            const coverSection = document.getElementById('cover-section');
-            const coverImg = document.getElementById('cover-img');
-            if(data.coverImg) {
-                coverImg.src = data.coverImg;
-                coverSection.classList.remove('hidden');
-            } else { coverSection.classList.add('hidden'); }
-
-            allProducts = data.products ? Object.values(data.products).reverse() : [];
-            renderProducts(currentFilter);
-        }
 
         window.filterCategory = function(cat, btnEl) {
             currentFilter = cat;
