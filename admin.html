@@ -2,51 +2,52 @@
 <html lang="ar" dir="rtl" class="dark">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>لوحة التحكم الإدارية - Sports House</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Montserrat:wght@700;900&family=Amiri:wght@700&display=swap" rel="stylesheet">
-    <style>body { font-family: 'Cairo', sans-serif; }</style>
+    <style>body { font-family: 'Cairo', sans-serif; box-sizing: border-box; }</style>
 </head>
-<body class="bg-slate-950 text-white min-h-screen p-6">
+<body class="bg-slate-950 text-white min-h-screen p-4 md:p-6">
 
     <!-- شاشة تسجيل الدخول -->
-    <div id="login-screen" class="max-w-md mx-auto mt-24 bg-slate-900 border border-slate-800 p-8 rounded-3xl shadow-2xl text-center">
-        <h1 class="text-2xl font-black mb-4 text-blue-400">تسجيل دخول المدير العام</h1>
-        <p class="text-slate-400 text-sm mb-6">أدخل كلمة المرور السرية (ahmed123)</p>
-        <input type="password" id="inp-pass" placeholder="كلمة المرور..." class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white text-center mb-4 focus:outline-none focus:border-blue-500">
-        <button onclick="checkPassword()" class="w-full bg-blue-600 hover:bg-blue-500 font-bold py-3.5 rounded-xl transition shadow-lg">دخول لوحة التحكم</button>
+    <div id="login-screen" class="max-w-md mx-auto mt-20 bg-slate-900 border border-slate-800 p-6 md:p-8 rounded-3xl shadow-2xl text-center">
+        <h1 class="text-xl md:text-2xl font-black mb-3 text-blue-400">تسجيل دخول المدير العام</h1>
+        <p class="text-slate-400 text-xs md:text-sm mb-5">أدخل كلمة المرور السرية (ahmed123)</p>
+        <input type="password" id="inp-pass" placeholder="كلمة المرور..." class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white text-center mb-4 focus:outline-none focus:border-blue-500 text-sm">
+        <button onclick="checkPassword()" class="w-full bg-blue-600 hover:bg-blue-500 font-bold py-3 rounded-xl transition shadow-lg text-sm">دخول لوحة التحكم</button>
     </div>
 
     <!-- لوحة التحكم الاحترافية -->
-    <div id="admin-panel" class="max-w-4xl mx-auto bg-slate-900 border border-slate-800 p-8 rounded-3xl shadow-2xl hidden space-y-8">
-        <div class="flex justify-between items-center border-b border-slate-800 pb-4">
-            <h1 class="text-2xl font-black text-blue-400">Sports House | إدارة المتجر والخطوط ⚙️</h1>
+    <div id="admin-panel" class="max-w-4xl mx-auto bg-slate-900 border border-slate-800 p-4 md:p-8 rounded-3xl shadow-2xl hidden space-y-6">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-800 pb-4 gap-2">
+            <h1 class="text-lg md:text-2xl font-black text-blue-400">Sports House | إدارة المتجر ⚙️</h1>
             <span class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1.5 rounded-lg">متصل بالسحابة</span>
         </div>
         
         <div class="space-y-6">
             <!-- 1. الإعدادات العامة وعنوان البانر والخطوط -->
-            <div class="bg-slate-800/50 p-5 rounded-2xl border border-slate-700/60 space-y-4">
-                <h2 class="font-bold text-blue-300 text-lg">1. إعدادات البانر، العنوان، والخطوط</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="bg-slate-800/50 p-4 md:p-5 rounded-2xl border border-slate-700/60 space-y-4">
+                <h2 class="font-bold text-blue-300 text-base md:text-lg">1. إعدادات المتجر، الواتساب والخطوط</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-sm mb-1 text-slate-300">اسم المتجر (الشريط العلوي)</label>
-                        <input type="text" id="inp-storeName" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
+                        <label class="block text-xs mb-1 text-slate-300">اسم المتجر (الشريط العلوي)</label>
+                        <input type="text" id="inp-storeName" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-xs text-white">
                     </div>
                     <div>
-                        <label class="block text-sm mb-1 text-slate-300">رقم الواتساب للطلبات</label>
-                        <input type="text" id="inp-whatsapp" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
+                        <label class="block text-xs mb-1 text-slate-300">رقم الواتساب الأساسي (للطلبات والسلة)</label>
+                        <input type="text" id="inp-whatsapp" value="201050080515" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-xs text-white">
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-sm mb-1 text-slate-300">عنوان البانر الرئيسي في المتجر</label>
-                        <input type="text" id="inp-bannerTitle" placeholder="Sports House c Ahmed elghool" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
+                        <label class="block text-xs mb-1 text-slate-300">عنوان البانر الرئيسي في المتجر</label>
+                        <input type="text" id="inp-bannerTitle" placeholder="Sports House c Ahmed elghool" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-xs text-white">
                     </div>
                     <div>
-                        <label class="block text-sm mb-1 text-slate-300">اختر شكل الخط (Font Style)</label>
-                        <select id="inp-fontStyle" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
+                        <label class="block text-xs mb-1 text-slate-300">اختر شكل الخط (Font Style)</label>
+                        <select id="inp-fontStyle" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-xs text-white">
                             <option value="montserrat">خط رياضي إنجليزي فخم (Montserrat)</option>
                             <option value="cairo">خط عربي عصري (Cairo)</option>
                             <option value="amiri">خط عربي كلاسيكي فاخر (Amiri)</option>
@@ -54,55 +55,55 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
                     <div>
-                        <label class="block text-sm mb-1 text-slate-300">صورة الغلاف (Banner)</label>
-                        <input type="file" id="file-cover" accept="image/*" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2 text-xs text-slate-300 file:py-1 file:px-3 file:rounded-lg file:border-0 file:bg-blue-600 file:text-white cursor-pointer">
+                        <label class="block text-xs mb-1 text-slate-300">صورة الغلاف (Banner)</label>
+                        <input type="file" id="file-cover" accept="image/*" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2 text-xs text-slate-300 file:py-1 file:px-2 file:rounded file:border-0 file:bg-blue-600 file:text-white cursor-pointer">
                     </div>
                     <div>
-                        <label class="block text-sm mb-1 text-slate-300">لون خلفية المتجر</label>
-                        <input type="color" id="inp-bgColor" value="#020617" class="w-full h-11 bg-slate-800 border border-slate-700 rounded-xl p-1 cursor-pointer">
+                        <label class="block text-xs mb-1 text-slate-300">لون خلفية المتجر</label>
+                        <input type="color" id="inp-bgColor" value="#020617" class="w-full h-10 bg-slate-800 border border-slate-700 rounded-xl p-1 cursor-pointer">
                     </div>
                     <div>
-                        <label class="block text-sm mb-1 text-slate-300">اللون الأساسي</label>
-                        <input type="color" id="inp-primaryColor" value="#3b82f6" class="w-full h-11 bg-slate-800 border border-slate-700 rounded-xl p-1 cursor-pointer">
+                        <label class="block text-xs mb-1 text-slate-300">اللون الأساسي</label>
+                        <input type="color" id="inp-primaryColor" value="#3b82f6" class="w-full h-10 bg-slate-800 border border-slate-700 rounded-xl p-1 cursor-pointer">
                     </div>
                 </div>
             </div>
 
             <!-- 2. إضافة منتج جديد -->
-            <div class="bg-slate-800/50 p-5 rounded-2xl border border-slate-700/60 space-y-4">
-                <h2 class="font-bold text-blue-300 text-lg">2. إضافة منتج / عمل طباعة جديد</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="bg-slate-800/50 p-4 md:p-5 rounded-2xl border border-slate-700/60 space-y-4">
+                <h2 class="font-bold text-blue-300 text-base md:text-lg">2. إضافة منتج أو إعلان جديد</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-sm mb-1 text-slate-300">اسم المنتج / الإعلان</label>
-                        <input type="text" id="new-title" placeholder="اسم المنتج أو الخدمة..." class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
+                        <label class="block text-xs mb-1 text-slate-300">اسم المنتج / الإعلان</label>
+                        <input type="text" id="new-title" placeholder="اسم المنتج..." class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-xs text-white">
                     </div>
                     <div>
-                        <label class="block text-sm mb-1 text-slate-300">السعر</label>
-                        <input type="text" id="new-price" placeholder="السعر..." class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
+                        <label class="block text-xs mb-1 text-slate-300">السعر</label>
+                        <input type="text" id="new-price" placeholder="السعر..." class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-xs text-white">
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                     <div>
-                        <label class="block text-sm mb-1 text-slate-300">صور الإعلان (متاح عدة صور)</label>
-                        <input type="file" id="new-img-files" accept="image/*" multiple class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2 text-xs text-slate-300 file:py-1 file:px-3 file:rounded-lg file:border-0 file:bg-blue-600 file:text-white cursor-pointer">
+                        <label class="block text-xs mb-1 text-slate-300">صور الإعلان (متاح عدة صور)</label>
+                        <input type="file" id="new-img-files" accept="image/*" multiple class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2 text-xs text-slate-300 file:py-1 file:px-2 file:rounded file:border-0 file:bg-blue-600 file:text-white cursor-pointer">
                     </div>
                     <div>
-                        <label class="block text-sm mb-1 text-slate-300">رابط فيديو (اختياري)</label>
+                        <label class="block text-xs mb-1 text-slate-300">رابط فيديو (اختياري)</label>
                         <input type="text" id="new-video" placeholder="رابط يوتيوب..." class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-xs text-white">
                     </div>
                     <div>
-                        <label class="block text-sm mb-1 text-slate-300">الكمية (العدد)</label>
+                        <label class="block text-xs mb-1 text-slate-300">الكمية (العدد)</label>
                         <input type="number" id="new-stock" placeholder="العدد..." class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-xs text-white">
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-sm mb-1 text-slate-300">اختر القسم</label>
-                        <select id="new-category" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
+                        <label class="block text-xs mb-1 text-slate-300">اختر القسم</label>
+                        <select id="new-category" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-xs text-white">
                             <option value="printing">🖨️ قسم الطباعة والتصاميم</option>
                             <option value="offers">🔥 العروض الخاصة</option>
                             <option value="sets">⚽ الأطقم الرياضية</option>
@@ -114,24 +115,32 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-sm mb-1 text-slate-300">المقاسات المتاحة / التفاصيل</label>
-                        <input type="text" id="new-sizes" placeholder="S, M, L, XL" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
+                        <label class="block text-xs mb-1 text-slate-300">المقاسات المتاحة (اكتبها أو اخترها)</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="new-sizes" placeholder="S, M, L, XL أو متاح جميع المقاسات" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-xs text-white">
+                            <select onchange="document.getElementById('new-sizes').value = this.value" class="bg-slate-800 border border-slate-700 rounded-xl p-2 text-xs text-slate-300">
+                                <option value="">اختر مقاس...</option>
+                                <option value="متاح جميع المقاسات">متاح جميع المقاسات</option>
+                                <option value="S, M, L, XL">S, M, L, XL</option>
+                                <option value="مقاس موحد">مقاس موحد</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
 
-                <button onclick="addProduct()" class="w-full bg-emerald-600 hover:bg-emerald-500 font-bold py-3.5 rounded-xl transition shadow-lg">حفظ وإضافة إعلان جديد للمتجر ➕</button>
+                <button onclick="addProduct()" class="w-full bg-emerald-600 hover:bg-emerald-500 font-bold py-3 rounded-xl transition shadow-lg text-xs md:text-sm">حفظ وإضافة إعلان جديد للمتجر ➕</button>
             </div>
 
             <!-- 3. قائمة المنتجات والاعلانات المنشورة -->
-            <div class="bg-slate-800/50 p-5 rounded-2xl border border-slate-700/60 space-y-4">
+            <div class="bg-slate-800/50 p-4 md:p-5 rounded-2xl border border-slate-700/60 space-y-4">
                 <div class="flex justify-between items-center">
-                    <h2 class="font-bold text-blue-300 text-lg">3. المنتجات والإعلانات المنشورة</h2>
+                    <h2 class="font-bold text-blue-300 text-base md:text-lg">3. المنتجات والاعلانات المنشورة</h2>
                     <span id="products-count" class="text-xs bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full font-bold">0 إعلان</span>
                 </div>
-                <div id="admin-products-list" class="space-y-4 max-h-[500px] overflow-y-auto pr-2"></div>
+                <div id="admin-products-list" class="space-y-3 max-h-[450px] overflow-y-auto pr-1"></div>
             </div>
 
-            <button onclick="saveGlobalSettings()" class="w-full bg-blue-600 hover:bg-blue-500 font-black text-lg py-4 rounded-2xl transition shadow-2xl">حفظ إعدادات المتجر العامة والخطوط 🚀</button>
+            <button onclick="saveGlobalSettings()" class="w-full bg-blue-600 hover:bg-blue-500 font-black text-sm md:text-base py-3.5 rounded-2xl transition shadow-2xl">حفظ إعدادات المتجر العامة والخطوط 🚀</button>
         </div>
     </div>
 
@@ -158,9 +167,9 @@
             const snapshot = await get(ref(db, 'store'));
             const data = snapshot.val();
             if (data) {
-                document.getElementById('inp-storeName').value = data.storeName || 'Sports House c Capt Ahmed elghool';
-                document.getElementById('inp-whatsapp').value = data.whatsapp || '201124793700';
-                document.getElementById('inp-bannerTitle').value = data.bannerTitle || 'Sports House c Capt Ahmed elghool';
+                document.getElementById('inp-storeName').value = data.storeName || 'Sports House';
+                document.getElementById('inp-whatsapp').value = data.whatsapp || '201050080515';
+                document.getElementById('inp-bannerTitle').value = data.bannerTitle || 'Sports House c Ahmed elghool';
                 document.getElementById('inp-fontStyle').value = data.fontStyle || 'montserrat';
                 document.getElementById('inp-bgColor').value = data.bgColor || '#020617';
                 document.getElementById('inp-primaryColor').value = data.primaryColor || '#3b82f6';
@@ -181,44 +190,44 @@
                     imagesArr.forEach((imgSrc, imgIdx) => {
                         imagesThumbHtml += `
                             <div class="relative group inline-block">
-                                <img src="${imgSrc}" class="w-12 h-12 object-cover rounded-lg border border-slate-600">
-                                <button onclick="removeImageFromExisting('${id}', ${imgIdx})" class="absolute -top-1.5 -left-1.5 bg-red-600 hover:bg-red-500 text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold shadow transition" title="حذف هذه الصورة">✕</button>
+                                <img src="${imgSrc}" class="w-10 h-10 object-cover rounded-lg border border-slate-600">
+                                <button onclick="removeImageFromExisting('${id}', ${imgIdx})" class="absolute -top-1.5 -left-1.5 bg-red-600 hover:bg-red-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold shadow transition">✕</button>
                             </div>
                         `;
                     });
 
                     listEl.innerHTML += `
-                        <div class="bg-slate-800/90 p-4 rounded-2xl border border-slate-700 space-y-3">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-3.5">
-                                    <img src="${firstImg}" class="w-14 h-14 object-cover rounded-xl border border-slate-700">
-                                    <div>
-                                        <h4 class="font-bold text-sm text-white">${prod.title}</h4>
-                                        <p class="text-xs text-slate-400 mt-0.5"><span class="text-blue-400 font-semibold">${prod.price}</span> | القسم: ${prod.category || 'عام'} | العدد: ${prod.stock || 'متاح'}</p>
+                        <div class="bg-slate-800/90 p-3 rounded-2xl border border-slate-700 space-y-2">
+                            <div class="flex items-center justify-between gap-2">
+                                <div class="flex items-center gap-2.5 overflow-hidden">
+                                    <img src="${firstImg}" class="w-12 h-12 object-cover rounded-xl border border-slate-700 shrink-0">
+                                    <div class="truncate">
+                                        <h4 class="font-bold text-xs text-white truncate">${prod.title}</h4>
+                                        <p class="text-[11px] text-slate-400 mt-0.5"><span class="text-blue-400 font-semibold">${prod.price}</span> | القسم: ${prod.category || 'عام'}</p>
                                     </div>
                                 </div>
-                                <div class="flex gap-2">
-                                    <button onclick="toggleEditBox('${id}')" class="bg-blue-600 hover:bg-blue-500 text-xs px-3.5 py-2 rounded-lg font-bold transition shadow">تعديل الإعلان ⚙️</button>
-                                    <button onclick="deleteProduct('${id}')" class="bg-red-600 hover:bg-red-500 text-xs px-3.5 py-2 rounded-lg font-bold transition shadow">حذف</button>
+                                <div class="flex gap-1.5 shrink-0">
+                                    <button onclick="toggleEditBox('${id}')" class="bg-blue-600 hover:bg-blue-500 text-[11px] px-2.5 py-2 rounded-lg font-bold transition shadow">تعديل ⚙️</button>
+                                    <button onclick="deleteProduct('${id}')" class="bg-red-600 hover:bg-red-500 text-[11px] px-2.5 py-2 rounded-lg font-bold transition shadow">حذف</button>
                                 </div>
                             </div>
 
-                            <!-- صندوق التعديل الكامل المخفي -->
-                            <div id="edit-box-${id}" class="hidden bg-slate-900/95 p-4 rounded-xl border border-indigo-500/40 space-y-3 mt-3">
-                                <h5 class="text-xs font-bold text-indigo-400">تعديل كافة تفاصيل الإعلان:</h5>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                    <input type="text" id="edit-title-${id}" value="${prod.title || ''}" placeholder="اسم الإعلان..." class="bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-xs text-white">
-                                    <input type="text" id="edit-price-${id}" value="${prod.price || ''}" placeholder="السعر..." class="bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-xs text-white">
+                            <!-- صندوق التعديل المخفي -->
+                            <div id="edit-box-${id}" class="hidden bg-slate-900/95 p-3 rounded-xl border border-indigo-500/40 space-y-2.5 mt-2">
+                                <h5 class="text-[11px] font-bold text-indigo-400">تعديل كافة تفاصيل الإعلان:</h5>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                    <input type="text" id="edit-title-${id}" value="${prod.title || ''}" placeholder="اسم الإعلان..." class="bg-slate-800 border border-slate-700 rounded-xl p-2 text-xs text-white">
+                                    <input type="text" id="edit-price-${id}" value="${prod.price || ''}" placeholder="السعر..." class="bg-slate-800 border border-slate-700 rounded-xl p-2 text-xs text-white">
                                 </div>
 
-                                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                                    <input type="text" id="edit-video-${id}" value="${prod.video || ''}" placeholder="رابط فيديو..." class="bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-xs text-white">
-                                    <input type="number" id="edit-stock-${id}" value="${prod.stock || ''}" placeholder="العدد..." class="bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-xs text-white">
-                                    <input type="text" id="edit-sizes-${id}" value="${prod.sizes || ''}" placeholder="المقاسات..." class="bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-xs text-white">
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+                                    <input type="text" id="edit-video-${id}" value="${prod.video || ''}" placeholder="رابط فيديو..." class="bg-slate-800 border border-slate-700 rounded-xl p-2 text-xs text-white">
+                                    <input type="number" id="edit-stock-${id}" value="${prod.stock || ''}" placeholder="العدد..." class="bg-slate-800 border border-slate-700 rounded-xl p-2 text-xs text-white">
+                                    <input type="text" id="edit-sizes-${id}" value="${prod.sizes || ''}" placeholder="المقاسات..." class="bg-slate-800 border border-slate-700 rounded-xl p-2 text-xs text-white">
                                 </div>
 
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                    <select id="edit-category-${id}" class="bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-xs text-white">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                    <select id="edit-category-${id}" class="bg-slate-800 border border-slate-700 rounded-xl p-2 text-xs text-white">
                                         <option value="printing" ${prod.category==='printing'?'selected':''}>🖨️ قسم الطباعة والتصاميم</option>
                                         <option value="offers" ${prod.category==='offers'?'selected':''}>🔥 العروض الخاصة</option>
                                         <option value="sets" ${prod.category==='sets'?'selected':''}>⚽ الأطقم الرياضية</option>
@@ -229,21 +238,20 @@
                                         <option value="sports" ${prod.category==='sports'?'selected':''}>🏃‍♂️ ملابس رياضية متنوعة</option>
                                     </select>
                                     <div>
-                                        <label class="block text-[10px] text-slate-400 mb-1">إضافة صور جديدة:</label>
-                                        <input type="file" id="edit-new-files-${id}" accept="image/*" multiple class="bg-slate-800 border border-slate-700 rounded-xl p-1.5 text-[10px] text-slate-300 file:py-1 file:px-2 file:rounded file:border-0 file:bg-blue-600 file:text-white cursor-pointer w-full">
+                                        <input type="file" id="edit-new-files-${id}" accept="image/*" multiple class="bg-slate-800 border border-slate-700 rounded-xl p-1 text-[10px] text-slate-300 file:py-1 file:px-2 file:rounded file:border-0 file:bg-blue-600 file:text-white cursor-pointer w-full">
                                     </div>
                                 </div>
 
                                 <div>
-                                    <label class="block text-[10px] text-slate-400 mb-1.5">الصور الحالية (اضغط ✕ لحذف صورة):</label>
-                                    <div class="flex flex-wrap gap-2 p-2 bg-slate-950/60 rounded-xl border border-slate-800">
+                                    <label class="block text-[10px] text-slate-400 mb-1">الصور الحالية (اضغط ✕ للحذف):</label>
+                                    <div class="flex flex-wrap gap-1.5 p-1.5 bg-slate-950/60 rounded-xl border border-slate-800">
                                         ${imagesThumbHtml}
                                     </div>
                                 </div>
 
-                                <div class="flex gap-2 pt-2">
-                                    <button onclick="saveInlineEdit('${id}')" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-xs font-bold py-2.5 rounded-xl transition shadow">حفظ تعديلات الإعلان 💾</button>
-                                    <button onclick="toggleEditBox('${id}')" class="bg-slate-700 hover:bg-slate-600 text-xs font-bold px-4 py-2.5 rounded-xl transition">إلغاء</button>
+                                <div class="flex gap-2 pt-1">
+                                    <button onclick="saveInlineEdit('${id}')" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-xs font-bold py-2 rounded-xl transition shadow">حفظ التعديلات 💾</button>
+                                    <button onclick="toggleEditBox('${id}')" class="bg-slate-700 hover:bg-slate-600 text-xs font-bold px-3 py-2 rounded-xl transition">إلغاء</button>
                                 </div>
                             </div>
                         </div>
@@ -303,6 +311,7 @@
             alert('تمت الإضافة بنجاح! ➕');
             document.getElementById('new-title').value = '';
             document.getElementById('new-price').value = '';
+            document.getElementById('new-sizes').value = '';
             loadAdminData();
         };
 
@@ -311,10 +320,10 @@
         };
 
         window.removeImageFromExisting = async function(id, imgIdx) {
-            if(confirm('هل تريد حذف هذه الصورة؟')) {
+            if(confirm('حذف هذه الصورة؟')) {
                 let images = productsData[id].images || [productsData[id].img];
                 if(images.length <= 1) {
-                    alert('لا يمكن حذف الصورة الوحيدة المتبقية للإعلان!');
+                    alert('لا يمكن حذف الصورة الوحيدة المتبقية!');
                     return;
                 }
                 images.splice(imgIdx, 1);
@@ -343,7 +352,7 @@
 
             const updatedData = { title, price, video, stock, sizes, category, images: imagesList, img: imagesList[0] };
             await update(ref(db, `store/products/${id}`), updatedData);
-            alert('تم تحديث الإعلان بكافة صوره وتفاصيله بنجاح! 💾');
+            alert('تم تحديث الإعلان بنجاح! 💾');
             loadAdminData();
         };
 
@@ -369,7 +378,7 @@
             set(ref(db, 'store/bgColor'), document.getElementById('inp-bgColor').value);
             set(ref(db, 'store/primaryColor'), document.getElementById('inp-primaryColor').value);
             set(ref(db, 'store/coverImg'), coverImg).then(() => {
-                alert('تم حفظ إعدادات الخطوط والبانر بنجاح! 🚀');
+                alert('تم حفظ إعدادات المتجر العامة بنجاح! 🚀');
             });
         }
     </script>
