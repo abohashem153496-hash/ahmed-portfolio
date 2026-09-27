@@ -2,24 +2,25 @@
 <html lang="ar" dir="rtl" class="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title id="site-title">Sports House c Capt Ahmed elghool</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Montserrat:wght@700;900&family=Amiri:wght@700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Cairo', sans-serif; background-color: #020617; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Cairo', sans-serif; background-color: #020617; overflow-x: hidden; }
         .custom-store-font { font-family: 'Montserrat', sans-serif; }
     </style>
 </head>
 <body id="body-bg" class="bg-slate-950 text-slate-100 min-h-screen">
 
     <!-- شريط المتجر العلوي -->
-    <header class="fixed top-0 left-0 right-0 z-50 bg-slate-950/90 backdrop-blur-md border-b border-slate-800">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <div id="store-logo" class="text-xl md:text-2xl font-black text-blue-400">Sports House</div>
-            <button onclick="toggleCart()" class="relative bg-slate-900 border border-slate-700 hover:border-blue-500 text-white px-4 py-2.5 rounded-xl transition flex items-center gap-2 font-bold">
-                <i class="fas fa-shopping-cart text-lg text-blue-400"></i>
+    <header class="fixed top-0 left-0 right-0 z-50 bg-slate-950/95 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div id="store-logo" class="text-lg md:text-2xl font-black text-blue-400 truncate max-w-[200px]">Sports House</div>
+            <button onclick="toggleCart()" class="relative bg-slate-900 border border-slate-700 hover:border-blue-500 text-white px-3 py-2 rounded-xl transition flex items-center gap-2 font-bold text-sm">
+                <i class="fas fa-shopping-cart text-base text-blue-400"></i>
                 <span>السلة</span>
                 <span id="cart-count" class="bg-blue-600 text-white text-xs px-2 py-0.5 rounded-full">0</span>
             </button>
@@ -27,76 +28,76 @@
     </header>
 
     <!-- صورة الغلاف -->
-    <div id="cover-section" class="pt-20 hidden">
-        <div class="w-full h-40 md:h-72 overflow-hidden bg-slate-900 border-b border-slate-800">
+    <div id="cover-section" class="pt-16 hidden">
+        <div class="w-full h-36 md:h-64 overflow-hidden bg-slate-900 border-b border-slate-800">
             <img id="cover-img" src="" alt="غلاف المتجر" class="w-full h-full object-cover">
         </div>
     </div>
 
     <!-- بانر الترحيب والعنوان -->
-    <section class="py-10 px-6 text-center border-b border-slate-900 pt-28">
-        <div class="max-w-3xl mx-auto space-y-3">
+    <section class="py-6 px-4 text-center border-b border-slate-900 pt-24">
+        <div class="max-w-3xl mx-auto space-y-2">
             <h1 id="banner-title" class="text-xl md:text-3xl font-black text-white custom-store-font leading-tight">Sports House c Ahmed elghool</h1>
-            <p class="text-slate-400 text-sm md:text-base">أرقى الأطقم، القطع، الاستريزات، أدوات الملاعب وكرات القدم بأفضل الأسعار.</p>
+            <p class="text-slate-400 text-xs md:text-sm">أرقى الأطقم، القطع، الاستريزات، أدوات الملاعب وكرات القدم بأفضل الأسعار.</p>
         </div>
     </section>
 
-    <!-- أزرار الأقسام -->
-    <div class="sticky top-20 z-40 bg-slate-950/95 backdrop-blur border-b border-slate-900 py-3 px-6">
-        <div class="max-w-7xl mx-auto flex gap-3 overflow-x-auto pb-1 scrollbar-none">
-            <button onclick="filterCategory('all')" class="cat-btn theme-btn bg-blue-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold whitespace-nowrap transition shadow-md">الكل</button>
-            <button onclick="filterCategory('printing')" class="cat-btn bg-slate-900 text-slate-300 hover:bg-slate-800 px-5 py-2.5 rounded-xl text-sm font-bold whitespace-nowrap transition border border-slate-800">🖨️ قسم الطباعة</button>
-            <button onclick="filterCategory('offers')" class="cat-btn bg-slate-900 text-slate-300 hover:bg-slate-800 px-5 py-2.5 rounded-xl text-sm font-bold whitespace-nowrap transition border border-slate-800">🔥 العروض</button>
-            <button onclick="filterCategory('sets')" class="cat-btn bg-slate-900 text-slate-300 hover:bg-slate-800 px-5 py-2.5 rounded-xl text-sm font-bold whitespace-nowrap transition border border-slate-800">⚽ الأطقم</button>
-            <button onclick="filterCategory('pieces')" class="cat-btn bg-slate-900 text-slate-300 hover:bg-slate-800 px-5 py-2.5 rounded-xl text-sm font-bold whitespace-nowrap transition border border-slate-800">👕 القطع</button>
-            <button onclick="filterCategory('stretches')" class="cat-btn bg-slate-900 text-slate-300 hover:bg-slate-800 px-5 py-2.5 rounded-xl text-sm font-bold whitespace-nowrap transition border border-slate-800">⚡ الاستريزات</button>
-            <button onclick="filterCategory('stadiums')" class="cat-btn bg-slate-900 text-slate-300 hover:bg-slate-800 px-5 py-2.5 rounded-xl text-sm font-bold whitespace-nowrap transition border border-slate-800">🏟️ أدوات الملاعب</button>
-            <button onclick="filterCategory('balls')" class="cat-btn bg-slate-900 text-slate-300 hover:bg-slate-800 px-5 py-2.5 rounded-xl text-sm font-bold whitespace-nowrap transition border border-slate-800">⚽ كرات القدم</button>
-            <button onclick="filterCategory('sports')" class="cat-btn bg-slate-900 text-slate-300 hover:bg-slate-800 px-5 py-2.5 rounded-xl text-sm font-bold whitespace-nowrap transition border border-slate-800">🏃‍♂️ ملابس رياضية</button>
+    <!-- أزرار الأقسام الثابتة -->
+    <div class="sticky top-16 z-40 bg-slate-950/95 backdrop-blur border-b border-slate-900 py-2.5 px-4">
+        <div class="max-w-7xl mx-auto flex gap-2 overflow-x-auto pb-1 scrollbar-none">
+            <button onclick="filterCategory('all')" class="cat-btn theme-btn bg-blue-600 text-white px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition shadow-md">الكل</button>
+            <button onclick="filterCategory('printing')" class="cat-btn bg-slate-900 text-slate-300 hover:bg-slate-800 px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition border border-slate-800">🖨️ قسم الطباعة</button>
+            <button onclick="filterCategory('offers')" class="cat-btn bg-slate-900 text-slate-300 hover:bg-slate-800 px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition border border-slate-800">🔥 العروض</button>
+            <button onclick="filterCategory('sets')" class="cat-btn bg-slate-900 text-slate-300 hover:bg-slate-800 px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition border border-slate-800">⚽ الأطقم</button>
+            <button onclick="filterCategory('pieces')" class="cat-btn bg-slate-900 text-slate-300 hover:bg-slate-800 px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition border border-slate-800">👕 القطع</button>
+            <button onclick="filterCategory('stretches')" class="cat-btn bg-slate-900 text-slate-300 hover:bg-slate-800 px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition border border-slate-800">⚡ الاستريزات</button>
+            <button onclick="filterCategory('stadiums')" class="cat-btn bg-slate-900 text-slate-300 hover:bg-slate-800 px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition border border-slate-800">🏟️ أدوات الملاعب</button>
+            <button onclick="filterCategory('balls')" class="cat-btn bg-slate-900 text-slate-300 hover:bg-slate-800 px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition border border-slate-800">⚽ كرات القدم</button>
+            <button onclick="filterCategory('sports')" class="cat-btn bg-slate-900 text-slate-300 hover:bg-slate-800 px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition border border-slate-800">🏃‍♂️ ملابس رياضية</button>
         </div>
     </div>
 
     <!-- شبكة المنتجات -->
-    <main class="py-12 px-6 max-w-7xl mx-auto">
-        <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            <div class="col-span-full text-center py-10 text-slate-500 font-bold">جاري تحميل المنتجات بسرعة...</div>
+    <main class="py-8 px-4 max-w-7xl mx-auto">
+        <div id="products-grid" class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
+            <div class="col-span-full text-center py-10 text-slate-500 font-bold text-sm">جاري تحميل المنتجات بسرعة الصاروخ...</div>
         </div>
     </main>
 
     <!-- نافذة معاينة الصورة -->
     <div id="image-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden flex items-center justify-center p-4">
         <div class="relative max-w-4xl w-full max-h-[90vh] flex items-center justify-center">
-            <button onclick="closeImageModal()" class="absolute top-2 left-2 text-white text-2xl font-bold bg-slate-800/80 w-10 h-10 rounded-full flex items-center justify-center z-20 hover:bg-red-600 transition">✕</button>
-            <button onclick="prevModalImage()" class="absolute right-2 top-1/2 -translate-y-1/2 text-white text-2xl bg-slate-800/80 w-12 h-12 rounded-full flex items-center justify-center z-20 hover:bg-blue-600 transition shadow-lg">❮</button>
+            <button onclick="closeImageModal()" class="absolute top-2 left-2 text-white text-xl font-bold bg-slate-800/80 w-9 h-9 rounded-full flex items-center justify-center z-20 hover:bg-red-600 transition">✕</button>
+            <button onclick="prevModalImage()" class="absolute right-2 top-1/2 -translate-y-1/2 text-white text-xl bg-slate-800/80 w-10 h-10 rounded-full flex items-center justify-center z-20 hover:bg-blue-600 transition shadow-lg">❮</button>
             <img id="modal-img-element" src="" class="max-w-full max-h-[85vh] object-contain rounded-2xl shadow-2xl border border-slate-700">
-            <button onclick="nextModalImage()" class="absolute left-2 top-1/2 -translate-y-1/2 text-white text-2xl bg-slate-800/80 w-12 h-12 rounded-full flex items-center justify-center z-20 hover:bg-blue-600 transition shadow-lg">❯</button>
-            <div id="modal-counter" class="absolute bottom-2 bg-slate-900/80 text-white text-xs px-3 py-1 rounded-full border border-slate-700">1 / 1</div>
+            <button onclick="nextModalImage()" class="absolute left-2 top-1/2 -translate-y-1/2 text-white text-xl bg-slate-800/80 w-10 h-10 rounded-full flex items-center justify-center z-20 hover:bg-blue-600 transition shadow-lg">❯</button>
+            <div id="modal-counter" class="absolute bottom-2 bg-slate-900/80 text-white text-[10px] px-3 py-1 rounded-full border border-slate-700">1 / 1</div>
         </div>
     </div>
 
     <!-- سلة المشتريات -->
     <div id="cart-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden flex justify-end">
-        <div class="bg-slate-900 w-full max-w-md h-full p-6 flex flex-col justify-between border-l border-slate-800 shadow-2xl">
-            <div class="space-y-6">
-                <div class="flex items-center justify-between border-b border-slate-800 pb-4">
-                    <h2 class="text-xl font-black text-blue-400">سلة المشتريات</h2>
-                    <button onclick="toggleCart()" class="text-slate-400 hover:text-white text-xl font-bold">✕</button>
+        <div class="bg-slate-900 w-full max-w-md h-full p-5 flex flex-col justify-between border-l border-slate-800 shadow-2xl">
+            <div class="space-y-4">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                    <h2 class="text-lg font-black text-blue-400">سلة المشتريات</h2>
+                    <button onclick="toggleCart()" class="text-slate-400 hover:text-white text-lg font-bold">✕</button>
                 </div>
-                <div id="cart-items" class="space-y-4 overflow-y-auto max-h-[60vh]"></div>
+                <div id="cart-items" class="space-y-3 overflow-y-auto max-h-[60vh]"></div>
             </div>
-            <div class="space-y-4 pt-4 border-t border-slate-800">
-                <div class="flex justify-between text-lg font-bold">
+            <div class="space-y-3 pt-3 border-t border-slate-800">
+                <div class="flex justify-between text-base font-bold">
                     <span>الإجمالي:</span>
                     <span id="cart-total" class="text-blue-400">0 ج.م</span>
                 </div>
-                <button onclick="checkoutWhatsApp()" class="theme-bg w-full bg-emerald-600 hover:bg-emerald-500 text-white py-4 rounded-xl font-black text-lg transition shadow-xl flex items-center justify-center gap-2">
-                    <i class="fab fa-whatsapp text-2xl"></i> إتمام الطلب عبر الواتساب
+                <button onclick="checkoutWhatsApp()" class="theme-bg w-full bg-emerald-600 hover:bg-emerald-500 text-white py-3.5 rounded-xl font-black text-base transition shadow-xl flex items-center justify-center gap-2">
+                    <i class="fab fa-whatsapp text-xl"></i> إتمام الطلب عبر الواتساب
                 </button>
             </div>
         </div>
     </div>
 
-    <footer class="py-8 text-center text-slate-500 border-t border-slate-900 text-sm">
+    <footer class="py-6 text-center text-slate-500 border-t border-slate-900 text-xs">
         <p>© 2026 Sports House - جميع الحقوق محفوظة</p>
     </footer>
 
@@ -198,15 +199,14 @@
 
                     let thumbsHtml = '';
                     if (imagesArr.length > 1) {
-                        thumbsHtml = `<div class="flex gap-1.5 p-2 overflow-x-auto bg-slate-950/80 border-t border-slate-800">`;
+                        thumbsHtml = `<div class="flex gap-1 p-1.5 overflow-x-auto bg-slate-950/80 border-t border-slate-800">`;
                         imagesArr.forEach(imgSrc => {
-                            thumbsHtml += `<img src="${imgSrc}" class="w-10 h-10 object-cover rounded-md cursor-pointer border border-slate-700 hover:border-blue-500 transition" loading="lazy" onclick="changeCardImage(this, '${imgSrc}')">`;
+                            thumbsHtml += `<img src="${imgSrc}" class="w-8 h-8 object-cover rounded cursor-pointer border border-slate-700 hover:border-blue-500 transition" loading="lazy" onclick="changeCardImage(this, '${imgSrc}')">`;
                         });
                         thumbsHtml += `</div>`;
                     }
 
-                    // تم تعديل حاوية الصورة هنا لتظهر كاملة بدون أي قص (object-contain مع خلفية متناسقة)
-                    let media = `<div class="h-64 bg-slate-950 relative cursor-pointer flex items-center justify-center overflow-hidden p-2">
+                    let media = `<div class="h-44 md:h-52 bg-slate-950 relative cursor-pointer flex items-center justify-center overflow-hidden p-1.5">
                         <img src="${mainImg}" alt="${prod.title}" class="product-main-img max-h-full max-w-full object-contain hover:scale-105 transition duration-300" loading="lazy" onclick="openImageModal(${imagesJson}, 0)">
                     </div>`;
 
@@ -215,34 +215,34 @@
                     }
 
                     gridEl.innerHTML += `
-                        <div class="bg-slate-900/80 border border-slate-800 rounded-2xl overflow-hidden shadow-xl flex flex-col justify-between">
+                        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl overflow-hidden shadow-lg flex flex-col justify-between">
                             <div>
                                 ${media}
                                 ${thumbsHtml}
-                                <div class="p-4 space-y-2">
-                                    <h3 class="font-bold text-base text-white">${prod.title}</h3>
-                                    <p class="font-black text-lg" style="color: ${primaryColorHex};">${prod.price}</p>
-                                    <div class="flex justify-between text-xs text-slate-400">
+                                <div class="p-3 space-y-1.5">
+                                    <h3 class="font-bold text-xs md:text-sm text-white truncate">${prod.title}</h3>
+                                    <p class="font-black text-sm md:text-base" style="color: ${primaryColorHex};">${prod.price}</p>
+                                    <div class="flex justify-between text-[10px] md:text-xs text-slate-400">
                                         <span>التفاصيل: <b class="text-slate-200">${prod.sizes || 'متاح'}</b></span>
                                         <span>العدد: <b class="text-emerald-400">${prod.stock || 'متاح'}</b></span>
                                     </div>
                                 </div>
                             </div>
-                            <div class="p-4 pt-0">
-                                <button onclick='addToCart(${JSON.stringify(prod)})' class="w-full text-white py-2.5 rounded-xl font-bold transition shadow-md flex items-center justify-center gap-2 text-sm" style="background-color: ${primaryColorHex};">
-                                    <i class="fas fa-cart-plus"></i> إضافة إلى السلة
+                            <div class="p-3 pt-0">
+                                <button onclick='addToCart(${JSON.stringify(prod)})' class="w-full text-white py-2 rounded-xl font-bold transition shadow-md flex items-center justify-center gap-1.5 text-xs" style="background-color: ${primaryColorHex};">
+                                    <i class="fas fa-cart-plus"></i> إضافة للسلة
                                 </button>
                             </div>
                         </div>
                     `;
                 });
             } else {
-                gridEl.innerHTML = `<p class="text-slate-400 col-span-full text-center py-10 font-bold">لا توجد منتجات أو أعمال طباعة في هذا القسم حالياً.</p>`;
+                gridEl.innerHTML = `<p class="text-slate-400 col-span-full text-center py-10 font-bold text-sm">لا توجد منتجات أو أعمال طباعة في هذا القسم حالياً.</p>`;
             }
         }
 
         window.changeCardImage = function(thumbEl, imgSrc) {
-            const card = thumbEl.closest('.bg-slate-900\\/80');
+            const card = thumbEl.closest('.bg-slate-900\\/90');
             const mainImg = card.querySelector('.product-main-img');
             if(mainImg) {
                 mainImg.src = imgSrc;
@@ -302,12 +302,12 @@
                 const numericPrice = parseFloat(item.price.replace(/[^\d.]/g, '')) || 0;
                 total += numericPrice;
                 itemsEl.innerHTML += `
-                    <div class="flex items-center justify-between bg-slate-800 p-3 rounded-xl border border-slate-700">
-                        <div class="flex items-center gap-3">
-                            <img src="${item.img || ''}" class="w-10 h-10 object-cover rounded-lg">
+                    <div class="flex items-center justify-between bg-slate-800 p-2.5 rounded-xl border border-slate-700">
+                        <div class="flex items-center gap-2.5">
+                            <img src="${item.img || ''}" class="w-9 h-9 object-cover rounded-lg">
                             <div>
-                                <h4 class="font-bold text-xs">${item.title}</h4>
-                                <p class="text-xs" style="color: ${primaryColorHex};">${item.price}</p>
+                                <h4 class="font-bold text-xs text-white">${item.title}</h4>
+                                <p class="text-[11px]" style="color: ${primaryColorHex};">${item.price}</p>
                             </div>
                         </div>
                         <button onclick="removeFromCart(${idx})" class="text-red-400 text-xs font-bold px-2 py-1">حذف</button>
