@@ -56,9 +56,9 @@
                 </div>
             </div>
 
-            <!-- 2. إضافة منتج جديد -->
+            <!-- 2. إضافة منتج جديد (بأقسام مطابقة تماماً للمتجر) -->
             <div class="bg-slate-800/50 p-4 md:p-5 rounded-2xl border border-slate-700/60 space-y-4">
-                <h2 class="font-bold text-blue-300 text-base md:text-lg">2. إضافة منتج أو إعلان جديد (يظهر في القسم فوراً)</h2>
+                <h2 class="font-bold text-blue-300 text-base md:text-lg">2. إضافة منتج أو إعلان جديد (يظهر في المتجر فوراً)</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div>
                         <label class="block text-xs mb-1 text-slate-300">اسم المنتج (اختياري)</label>
@@ -87,9 +87,9 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-xs mb-1 text-slate-300">القسم المخصص</label>
+                        <label class="block text-xs mb-1 text-slate-300">اختر القسم المطابق</label>
                         <select id="new-category" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-xs text-white">
-                            <option value="printing">🖨️ قسم الطباعة والتصاميم</option>
+                            <option value="printing">🖨️ قسم الطباعة والتصاميم (الزر المميز)</option>
                             <option value="offers">🔥 العروض الخاصة</option>
                             <option value="sets">⚽ الأطقم الرياضية</option>
                             <option value="pieces">👕 القطع الفردية</option>
@@ -287,9 +287,8 @@
                 }
             } else { imagesList.push('https://via.placeholder.com/400'); }
 
-            // استخدام push لإضافة المنتج مباشرة في قاعدة البيانات ليظهر عالمياً في الحال
             await push(ref(db, 'store/products'), { title, price, images: imagesList, img: imagesList[0], video, stock, category, sizes });
-            alert('تمت الإضافة ونشر الإعلان في القسم المخصص فوراً على الصفحة الرئيسية! ➕');
+            alert('تمت الإضافة ونشر الإعلان فوراً في القسم المحدد على الصفحة الرئيسية عالمياً! ➕');
             document.getElementById('new-title').value = '';
             document.getElementById('new-price').value = '';
             document.getElementById('new-sizes').value = '';
@@ -333,7 +332,7 @@
 
             const updatedData = { title, price, video, stock, sizes, category, images: imagesList, img: imagesList[0] };
             await update(ref(db, `store/products/${id}`), updatedData);
-            alert('تم تحديث الإعلان ونشره عالمياً بنجاح! 💾');
+            alert('تم تحديث ونشر الإعلان في قسمه الصحيح بنجاح! 💾');
             loadAdminData();
         };
 
