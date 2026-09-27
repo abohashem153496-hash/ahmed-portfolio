@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title id="site-title">Sports House c Capt Ahmed elghool</title>
+    <title>Sports House c Capt Ahmed elghool</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Montserrat:wght@700;900&family=Amiri:wght@700&display=swap" rel="stylesheet">
@@ -13,7 +13,7 @@
         .custom-store-font { font-family: 'Montserrat', sans-serif; }
     </style>
 </head>
-<body id="body-bg" class="bg-slate-950 text-slate-100 min-h-screen">
+<body class="bg-slate-950 text-slate-100 min-h-screen">
 
     <!-- شريط المتجر العلوي -->
     <header class="fixed top-0 left-0 right-0 z-50 bg-slate-950/95 backdrop-blur-md border-b border-slate-800">
@@ -57,7 +57,7 @@
         </div>
     </div>
 
-    <!-- شبكة المنتجات -->
+    <!-- شبكة المنتجات (تفتح فوراً) -->
     <main class="py-8 px-4 max-w-7xl mx-auto">
         <div id="products-grid" class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6"></div>
     </main>
@@ -99,10 +99,10 @@
         <p>© 2026 Sports House - جميع الحقوق محفوظة</p>
     </footer>
 
-    <!-- Firebase SDK -->
+    <!-- Firebase SDK والتحميل اللحظي الفوري -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         const firebaseConfig = { databaseURL: "https://car-orders-default-rtdb.firebaseio.com/" };
         const app = initializeApp(firebaseConfig);
@@ -118,7 +118,7 @@
         let activeModalImages = [];
         let activeModalIndex = 0;
 
-        // التحميل من الذاكرة المحلية أولاً لفتح الموقع فوراً
+        // 1. الفتح الفوري اللحظي بالاعتماد على الذاكرة المخزنة مسبقاً
         const cachedData = localStorage.getItem('store_cache_data');
         if (cachedData) {
             try {
@@ -127,20 +127,24 @@
             } catch(e) {}
         }
 
-        // جلب البيانات من السحابة في الخلفية
-        onValue(ref(db, 'store'), (snapshot) => {
-            const data = snapshot.val();
-            if (data) {
-                localStorage.setItem('store_cache_data', JSON.stringify(data));
-                processStoreData(data);
-            }
-        });
+        // 2. الجلب السريع في الخلفية وتحديث البيانات
+        async function fetchInstantData() {
+            try {
+                const snapshot = await get(ref(db, 'store'));
+                const data = snapshot.val();
+                if (data) {
+                    localStorage.setItem('store_cache_data', JSON.stringify(data));
+                    processStoreData(data);
+                }
+            } catch(e) {}
+        }
+        fetchInstantData();
 
         function processStoreData(data) {
             if(data.storeName) {
                 storeTitle = data.storeName;
                 document.getElementById('store-logo').innerText = storeTitle;
-                document.getElementById('site-title').innerText = storeTitle;
+                document.title = storeTitle;
             }
             if(data.whatsapp) globalWhatsapp = data.whatsapp;
 
@@ -154,7 +158,7 @@
                 else if(data.fontStyle === 'amiri') bannerEl.style.fontFamily = "'Amiri', serif";
             }
 
-            if(data.bgColor) document.getElementById('body-bg').style.backgroundColor = data.bgColor;
+            if(data.bgColor) document.body.style.backgroundColor = data.bgColor;
             if(data.primaryColor) {
                 primaryColorHex = data.primaryColor;
                 document.getElementById('store-logo').style.color = primaryColorHex;
@@ -243,7 +247,7 @@
                     `;
                 });
             } else {
-                gridEl.innerHTML = `<p class="text-slate-400 col-span-full text-center py-10 font-bold text-sm">جاري تحميل المنتجات...</p>`;
+                gridEl.innerHTML = `<p class="text-slate-400 col-span-full text-center py-10 font-bold text-sm">جاري عرض المنتجات...</p>`;
             }
         }
 
@@ -336,7 +340,7 @@
             });
             msg += `💰 *الإجمالي الكلي: ${totalAmount} ج.م*\n━━━━━━━━━━━━━━━━━━━\n✨ *شكراً لاختياركم متجرنا!*`;
             window.open(`https://wa.me/${globalWhatsapp}?text=${encodeURIComponent(msg)}`, '_blank');
-            cart = `[]`;
+            cart = [];
             updateCartUI();
             toggleCart();
         };
