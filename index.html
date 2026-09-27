@@ -57,7 +57,7 @@
         </div>
     </div>
 
-    <!-- شبكة المنتجات (تفتح فوراً) -->
+    <!-- شبكة المنتجات -->
     <main class="py-8 px-4 max-w-7xl mx-auto">
         <div id="products-grid" class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6"></div>
     </main>
@@ -99,7 +99,7 @@
         <p>© 2026 Sports House - جميع الحقوق محفوظة</p>
     </footer>
 
-    <!-- Firebase SDK والتحميل اللحظي الفوري -->
+    <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
@@ -111,14 +111,14 @@
         let allProducts = [];
         let currentFilter = 'all';
         let cart = [];
-        let globalWhatsapp = "201124793700";
+        let globalWhatsapp = "201050080515"; // الرقم الجديد المعتمد عالمياً
         let primaryColorHex = "#3b82f6";
         let storeTitle = "Sports House";
 
         let activeModalImages = [];
         let activeModalIndex = 0;
 
-        // 1. الفتح الفوري اللحظي بالاعتماد على الذاكرة المخزنة مسبقاً
+        // التحميل الفوري من الذاكرة المحلية
         const cachedData = localStorage.getItem('store_cache_data');
         if (cachedData) {
             try {
@@ -127,7 +127,7 @@
             } catch(e) {}
         }
 
-        // 2. الجلب السريع في الخلفية وتحديث البيانات
+        // جلب وتحديث البيانات من السحابة في الخلفية
         async function fetchInstantData() {
             try {
                 const snapshot = await get(ref(db, 'store'));
@@ -146,7 +146,7 @@
                 document.getElementById('store-logo').innerText = storeTitle;
                 document.title = storeTitle;
             }
-            if(data.whatsapp) globalWhatsapp = data.whatsapp;
+            if(data.whatsapp) globalWhatsapp = data.whatsapp; // استخدام الرقم المخزن بالسحابة إن وجد أو الاعتماد على الرقم الافتراضي
 
             if(data.bannerTitle) {
                 document.getElementById('banner-title').innerText = data.bannerTitle;
