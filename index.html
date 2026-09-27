@@ -199,7 +199,7 @@
         window.addToCart = function(prod) {
             cart.push(prod);
             updateCartUI();
-            alert('تمت إضافة المنتج إلى السلة بنجاح! 🛒');
+            toggleCart(); // تفتح نافذة السلة مباشرة بدون أي رسائل مزعجة!
         };
 
         window.toggleCart = function() { document.getElementById('cart-modal').classList.toggle('hidden'); };
