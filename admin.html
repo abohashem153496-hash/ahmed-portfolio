@@ -108,6 +108,8 @@
                             <option value="sets">⚽ الأطقم الرياضية</option>
                             <option value="pieces">👕 القطع الفردية</option>
                             <option value="stretches">⚡ الاستريزات</option>
+                            <option value="stadiums">🏟️ أدوات الملاعب</option>
+                            <option value="balls">⚽ كراز القدم</option>
                             <option value="sports">🏃‍♂️ ملابس رياضية متنوعة</option>
                         </select>
                     </div>
@@ -120,7 +122,7 @@
                 <button onclick="addProduct()" class="w-full bg-emerald-600 hover:bg-emerald-500 font-bold py-3.5 rounded-xl transition shadow-lg">حفظ وإضافة إعلان جديد للمتجر ➕</button>
             </div>
 
-            <!-- 3. قائمة المنتجات والاعلانات المنشورة مع التعديل الكامل لكل إعلان -->
+            <!-- 3. قائمة المنتجات والاعلانات المنشورة -->
             <div class="bg-slate-800/50 p-5 rounded-2xl border border-slate-700/60 space-y-4">
                 <div class="flex justify-between items-center">
                     <h2 class="font-bold text-blue-300 text-lg">3. المنتجات والإعلانات المنشورة</h2>
@@ -135,7 +137,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, set, push, update, remove, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, set, push, update, remove, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         const firebaseConfig = { databaseURL: "https://car-orders-default-rtdb.firebaseio.com/" };
         const app = initializeApp(firebaseConfig);
@@ -148,10 +150,12 @@
             if(document.getElementById('inp-pass').value === "ahmed123") {
                 document.getElementById('login-screen').style.display = 'none';
                 document.getElementById('admin-panel').style.display = 'block';
+                loadAdminData();
             } else { alert('كلمة المرور غير صحيحة!'); }
         };
 
-        onValue(ref(db, 'store'), (snapshot) => {
+        async function loadAdminData() {
+            const snapshot = await get(ref(db, 'store'));
             const data = snapshot.val();
             if (data) {
                 document.getElementById('inp-storeName').value = data.storeName || 'Sports House c Capt Ahmed elghool';
@@ -220,6 +224,8 @@
                                         <option value="sets" ${prod.category==='sets'?'selected':''}>⚽ الأطقم الرياضية</option>
                                         <option value="pieces" ${prod.category==='pieces'?'selected':''}>👕 القطع الفردية</option>
                                         <option value="stretches" ${prod.category==='stretches'?'selected':''}>⚡ الاستريزات</option>
+                                        <option value="stadiums" ${prod.category==='stadiums'?'selected':''}>🏟️ أدوات الملاعب</option>
+                                        <option value="balls" ${prod.category==='balls'?'selected':''}>⚽ كراز القدم</option>
                                         <option value="sports" ${prod.category==='sports'?'selected':''}>🏃‍♂️ ملابس رياضية متنوعة</option>
                                     </select>
                                     <div>
@@ -244,7 +250,7 @@
                     `;
                 });
             }
-        });
+        }
 
         function compressImage(file) {
             return new Promise((resolve) => {
@@ -297,6 +303,7 @@
             alert('تمت الإضافة بنجاح! ➕');
             document.getElementById('new-title').value = '';
             document.getElementById('new-price').value = '';
+            loadAdminData();
         };
 
         window.toggleEditBox = function(id) {
@@ -312,6 +319,7 @@
                 }
                 images.splice(imgIdx, 1);
                 await update(ref(db, `store/products/${id}`), { images: images, img: images[0] });
+                loadAdminData();
             }
         };
 
@@ -336,11 +344,15 @@
             const updatedData = { title, price, video, stock, sizes, category, images: imagesList, img: imagesList[0] };
             await update(ref(db, `store/products/${id}`), updatedData);
             alert('تم تحديث الإعلان بكافة صوره وتفاصيله بنجاح! 💾');
-            toggleEditBox(id);
+            loadAdminData();
         };
 
         window.deleteProduct = function(id) {
-            if(confirm('حذف هذا الإعلان نهائياً؟')) remove(ref(db, `store/products/${id}`));
+            if(confirm('حذف هذا الإعلان نهائياً؟')) {
+                remove(ref(db, `store/products/${id}`)).then(() => {
+                    loadAdminData();
+                });
+            }
         };
 
         window.saveGlobalSettings = async function() {
