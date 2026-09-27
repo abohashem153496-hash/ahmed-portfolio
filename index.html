@@ -103,13 +103,15 @@
         let cart = [];
         let globalWhatsapp = "201124793700";
         let primaryColorHex = "#3b82f6";
+        let storeTitle = "Sports House c Ahmed elghool";
 
         onValue(ref(db, 'store'), (snapshot) => {
             const data = snapshot.val();
             if (data) {
                 if(data.storeName) {
-                    document.getElementById('store-logo').innerText = data.storeName;
-                    document.getElementById('site-title').innerText = data.storeName;
+                    storeTitle = data.storeName;
+                    document.getElementById('store-logo').innerText = storeTitle;
+                    document.getElementById('site-title').innerText = storeTitle;
                 }
                 if(data.whatsapp) globalWhatsapp = data.whatsapp;
 
@@ -199,7 +201,7 @@
         window.addToCart = function(prod) {
             cart.push(prod);
             updateCartUI();
-            toggleCart(); // تفتح نافذة السلة مباشرة بدون أي رسائل مزعجة!
+            toggleCart();
         };
 
         window.toggleCart = function() { document.getElementById('cart-modal').classList.toggle('hidden'); };
@@ -231,8 +233,17 @@
 
         window.checkoutWhatsApp = function() {
             if(cart.length === 0) { alert('السلة فارغة!'); return; }
-            let msg = `مرحباً، أرغب في طلب المنتجات التالية من Sports House:\n`;
-            cart.forEach((item, i) => { msg += `${i+1}. ${item.title} - السعر: ${item.price}\n`; });
+            
+            let msg = `🛒 *طلب جديد من ${storeTitle}*\n`;
+            msg += `━━━━━━━━━━━━━━━━━━━\n`;
+            cart.forEach((item, i) => {
+                msg += `*${i+1}. ${item.title}*\n`;
+                msg += `   • السعر: ${item.price}\n`;
+                msg += `   • المقاس: ${item.sizes || 'غير محدد'}\n`;
+                msg += `-----------------------------------\n`;
+            });
+            msg += `✨ *شكراً لاختياركم متجرنا!*`;
+
             window.open(`https://wa.me/${globalWhatsapp}?text=${encodeURIComponent(msg)}`, '_blank');
         };
     </script>
