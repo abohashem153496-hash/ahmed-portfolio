@@ -182,16 +182,9 @@
             
             let filtered = [];
             if (cat === 'all') {
-                // يعرض كل المنتجات عدا قسم الطباعة في الصفحة الرئيسية لتبقى منظمة
-                filtered = allProducts.filter(p => (p.category || 'general') !== 'printing');
-            } else {
-                // تصفية مرنة تقبل القسم المختار أو المنتجات التي لم تحدد قسماً
-                filtered = allProducts.filter(p => (p.category || 'general') === cat);
-            }
-
-            // إذا كان القسم فارغاً أو اخترنا الكل، اعرض كل المنتجات المتاحة للتأكد من ظهورها دائماً
-            if(filtered.length === 0 && cat === 'all') {
                 filtered = allProducts;
+            } else {
+                filtered = allProducts.filter(p => (p.category || 'general') === cat);
             }
 
             if(filtered.length > 0) {
