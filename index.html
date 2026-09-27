@@ -56,11 +56,23 @@
         <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
     </main>
 
-    <!-- نافذة معاينة الصورة -->
-    <div id="image-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden flex items-center justify-center p-4" onclick="closeImageModal()">
+    <!-- نافذة معاينة الصورة المتطورة مع أزرار التنقل يمين ويسار -->
+    <div id="image-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden flex items-center justify-center p-4">
         <div class="relative max-w-4xl w-full max-h-[90vh] flex items-center justify-center">
-            <button onclick="closeImageModal()" class="absolute top-4 left-4 text-white text-3xl font-bold bg-slate-800/80 w-12 h-12 rounded-full flex items-center justify-center z-10 hover:bg-red-600 transition">✕</button>
+            <!-- زر الإغلاق -->
+            <button onclick="closeImageModal()" class="absolute top-2 left-2 text-white text-2xl font-bold bg-slate-800/80 w-10 h-10 rounded-full flex items-center justify-center z-20 hover:bg-red-600 transition">✕</button>
+            
+            <!-- زر الانتقال لليسار (السابق) -->
+            <button onclick="prevModalImage()" class="absolute right-2 top-1/2 -translate-y-1/2 text-white text-2xl bg-slate-800/80 w-12 h-12 rounded-full flex items-center justify-center z-20 hover:bg-blue-600 transition shadow-lg">❮</button>
+
+            <!-- الصورة المكبرة -->
             <img id="modal-img-element" src="" class="max-w-full max-h-[85vh] object-contain rounded-2xl shadow-2xl border border-slate-700">
+
+            <!-- زر الانتقال لليمين (التالي) -->
+            <button onclick="nextModalImage()" class="absolute left-2 top-1/2 -translate-y-1/2 text-white text-2xl bg-slate-800/80 w-12 h-12 rounded-full flex items-center justify-center z-20 hover:bg-blue-600 transition shadow-lg">❯</button>
+            
+            <!-- عداد الصور (مثال: 1 / 4) -->
+            <div id="modal-counter" class="absolute bottom-2 bg-slate-900/80 text-white text-xs px-3 py-1 rounded-full border border-slate-700">1 / 1</div>
         </div>
     </div>
 
@@ -105,6 +117,10 @@
         let globalWhatsapp = "201124793700";
         let primaryColorHex = "#3b82f6";
         let storeTitle = "Sports House c Ahmed elghool";
+
+        // متغيرات نافذة المعاينة للتنقل بين الصور
+        let activeModalImages = [];
+        let activeModalIndex = 0;
 
         onValue(ref(db, 'store'), (snapshot) => {
             const data = snapshot.val();
@@ -157,7 +173,6 @@
             
             let filtered = [];
             if (cat === 'all') {
-                // يعرض كل المنتجات عدا قسم الطباعة افتراضياً في "الكل"
                 filtered = allProducts.filter(p => p.category !== 'printing');
             } else {
                 filtered = allProducts.filter(p => p.category === cat);
@@ -167,6 +182,7 @@
                 filtered.forEach(prod => {
                     const imagesArr = prod.images && prod.images.length > 0 ? prod.images : [prod.img || 'https://via.placeholder.com/400'];
                     const mainImg = imagesArr[0];
+                    const imagesJson = JSON.stringify(imagesArr).replace(/"/g, '&quot;');
 
                     let thumbsHtml = '';
                     if (imagesArr.length > 1) {
@@ -178,7 +194,7 @@
                     }
 
                     let media = `<div class="h-56 overflow-hidden bg-slate-950 relative cursor-pointer">
-                        <img src="${mainImg}" alt="${prod.title}" class="product-main-img w-full h-full object-cover hover:scale-105 transition duration-300" loading="lazy" onclick="openImageModal('${mainImg}')">
+                        <img src="${mainImg}" alt="${prod.title}" class="product-main-img w-full h-full object-cover hover:scale-105 transition duration-300" loading="lazy" onclick="openImageModal(${imagesJson}, 0)">
                     </div>`;
 
                     if(prod.video) {
@@ -217,16 +233,46 @@
             const mainImg = card.querySelector('.product-main-img');
             if(mainImg) {
                 mainImg.src = imgSrc;
-                mainImg.setAttribute('onclick', `openImageModal('${imgSrc}')`);
+                // تحديث الصورة المعروضة لتتوافق مع إندكس المعاينة
+                const allImgs = Array.from(card.querySelectorAll('img')).map(i => i.src);
+                const idx = allImgs.indexOf(imgSrc);
+                if(idx !== -1) {
+                    mainImg.setAttribute('onclick', `openImageModal(${JSON.stringify(allImgs)}, ${idx})`);
+                }
             }
         };
 
-        window.openImageModal = function(imgSrc) {
-            if(!imgSrc) return;
-            document.getElementById('modal-img-element').src = imgSrc;
+        window.openImageModal = function(imagesArray, index) {
+            activeModalImages = imagesArray;
+            activeModalIndex = index;
+            updateModalDisplay();
             document.getElementById('image-modal').classList.remove('hidden');
         };
-        window.closeImageModal = function() { document.getElementById('image-modal').classList.add('hidden'); };
+
+        window.updateModalDisplay = function() {
+            if(activeModalImages.length > 0) {
+                document.getElementById('modal-img-element').src = activeModalImages[activeModalIndex];
+                document.getElementById('modal-counter').innerText = `${activeModalIndex + 1} / ${activeModalImages.length}`;
+            }
+        };
+
+        window.nextModalImage = function() {
+            if(activeModalImages.length > 1) {
+                activeModalIndex = (activeModalIndex + 1) % activeModalImages.length;
+                updateModalDisplay();
+            }
+        };
+
+        window.prevModalImage = function() {
+            if(activeModalImages.length > 1) {
+                activeModalIndex = (activeModalIndex - 1 + activeModalImages.length) % activeModalImages.length;
+                updateModalDisplay();
+            }
+        };
+
+        window.closeImageModal = function() { 
+            document.getElementById('image-modal').classList.add('hidden'); 
+        };
 
         window.addToCart = function(prod) {
             const cartProd = {...prod, img: (prod.images && prod.images.length > 0) ? prod.images[0] : prod.img};
