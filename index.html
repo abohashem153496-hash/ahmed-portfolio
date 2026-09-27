@@ -50,7 +50,7 @@
         </button>
     </div>
 
-    <!-- أزرار الأقسام الثابتة العادية (بدون قسم الطباعة) -->
+    <!-- أزرار الأقسام الثابتة العادية -->
     <div class="sticky top-16 z-40 bg-slate-950/95 backdrop-blur border-b border-slate-900 py-2.5 px-4">
         <div class="max-w-7xl mx-auto flex gap-2 overflow-x-auto pb-1 scrollbar-none">
             <button onclick="filterCategory('all', this)" class="cat-btn theme-btn bg-blue-600 text-white px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition shadow-md">الكل</button>
@@ -111,7 +111,7 @@
         <p>© 2026 Sports House - جميع الحقوق محفوظة</p>
     </footer>
 
-    <!-- Firebase SDK (تحديث فوري عالمي) -->
+    <!-- Firebase SDK والفتح اللحظي (مثل متجر شروق) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
@@ -130,10 +130,17 @@
         let activeModalImages = [];
         let activeModalIndex = 0;
 
-        // التحديث السحابي الفوري
+        // 1. الفتح الفوري في أقل من ربع ثانية باستخدام الذاكرة المحلية المخزنة مسبقاً
+        const cachedData = localStorage.getItem('store_cache_data');
+        if (cachedData) {
+            try { processStoreData(JSON.parse(cachedData)); } catch(e) {}
+        }
+
+        // 2. المزامنة اللحظية في الخلفية لضمان ظهور أي تعديل أو إعلان جديد فوراً
         onValue(ref(db, 'store'), (snapshot) => {
             const data = snapshot.val();
             if (data) {
+                localStorage.setItem('store_cache_data', JSON.stringify(data));
                 processStoreData(data);
             }
         });
@@ -168,14 +175,12 @@
         window.filterCategory = function(cat, btnEl) {
             currentFilter = cat;
             
-            // إلغاء تفعيل أزرار الأقسام العادية
             document.querySelectorAll('.cat-btn').forEach(btn => {
                 btn.classList.remove('text-white');
                 btn.style.backgroundColor = '';
                 btn.classList.add('bg-slate-900', 'text-slate-300');
             });
 
-            // لو تم الضغط على زر الطباعة المميز
             const specialBtn = document.querySelector('.printing-special-btn');
             if (cat === 'printing') {
                 specialBtn.classList.add('ring-4', 'ring-yellow-400');
@@ -197,10 +202,8 @@
             
             let filtered = [];
             if (cat === 'all') {
-                // قسم "الكل" يعرض كل المنتجات عدا قسم الطباعة ليبقى مستقلاً لوحده
                 filtered = allProducts.filter(p => (p.category || 'general') !== 'printing');
             } else if (cat === 'printing') {
-                // زر قسم الطباعة المميز يعرض أعمال الطباعة وحدها فقط
                 filtered = allProducts.filter(p => (p.category || 'general') === 'printing');
             } else {
                 filtered = allProducts.filter(p => (p.category || 'general') === cat);
