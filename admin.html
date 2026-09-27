@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" class="dark">
 <head>
     <meta charset="UTF-8">
-    <title>لوحة التحكم الإدارية - Sports House & Print</title>
+    <title>لوحة التحكم الإدارية - Sports House</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>body { font-family: 'Cairo', sans-serif; }</style>
@@ -20,14 +20,14 @@
     <!-- لوحة التحكم الاحترافية -->
     <div id="admin-panel" class="max-w-4xl mx-auto bg-slate-900 border border-slate-800 p-8 rounded-3xl shadow-2xl hidden space-y-8">
         <div class="flex justify-between items-center border-b border-slate-800 pb-4">
-            <h1 class="text-2xl font-black text-blue-400">Sports House | إدارة المتجر والطباعة ⚙️</h1>
+            <h1 class="text-2xl font-black text-blue-400">Sports House | إدارة المتجر السريع ⚙️</h1>
             <span class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1.5 rounded-lg">متصل بالسحابة</span>
         </div>
         
         <div class="space-y-6">
-            <!-- 1. الإعدادات العامة للمتجر -->
+            <!-- 1. الإعدادات العامة -->
             <div class="bg-slate-800/50 p-5 rounded-2xl border border-slate-700/60 space-y-4">
-                <h2 class="font-bold text-blue-300 text-lg">1. الإعدادات العامة، الغلاف والألوان</h2>
+                <h2 class="font-bold text-blue-300 text-lg">1. الإعدادات العامة للمتجر</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm mb-1 text-slate-300">اسم المتجر</label>
@@ -55,44 +55,42 @@
                 </div>
             </div>
 
-            <!-- 2. لوحة تحكم قسم الطباعة المتخصصة (إضافة أعمال طباعة جديدة) -->
-            <div class="bg-indigo-950/30 p-5 rounded-2xl border border-indigo-500/40 space-y-4 shadow-lg">
-                <div class="flex items-center justify-between border-b border-indigo-500/30 pb-2">
-                    <h2 id="print-form-title" class="font-bold text-indigo-300 text-lg">🖨️ لوحة تحكم قسم الطباعة (رفع صور، فيديوهات، وأعداد)</h2>
-                </div>
+            <!-- 2. إضافة منتج أو خدمة جديدة -->
+            <div class="bg-slate-800/50 p-5 rounded-2xl border border-slate-700/60 space-y-4">
+                <h2 id="form-title-text" class="font-bold text-blue-300 text-lg">2. إضافة منتج / عمل طباعة جديد</h2>
                 <input type="hidden" id="edit-product-id" value="">
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm mb-1 text-slate-300">عنوان خدمة أو تصميم الطباعة</label>
-                        <input type="text" id="new-title" placeholder="مثال: طباعة تيشرتات يونيفورم شركات..." class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
+                        <label class="block text-sm mb-1 text-slate-300">اسم المنتج / الخدمة</label>
+                        <input type="text" id="new-title" placeholder="اسم المنتج أو الخدمة..." class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
                     </div>
                     <div>
-                        <label class="block text-sm mb-1 text-slate-300">السعر أو التكلفة</label>
-                        <input type="text" id="new-price" placeholder="مثال: حسب الكمية أو 150 ج.م" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
+                        <label class="block text-sm mb-1 text-slate-300">السعر</label>
+                        <input type="text" id="new-price" placeholder="السعر..." class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
-                        <label class="block text-sm mb-1 text-slate-300">صور الطباعة (اختر عدة صور دفعة واحدة)</label>
-                        <input type="file" id="new-img-files" accept="image/*" multiple class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2 text-xs text-slate-300 file:py-1 file:px-3 file:rounded-lg file:border-0 file:bg-indigo-600 file:text-white cursor-pointer">
+                        <label class="block text-sm mb-1 text-slate-300">صور المنتج (متاح عدة صور)</label>
+                        <input type="file" id="new-img-files" accept="image/*" multiple class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2 text-xs text-slate-300 file:py-1 file:px-3 file:rounded-lg file:border-0 file:bg-blue-600 file:text-white cursor-pointer">
                     </div>
                     <div>
-                        <label class="block text-sm mb-1 text-slate-300">رابط فيديو لشغل الطباعة (اختياري)</label>
+                        <label class="block text-sm mb-1 text-slate-300">رابط فيديو (اختياري)</label>
                         <input type="text" id="new-video" placeholder="رابط يوتيوب..." class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-xs text-white">
                     </div>
                     <div>
-                        <label class="block text-sm mb-1 text-slate-300">الكمية أو الحد الأدنى للطلب</label>
-                        <input type="number" id="new-stock" placeholder="مثال: 50 قطعة" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-xs text-white">
+                        <label class="block text-sm mb-1 text-slate-300">الكمية (العدد)</label>
+                        <input type="number" id="new-stock" placeholder="العدد..." class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-xs text-white">
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm mb-1 text-slate-300">القسم التابع له</label>
+                        <label class="block text-sm mb-1 text-slate-300">اختر القسم</label>
                         <select id="new-category" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
-                            <option value="printing" selected>🖨️ قسم الطباعة والتصاميم</option>
+                            <option value="printing">🖨️ قسم الطباعة والتصاميم</option>
                             <option value="offers">🔥 العروض الخاصة</option>
                             <option value="sets">⚽ الأطقم الرياضية</option>
                             <option value="pieces">👕 القطع الفردية</option>
@@ -101,20 +99,20 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-sm mb-1 text-slate-300">تفاصيل أو مقاسات الطباعة</label>
-                        <input type="text" id="new-sizes" placeholder="A4, A3, متاح كافة المقاسات" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
+                        <label class="block text-sm mb-1 text-slate-300">المقاسات المتاحة / التفاصيل</label>
+                        <input type="text" id="new-sizes" placeholder="S, M, L, XL أو مقاسات الطباعة" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white">
                     </div>
                 </div>
 
                 <div class="flex gap-4">
-                    <button onclick="saveProduct()" id="save-btn" class="flex-1 bg-indigo-600 hover:bg-indigo-500 font-bold py-3.5 rounded-xl transition shadow-lg">حفظ ونشر في قسم الطباعة 🖨️</button>
+                    <button onclick="saveProduct()" id="save-btn" class="flex-1 bg-emerald-600 hover:bg-emerald-500 font-bold py-3.5 rounded-xl transition shadow-lg">حفظ وإضافة للمتجر ➕</button>
                     <button onclick="cancelEdit()" id="cancel-btn" class="hidden bg-slate-700 hover:bg-slate-600 font-bold px-6 py-3.5 rounded-xl transition">إلغاء</button>
                 </div>
             </div>
 
-            <!-- 3. قائمة المنتجات والطباعة المنشورة -->
+            <!-- 3. قائمة المنتجات -->
             <div class="bg-slate-800/50 p-5 rounded-2xl border border-slate-700/60 space-y-4">
-                <h2 class="font-bold text-blue-300 text-lg">3. إدارة المنتجات وأعمال الطباعة المنشورة</h2>
+                <h2 class="font-bold text-blue-300 text-lg">3. المنتجات المنشورة</h2>
                 <div id="admin-products-list" class="space-y-3"></div>
             </div>
 
@@ -160,8 +158,8 @@
                             <div class="flex items-center gap-3">
                                 <img src="${firstImg}" class="w-12 h-12 object-cover rounded-lg">
                                 <div>
-                                    <h4 class="font-bold text-sm">${prod.title} <span class="text-xs text-indigo-400">(${prod.category || 'عام'})</span></h4>
-                                    <p class="text-xs text-slate-400">${prod.price} | صور: ${prod.images ? prod.images.length : 1}</p>
+                                    <h4 class="font-bold text-sm">${prod.title} (${prod.category || 'عام'})</h4>
+                                    <p class="text-xs text-slate-400">${prod.price} | العدد: ${prod.stock || 'متاح'}</p>
                                 </div>
                             </div>
                             <div class="flex gap-2">
@@ -213,7 +211,7 @@
             const sizes = document.getElementById('new-sizes').value;
             const fileInput = document.getElementById('new-img-files');
 
-            if(!title || !price) { alert('أدخل العنوان والسعر!'); return; }
+            if(!title || !price) { alert('أدخل اسم المنتج والسعر!'); return; }
 
             let imagesList = editId && productsData[editId].images ? productsData[editId].images : [];
             if(editId && productsData[editId].img && imagesList.length === 0) {
@@ -239,7 +237,7 @@
                 cancelEdit();
             } else {
                 await push(ref(db, 'store/products'), productData);
-                alert('تم النشر في قسم الطباعة بنجاح! 🖨️');
+                alert('تمت الإضافة بنجاح!');
             }
 
             document.getElementById('new-title').value = '';
@@ -257,9 +255,9 @@
             document.getElementById('new-price').value = prod.price || '';
             document.getElementById('new-video').value = prod.video || '';
             document.getElementById('new-stock').value = prod.stock || '';
-            document.getElementById('new-category').value = prod.category || 'printing';
+            document.getElementById('new-category').value = prod.category || 'offers';
             document.getElementById('new-sizes').value = prod.sizes || '';
-            document.getElementById('print-form-title').innerText = "تعديل قسم أو عمل الطباعة ✏️";
+            document.getElementById('form-title-text').innerText = "تعديل المنتج ✏️";
             document.getElementById('save-btn').innerText = "حفظ التعديلات 💾";
             document.getElementById('cancel-btn').classList.remove('hidden');
         };
@@ -271,13 +269,13 @@
             document.getElementById('new-video').value = '';
             document.getElementById('new-stock').value = '';
             document.getElementById('new-sizes').value = '';
-            document.getElementById('print-form-title').innerText = "🖨️ لوحة تحكم قسم الطباعة (رفع صور، فيديوهات، وأعداد)";
-            document.getElementById('save-btn').innerText = "حفظ ونشر في قسم الطباعة 🖨️";
+            document.getElementById('form-title-text').innerText = "2. إضافة منتج / عمل طباعة جديد";
+            document.getElementById('save-btn').innerText = "حفظ وإضافة للمتجر ➕";
             document.getElementById('cancel-btn').classList.add('hidden');
         };
 
         window.deleteProduct = function(id) {
-            if(confirm('حذف هذا العمل؟')) remove(ref(db, `store/products/${id}`));
+            if(confirm('حذف هذا العنصر؟')) remove(ref(db, `store/products/${id}`));
         };
 
         window.saveGlobalSettings = async function() {
